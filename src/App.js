@@ -4,6 +4,7 @@ import { oidcConfig } from './oidc-config';
 import Routes from './Routes';
 
 function App() {
+
   return (
     <AuthProvider {...oidcConfig}>
       <Routes />
