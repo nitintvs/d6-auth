@@ -6,7 +6,7 @@ import Routes from './Routes';
 function App() {
 
   return (
-    <AuthProvider {...oidcConfig}>
+    <AuthProvider {...oidcConfig} autoSignIn={false} >
       <Routes />
     </AuthProvider>
   );
