@@ -14,7 +14,7 @@ console.log("user",auth)
   };
 
   const handleLogout = () => {
-    auth.signOutRedirect();
+    auth.signOut();
   };
 
   return (
@@ -33,13 +33,9 @@ console.log("user",auth)
             )
           }
         />
-       {
-       auth.userData &&
-       <>
-       <Route path="/silent-renew" element={<SilentRenew />} />
+        <Route path="/login" element={ <LoginPage handleLogin={handleLogin} />} />
+        <Route path="/silent-renew" element={<SilentRenew />} />
         <Route path="/login/callback" element={<CallbackPage />} />
-        </>
-        }
       </Routes>
     </Router>
   );
