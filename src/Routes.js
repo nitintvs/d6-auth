@@ -9,8 +9,7 @@ import SilentRenew from './components/SilentRenew';
 const AppRoutes = () => {
   const auth = useAuth();
   
-  const handleLogin = (e) => {
-    e.prventDefault();
+  const handleLogin = () => {
     auth.signIn(); // Trigger login flow only when the button is clicked
   };
 
