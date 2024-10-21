@@ -2,14 +2,10 @@ import React from 'react';
 
 const LoginPage = ({ handleLogin }) => {
 
-    const handlSingin =(e)=>{
-        e.stoppropagation();
-        handleLogin();
-    }
   return (
     <div>
       <h1>Please log in</h1>
-      <button onClick={(e)=>handlSingin(e)}>Login</button>
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
 };
