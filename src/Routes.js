@@ -11,11 +11,11 @@ const AppRoutes = () => {
   const Token =new User(auth);
 console.log("user",Token)
   const handleLogin = () => {
-    auth.signinRedirect();
+    auth.signIn();
   };
 
   const handleLogout = () => {
-    auth.signoutRedirect();
+    auth.signOutRedirect();
   };
 
   return (
