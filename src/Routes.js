@@ -14,7 +14,7 @@ console.log("user",auth)
   };
 
   const handleLogout = () => {
-    auth.signOut();
+    auth.signOutRedirect({post_logout_redirect_uri:"https://d6auth.vercel.app/login"});
   };
 
   return (
