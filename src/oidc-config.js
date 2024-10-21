@@ -24,6 +24,6 @@ export const oidcConfig = {
     post_logout_redirect_uri: "https://d6auth.vercel.app/login",
     response_mode: "fragment",
     automaticSilentRenew: true, // Silent token renewal
-    loadUserInfo: true, // Load additional user info from the userinfo endpoint
+    loadUserInfo: false, // Load additional user info from the userinfo endpoint
   };
   

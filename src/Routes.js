@@ -34,8 +34,13 @@ console.log("user",Token)
             )
           }
         />
-        <Route path="/silent-renew" element={<SilentRenew />} />
+       {
+       auth.userData &&
+       <>
+       <Route path="/silent-renew" element={<SilentRenew />} />
         <Route path="/login/callback" element={<CallbackPage />} />
+        </>
+        }
       </Routes>
     </Router>
   );
