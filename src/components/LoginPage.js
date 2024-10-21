@@ -3,7 +3,7 @@ import React from 'react';
 const LoginPage = ({ handleLogin }) => {
 
     const handlSingin =(e)=>{
-        e.preventDefault();
+        e.stoppropagation();
         handleLogin();
     }
   return (
