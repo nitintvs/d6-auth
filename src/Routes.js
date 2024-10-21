@@ -20,20 +20,19 @@ console.log("user",auth)
   return (
     <Router>
       <Routes>
-        <Route
+       {auth.userData? <Route
           path="/"
           element={
-            auth.userData ? (
-              <div>
-                <HomePage user={auth.userData.profile} />
-                <button onClick={handleLogout}>Logout</button>
-              </div>
-            ) : (
-              <LoginPage handleLogin={handleLogin} />
-            )
+            <div>
+              <HomePage user={auth.userData.profile} />
+              <button onClick={handleLogout}>Logout</button>
+            </div>
           }
-        />
-        <Route path="/login" element={ <LoginPage handleLogin={handleLogin} />} />
+        />:
+        <Route
+          path="/login"
+          element={<LoginPage handleLogin={handleLogin} />}
+        />}
         <Route path="/silent-renew" element={<SilentRenew />} />
         <Route path="/login/callback" element={<CallbackPage />} />
       </Routes>
