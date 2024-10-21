@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from 'oidc-react';
+import { useAuth, } from 'oidc-react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPage';
@@ -8,7 +8,7 @@ import SilentRenew from './components/SilentRenew';
 
 const AppRoutes = () => {
   const auth = useAuth();
-
+console.log("user",)
   const handleLogin = () => {
     auth.signinRedirect();
   };
