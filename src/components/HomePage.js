@@ -3,8 +3,8 @@ import React from 'react';
 const HomePage = ({ user }) => {
   return (
     <div>
-      <h1>Welcome, {user?.profile?.name || 'User'}!</h1>
-      <p>This is the Home Page after successful login.</p>
+      <h1>Welcome, {user.name}!</h1>
+      <p>Email: {user.email}</p>
     </div>
   );
 };

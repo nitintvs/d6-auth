@@ -1,10 +1,10 @@
 import React from 'react';
 
-const LoginPage = () => {
+const LoginPage = ({ handleLogin }) => {
   return (
     <div>
-      <h1>Please wait...</h1>
-      <p>Redirecting to the login page...</p>
+      <h1>Please log in</h1>
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
 };
