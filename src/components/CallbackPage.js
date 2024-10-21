@@ -5,10 +5,10 @@ import { useHistory, useNavigate } from 'react-router-dom';
 const CallbackPage = () => {
   const auth = useAuth();
   const history = useNavigate();
-
+console.log("auth",auth)
   useEffect(() => {
     if (auth && auth.userData) {
-      history.push('/'); // Redirect after successful login
+      history.push('/');
     }
   }, [auth, history]);
 
