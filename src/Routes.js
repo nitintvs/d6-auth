@@ -8,8 +8,7 @@ import SilentRenew from './components/SilentRenew';
 
 const AppRoutes = () => {
   const auth = useAuth();
-  const Token =new User(auth);
-console.log("user",Token)
+console.log("user",auth)
   const handleLogin = () => {
     auth.signIn();
   };
