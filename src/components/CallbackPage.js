@@ -7,7 +7,7 @@ const CallbackPage = () => {
   const history = useNavigate();
   useEffect(() => {
     if (auth && auth.userData) {
-      history.push('/');
+      history('/');
     }
   }, [auth, history]);
 
