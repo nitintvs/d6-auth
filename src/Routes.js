@@ -5,8 +5,22 @@ import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPage';
 import CallbackPage from './components/CallbackPage';
 import SilentRenew from './components/SilentRenew';
+import { oidcConfig } from './oidc-config';
 
 const AppRoutes = () => {
+  // Helper function to get query parameters from the URL
+function getParameterByName(name, url = window.location.href) {
+  name = name.replace(/[\[\]]/g, '\\$&');
+  const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`);
+  const results = regex.exec(url);
+  return results ? decodeURIComponent(results[2].replace(/\+/g, ' ')) : null;
+}
+
+const tokenNonce = getParameterByName("token_nonce");
+if (tokenNonce) {
+  oidcConfig.acr_values = `token_nonce:${tokenNonce}`;
+}
+
   const auth = useAuth();
   
   const handleLogin = () => {
