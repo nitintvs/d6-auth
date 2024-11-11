@@ -110,7 +110,7 @@ const DraftSection = ({ title, description, collection, style = {} }) => (
             <div className="content-section">{
                 isMobile ?
                     <Grid container padding={"10px"} spacing={1}>
-                        {collection.map(product => (
+                        {collection?.map(product => (
                             <Grid item xs={6} marginTop={1} key={product.id}>
                                 <ProductCard product={product} />
                             </Grid>
