@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const CallbackPage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
-
+console.log("auth",auth)
   useEffect(() => {
     if (auth.isAuthenticated) {
       // Navigate to home after successful login
