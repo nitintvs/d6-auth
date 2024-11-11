@@ -1,0 +1,103 @@
+.transparent-bar {
+    p, span, button {
+        color: black;
+    }
+}
+
+.search-navbar {
+    padding: 0.3rem 0rem;
+    .MuiToolbar-root {
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo-wrapper {
+        margin-right: 1rem;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        img {
+            height: 2rem;
+        }
+    }
+
+    .search-bar {
+        width: 35% !important;
+        align-items: center;
+
+        .search-input {
+            width: 100%;
+            input {
+                width: 100%;
+            }
+        }
+    }
+    .link-bar {
+        width: 25% !important;
+        align-items: center;
+
+        // .search-input {
+        //     width: 100%;
+        //     input {
+        //         width: 100%;
+        //     }
+        // }
+    }
+    @media only screen and (max-width: 1200px) {
+        .search-bar {
+            width: 35% !important;
+        }
+        .link-bar {
+            display: none;
+            align-items: center;
+         }
+    }
+    .logo-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 0px) and (orientation: landscape) {
+    .MuiToolbar-root {
+        min-height: 64px !important;
+    }
+}
+
+@media (min-width: 480px) and (max-width: 1200px) {
+    .search-navbar {
+        padding: 0.3rem 1rem;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .search-navbar {
+        padding: 0.3rem;
+        .MuiContainer-root {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+    }
+}
+
+.auto-search-item-wrapper {
+    padding: 0;
+    .auto-search-item-container {
+        padding: 0.2rem !important;
+        border-top: 1px solid rgba(0,0,0,0.3);
+        .auto-search-item-img {
+            img {
+                width: 100%;
+            }
+        }
+        .auto-search-item-detail {
+            padding: 0 1rem;
+            height: 100%;
+        }
+    }
+    &:last-child {
+        .auto-search-item-container {
+            border-bottom: 1px solid rgba(0,0,0,0.3);
+        }
+    }
+}

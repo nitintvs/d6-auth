@@ -1,0 +1,61 @@
+.parallax {
+    // background-image: url("../../assets/images/background.jpg");
+
+    /* Set a specific height */
+    min-height: 450px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .header-wrapper {
+        height: 450px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .span-2 {
+            color: white;
+            font-size: 5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-shadow: 5px 5px 10px $primary-main;
+        }
+    }
+}
+
+@media (max-width:480px) {
+    .parallax {
+        min-height: 250px; 
+        .header-wrapper {
+            height: 250px; 
+            .span-2 {
+                font-size: 3rem;
+            }
+        }
+    }
+}
+  
+@media (min-width:480px) and (max-width: 600px) {
+    .parallax {
+        min-height: 300px; 
+        .header-wrapper {
+            height: 300px; 
+            .span-2 {
+                font-size: 4rem;
+            }
+        }
+    }
+}
+
+.about-wrapper {
+    .content-wrapper {
+        font-size: 1rem;
+        h2 {
+            color: black;
+        }
+    }
+}

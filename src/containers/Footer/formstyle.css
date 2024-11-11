@@ -1,0 +1,163 @@
+#form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#form-inner-container {
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  /* box-shadow: 0 0 20px gainsboro; */
+}
+
+#sign-up-container,
+#sign-in-container {
+  padding: 60px 80px;
+  width: 50%;
+  display: inline-block;
+}
+
+.contact__form input:not(:last-of-type) {
+  display: block;
+  margin-bottom: 20px;
+  border: 1px solid #e5e9f5;
+  background-color: #f6f7fa;
+  padding: 20px;
+  margin-top: 10px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+#form-controls {
+  margin-bottom: 20px;
+}
+
+.contact__form__h3 {
+  color: red;
+  font-size: 150%;
+  font-weight: 500;
+}
+
+.contact__form__label {
+  color: #7369ab;
+}
+
+.contact__form input::placeholder {
+  color: #c0c7db;
+  font-size: larger;
+  letter-spacing: 1.2px;
+}
+
+#form-controls button {
+  border: none;
+  font-size: 120%;
+}
+
+#form-controls button:hover {
+  cursor: pointer;
+}
+
+.contact__form__button__submit {
+  padding: 16px 75px;
+  background-color: #dd4498;
+  border-radius: 5px;
+  color: white;
+}
+
+.contact__form__button__submit:hover {
+  background-color: #dd4498;
+}
+
+.contact__form__button__btn {
+  padding: 16px 0 16px 35px;
+  background-color: transparent;
+  color: #ed4b5e;
+}
+
+#terms {
+  width: 30px;
+  height: 30px;
+  appearance: none;
+  border: 2px solid #7369ab;
+  border-radius: 4px;
+  position: relative;
+}
+
+#terms:checked:after {
+  content: "\2713";
+  color: #7369ab;
+  font-size: 24px;
+  position: absolute;
+  top: 0;
+  left: 3px;
+}
+
+label[for="terms"] {
+  display: inline-block;
+  width: 80%;
+  margin-left: 10px;
+}
+
+.termsLink {
+  color: #ef7886;
+  text-decoration: none;
+}
+
+.hide {
+  display: none !important;
+}
+
+#animation-container {
+  display: inline-block;
+}
+
+/* responsive display */
+
+@media (max-width: 1438px) {
+  lottie-player {
+    width: 300px !important;
+  }
+}
+
+@media (max-width: 1124px) {
+  #animation-container {
+    display: none;
+  }
+
+  #form-inner-container {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 684px) {
+  #form-controls {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  button {
+    /* width: 100%; */
+  }
+
+  form input:not(:last-of-type) {
+    width: 85%;
+  }
+
+  #toggleSignIn,
+  #toggleSignUp {
+    padding: 16px 75px;
+  }
+
+  #terms {
+    width: 20px;
+    height: 20px;
+  }
+
+  label[for="terms"] {
+    display: inline-block;
+    font-size: smaller;
+  }
+}

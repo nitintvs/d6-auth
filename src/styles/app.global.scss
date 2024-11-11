@@ -1,0 +1,83 @@
+@use "~sass-rem" as rem;
+// or @use "~sass-rem" as rem;
+// or @use '../node_modules/sass-rem' as rem;
+
+@import './scss/font.scss';
+@import './scss/colors.scss';
+@import './scss/common.scss';
+
+html {
+  font-size: rem.convert(20px); // Simple
+  // padding: rem.convert(5px 10px); // Multiple values
+  // border-bottom: rem.convert(1px solid black); // Multiple mixed values
+  // box-shadow: rem.convert(0 0 2px #ccc, inset 0 0 5px #eee); // Comma-separated values
+  // Multiple properties
+  // @include rem.convert((
+  //   margin: 10px 5px,
+  //   text-shadow: (1px 1px #eee, -1px -1px #eee) // Parentheses needed because of comma
+  // ));
+
+  // background-color: rgba(235, 230, 230);
+
+  span {
+    color: $text-primary;
+  }
+
+  span, p, input, h1, h2, h3, h4, h5, h6, button {
+    @include mulish;
+    // font-family: "Roboto","Helvetica","Arial",sans-serif;
+  }
+
+  // span {
+  //   color: "#ffffff";
+  // }
+
+  // span [class$="secondary"] {
+  //   // color: $text-secondary;
+  // }
+
+  .container {
+    padding: rem.convert(5px 10px);
+  }
+}
+
+@media (max-width:480px) {
+  html {
+    font-size: rem.convert(16px);
+  }
+}
+
+@media (min-width:480px) and (max-width: 600px) {
+  html {
+    font-size: rem.convert(18px);
+  }
+}
+
+@media (min-width:600px) and (max-width: 800px) {
+  html {
+    font-size: rem.convert(18px);
+  }
+}
+
+@media (min-width:800px) and (max-width: 1000px) {
+  html {
+    font-size: rem.convert(18px);
+  }
+}
+
+@import '../containers/common.scss';
+@import '../components/components.scss';
+
+@import '../views/Landing/landing.scss';
+@import '../views/ProductList/productlist.scss';
+@import '../views/ProductView/productview.scss';
+@import '../views/Cart/cart.scss';
+@import '../views/Checkout/checkout.scss';
+@import '../views/OrderComplete/ordercomplete.scss';
+@import '../views/OrderHistory/orderhistory.scss';
+@import '../views/UserSetting/usersetting.scss';
+@import '../views/About/about.scss';
+@import '../views/ContactUs/contactus.scss';
+@import '../views/FAQs/faqs.scss';
+@import '../views/CustomLayout/CustomLayout.scss';
+@import '../views/LoadWebsite/Load.scss';

@@ -1,17 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import { SnackbarProvider } from 'notistack';
+import Routes from "routes/route";
+import store from "store/store";
+import { ColorProvider } from "utils/UIContext";
+import { LoaderProvider } from "Context/LoaderContext";
+import FullScreenLoader from "Context/FullScreenLoader";
+import { AuthProvider } from 'oidc-react';
+import { oidcConfig } from './oidc-config';
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <React.StrictMode> 
+    <AuthProvider {...oidcConfig} autoSignIn={false} >
+        <Provider store={store}>
+            <ColorProvider>
+            <LoaderProvider>
+            <SnackbarProvider autoHideDuration={3000} maxSnack={3} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+                <BrowserRouter>
+                <FullScreenLoader/>
+                    <Routes />
+                </BrowserRouter>
+            </SnackbarProvider>
+            </LoaderProvider>
+            </ColorProvider>
+        </Provider>
+    </AuthProvider>
+    </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

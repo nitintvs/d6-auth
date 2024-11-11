@@ -1,0 +1,87 @@
+.auth-wrapper {
+    .form-control {
+        width: 100%;
+        .error-text {
+            color: var(--mui-palette-error-main);
+            font-weight: 400;
+            font-size: 0.75rem;
+            line-height: 1.66;
+            letter-spacing: 0.03333em;
+            text-align: left;
+            margin-top: 4px;
+            margin-right: 14px;
+            margin-bottom: 0;
+            margin-left: 14px;
+        }
+    }
+}
+
+.dial-code-wrapper {
+    display: flex;
+    img {
+        height: 1.2rem;
+        margin-right: 0.7rem;
+    }
+}
+
+.select-wrapper {
+    margin-top: 0.5rem;
+    padding: 0 0.5rem;
+    svg {
+        height: unset;
+    }
+    .error-text {
+        color: var(--mui-palette-error-main);
+        font-weight: 400;
+        font-size: 0.75rem;
+        line-height: 1.66;
+        letter-spacing: 0.03333em;
+        text-align: left;
+        margin-top: 4px;
+        margin-right: 14px;
+        margin-bottom: 0;
+        margin-left: 14px;
+    }
+    .MuiOutlinedInput-root {
+        padding-left: 0;
+    }
+}
+
+.dialog-action-wrapper {
+    button {
+        width: 100%;
+    }
+}
+
+.link-wrapper {
+    padding-top: 0.4rem;
+
+    u {
+        cursor: pointer;
+        text-decoration: none; 
+    }
+    .decorated-text {
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.link-wrapper-underLine {
+    padding-top:0;
+
+    // u {
+        cursor: pointer;
+        text-decoration: underline;
+        color: rgb(98, 98, 224);
+    // }
+}
+
+.formALign {
+    display: flex;
+    justify-content: center;
+}
+.buttonSize{
+    width: 200px;
+    margin-top: 10px;
+}

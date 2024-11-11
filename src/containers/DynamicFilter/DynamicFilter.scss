@@ -1,0 +1,57 @@
+.side-filter-wrapper {
+    .filter-wrapper {
+        // border: 1px solid green;
+        width: 80%;
+        .title {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        .MuiFormGroup-root {
+            margin-left: 1rem;
+        }
+        .MuiList-root, .MuiFormGroup-root {
+            padding-top: 0.2rem;
+            .description {
+                align-items: baseline;
+            }
+            .MuiListItem-root, .MuiFormControlLabel-root {
+                .MuiListItemText-primary {
+                    font-weight: 800;
+                }
+                padding: 0;
+                &:hover {
+                    cursor: pointer;
+                }
+                .MuiButtonBase-root {
+                    padding: 0.4rem 0.6rem 0.4rem 0.4rem;
+                    svg {
+                        width: 1rem;
+                        height: 1rem;
+                        color: rgba(0,0,0,0.5);
+                    }
+                }
+            }
+        }
+        .MuiSlider-root {
+            padding-top: 3rem;
+            width: 90%;
+        }
+    }
+}
+.custom-swipeable-drawer {
+    // border: 2px solid red;
+    .box-wrapper {
+        // border: 2px solid green;
+        display: flex;
+        justify-content: center;
+        p {
+            font-size: 1.5rem;
+            color: rgba(0,0,0,0.5);
+        }
+    }
+    .box-warpper-content {
+        p, ul, span {
+            color: rgba(0,0,0,0.5);
+        }
+    }
+}

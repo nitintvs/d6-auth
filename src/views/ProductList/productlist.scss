@@ -1,0 +1,193 @@
+.catalog-wrapper {
+    .main-content-wrapper {
+        .catalog-list-wrapper {
+            .filter-wrapper {
+                display: flex;
+                flex-direction: column;
+
+                .filter-bar-wrapper {
+                    padding: 0 0.5rem;
+                }
+            }
+            .catalog-list {
+                padding-top: 0.5rem;
+                .MuiGrid-item {
+                    display: flex;
+                    justify-content: center;
+                }
+                .content-card {
+                    width: 100%;
+                    padding: 0.5rem;
+                    box-shadow: none;
+                    margin-right: 0.2rem;
+                    margin-bottom: 0.5rem;
+                    .content-media {
+                        max-width: 250px;
+                        width: 100%;
+                        height: 300px;
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                        }
+                        // max-height: 18rem;
+                        // height: 370px;
+                        // background-size: contain;
+                    }
+                    @media (min-width:1200px) and (max-width: 1500px) {
+                        .content-media {
+                            max-width: 300px;
+                        }
+                    }
+                    @media (min-width:900px) and (max-width: 1200px) {
+                        .content-media {
+                            max-width: 350px;
+                        }
+                    }
+                    @media (min-width:600px) and (max-width: 900px) {
+                        .content-media {
+                            max-width: 380px;
+                        }
+                    }
+                    @media screen and (max-width: 600px) {
+                        .content-media {
+                            max-width: 500px;
+                            // height: 100%;
+                            // max-height: 400px;
+                        }
+                    }
+                    .overlay-card-wrapper {
+                        width: 100%;
+                        position: relative;
+                        .overlay-card {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            padding: 1rem;
+                            z-index: 999;
+                            color: black;
+                            background-color: rgba(255, 255, 255, 0.65);
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            flex-direction: column;
+                            .statement {
+                                font-size: 1.2rem;
+                            }
+                            .statement-svg {
+                                height: 7rem;
+                            }
+                        }
+                    }
+                    .MuiCardContent-root {
+                        padding: 0 0.4rem;
+                        margin-top: -0.8rem;
+                        .MuiTypography-subtitle1 {
+                            font-size: 18px;
+                            font-weight: 600;
+                        }
+                        .MuiTypography-subtitle2 {
+                            font-size: 14px;
+                        }
+                        .price {
+                            color: $success-main;
+                        }
+                    }
+                    .MuiCardActions-root {
+                        padding: 0;
+                    }
+                    &:hover {
+                        box-shadow: var(--mui-shadows-4);
+                        cursor: pointer;
+                    }
+                }
+                .empty-wrapper {
+                    width: 100%;
+                    margin-top: 2rem;
+                    background-color: rgba(16, 52, 96, 0.1);
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                    padding: 3rem;
+                    text-align: center;
+            
+            
+                    .icon-wrapper {
+                        svg {
+                            // color: rgba(16, 52, 96, 0.3);
+                            height: 8rem;
+                        }
+                    }
+                    .title {
+                        font-weight: 600;
+                    }
+                    .description {
+                        font-size: 1rem;
+                    }
+                    .button-wrapper {
+                        padding-top: 1rem;
+                    }
+                }
+            }
+        }
+        @media screen and (max-width: 900px) {
+            .category-wrapper {
+                padding-top: 0;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .content-container {
+        padding: 1rem 1rem;
+    }
+}
+
+@media (min-width:480px) and (max-width: 600px) {
+    .content-container {
+        padding: 1rem 2rem;
+    }
+}
+
+@media (min-width:600px) and (max-width: 800px) {
+    .content-container {
+        padding: 1rem 2rem;
+    }
+}
+
+.condition-dialog-wrapper {
+    .MuiDialog-container {
+        .MuiDialog-paper {
+            max-width: 900px;
+            .policy-wrapper {
+                line-height: 1.2;
+            }
+            .dialog-action {
+                padding: 0.5rem 1rem !important;
+                button {
+                    width: fit-content;
+                }
+            }
+        }
+    }
+}
+
+.login-dialog-wrapper {
+    .login-dialog-title {
+        padding: 0;
+        display: flex;
+        justify-content: end;
+        align-items: center;
+    }
+    .dialog-content {
+        // border: 2px solid red;
+        padding: 1rem 2rem !important;
+    }
+    .dialog-action {
+        // border: 2px solid green;
+        padding: 0.5rem 1rem !important;
+    }
+}

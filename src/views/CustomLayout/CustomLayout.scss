@@ -1,0 +1,30 @@
+.menu-container {
+    padding: 1rem 2rem;
+
+    .menu-item-container {
+        padding: 0.5rem 3rem 0.5rem 0.5rem;
+
+        p {
+            color: rgba(0,0,0,0.6);
+            border-bottom: 1px solid;
+        }
+
+        .child-item-container {
+            p {
+                font-size: 0.8rem;
+                color: rgba(0,0,0,0.6);
+                border-bottom: none;
+            }
+        }
+
+    }
+    .simple-item-container {
+        display: flex;
+        flex-direction: column;
+        p {
+            font-size: 0.8rem;
+            color: rgba(0,0,0,0.6);
+            border-bottom: none;
+        }
+    }
+}

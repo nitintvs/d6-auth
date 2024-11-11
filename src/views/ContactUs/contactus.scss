@@ -1,0 +1,22 @@
+.contact-wrapper {
+    .content-wrapper {
+        font-size: 1rem;
+
+        .business-address {
+            line-height: 1.5;
+            font-size: 1rem;
+        }
+
+    }
+    .contact-detail-wrapper {
+        .content-wrapper {
+
+            display: flex;
+            align-items: center;
+    
+            svg {
+                margin-right: 0.4rem;
+            }
+        }
+    }
+}

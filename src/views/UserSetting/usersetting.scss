@@ -1,0 +1,73 @@
+.usersetting-wrapper {
+    .list-wrapper {
+        .item-warpper {
+            .icon-wrapper {
+                svg {
+                    color: $primary-main;
+                    font-size: 2rem;
+                }
+            }
+            .text-wrapper {
+                margin-left: 0.5rem;
+            }
+        }
+    }
+    .list-content-wrapper {
+        padding: 3rem;
+        .item-wrapper {
+            padding: 0.5rem;
+            .key-wrapper {
+                text-align: right;
+                font-size: 1rem;
+                padding-right: 3rem;
+            }
+            .value-wrapper {
+                font-size: 1rem;
+
+                .link {
+                    margin-left: 3rem;
+                    text-decoration: underline;
+                    color: $secondary-main;
+                }
+                .update-wrapper {
+                    padding-top: 1rem;
+
+                    .form-wrapper {
+                        .form-control {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .address-wrapper {
+        .item-wrapper {
+            margin-bottom: 1rem;
+            .button-wrapper {
+                button {
+                    margin-right: 1rem;
+                }
+            }
+        }
+        .list-content-wrapper {
+            box-shadow: var(--mui-shadows-1);
+            padding: 1rem 2rem;
+            margin-bottom: 1rem;
+            .item-wrapper {
+                margin-bottom: unset;
+                padding: 0.2rem;
+            }
+            &:hover {
+                box-shadow: var(--mui-shadows-4);
+            }
+        }
+    }
+    .update-form-wrapper {
+        .form-wrapper {
+            // border: 1px solid red;
+            display: flex;
+            flex-direction: column;
+        }   
+    }
+}

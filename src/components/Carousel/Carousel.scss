@@ -1,0 +1,54 @@
+.carousel-wrapper {
+    width: 100%;
+
+    .splide {
+        padding: 0 3rem;
+        width: 90%;
+        margin: auto;
+
+        .splide__slide {
+            // padding: 3rem !important;
+            // max-width: 400px;
+        }
+        .splide__pagination {
+            bottom: -1em;
+        }
+    }
+    @media (min-width: 900px) and (max-width: 1200px) {
+        .splide {
+
+        }
+    }
+    @media (min-width: 600px) and (max-width: 900px) {
+        .splide {
+
+        }
+    }
+    @media screen and (max-width: 600px) {
+        .splide {
+            padding: 0 2rem;
+            width: 80%;
+            .splide__arrows {
+                .splide__arrow--prev {
+                    width: 1.5rem;
+                    left: 2px;
+                }
+                .splide__arrow--next {
+                    width: 1.5rem;
+                    right: 2px;
+                }
+            }
+            .splide__pagination {
+                bottom: -1em;
+            }
+        }
+    }
+    .slider-card {
+        width: 100%;
+        padding: 0.2rem;
+        .content-card {
+            box-shadow: var(--mui-shadows-4) !important;
+
+        }
+    }
+}

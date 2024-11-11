@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d699fa3f.css",
+    "main.js": "/static/js/main.e8d03881.js",
+    "static/media/background.jpg": "/static/media/background.8280c08069c1b8d5dbe2.jpg",
+    "static/media/LoadInProgress.jpg": "/static/media/LoadInProgress.c1fb73615b4ad15a11d7.jpg",
+    "static/media/mastercard.png": "/static/media/mastercard.2269c92f2d29434ec1a8.png",
+    "static/media/NoData.svg": "/static/media/NoData.85abf250485d81b7cda131ef5492a570.svg",
+    "static/media/vs-logo-white.png": "/static/media/vs-logo-white.f21cb0589ca1d34e49b9.png",
+    "static/media/amex.png": "/static/media/amex.01369b1f6e912e6f0b06.png",
+    "static/media/whatsapp1.png": "/static/media/whatsapp1.97b90b6e3f8c70254204.png",
+    "static/media/apple-pay-logo.png": "/static/media/apple-pay-logo.1d440c438154590bdcc3.png",
+    "static/media/sticittpaylogo.png": "/static/media/sticittpaylogo.43e544218998ebf8d0b5.png",
+    "static/media/visa-logo.png": "/static/media/visa-logo.8ca54f4e179b0adcb02c.png",
+    "static/media/logo.png": "/static/media/logo.02b0ac1272a434cf3585.png",
+    "static/media/report.png": "/static/media/report.773e629ad977cb99a43d.png",
+    "static/media/sr.svg": "/static/media/sr.750895872e553a7e4eb126f7b4408eae.svg",
+    "static/media/peachpayments-logo.svg": "/static/media/peachpayments-logo.4a90c4520b3ba37206ec297f6a482861.svg",
+    "static/media/Amazon_Web_Services-Logo.wine.svg": "/static/media/Amazon_Web_Services-Logo.wine.6c9e94255a6ca4d791f3dafd9675a055.svg",
+    "static/media/CapitecPay - colour.svg": "/static/media/CapitecPay - colour.b6118ef8d2fa1d2586c81e3f34e0297f.svg",
+    "index.html": "/index.html",
+    "main.d699fa3f.css.map": "/static/css/main.d699fa3f.css.map",
+    "main.e8d03881.js.map": "/static/js/main.e8d03881.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d699fa3f.css",
+    "static/js/main.e8d03881.js"
+  ]
+}
