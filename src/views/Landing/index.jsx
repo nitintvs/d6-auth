@@ -107,7 +107,7 @@ const DraftSection = ({ title, description, collection, style = {} }) => (
                     {description}
                 </p>}
             </div>
-            <div className="content-section">{
+            {/* <div className="content-section">{
                 isMobile ?
                     <Grid container padding={"10px"} spacing={1}>
                         {collection?.map(product => (
@@ -124,7 +124,7 @@ const DraftSection = ({ title, description, collection, style = {} }) => (
                         )}
                     </Carousel>
             }
-            </div>
+            </div> */}
         </Container>
         : ''
 )
