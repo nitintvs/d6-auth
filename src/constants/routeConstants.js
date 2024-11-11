@@ -1,7 +1,7 @@
 export const authRouteConstants = {
-    LOGIN: "/login/callback",
+    LOGIN: "/login",
     SILENTRENEW: "/silent-renew",
-    LOGINCALLBACK: "/login",
+    LOGINCALLBACK: "/login/callback",
     SIGNUP: "/signup",
     HOME: "/",
     LOGOUT: "/logout"
