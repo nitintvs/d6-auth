@@ -118,7 +118,7 @@ const DraftSection = ({ title, description, collection, style = {} }) => (
                     </Grid>
                     :
                     <Carousel>
-                        {collection?.map(product =>
+                        {collection.length>0 && collection?.map(product =>
                             <DetailCard
                                 product={product} />
                         )}
