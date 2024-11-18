@@ -12,9 +12,8 @@ const CallbackPage = () => {
   useEffect(() => {
     if (
       auth &&
-      auth.isAuthenticated &&
-      auth.userData &&
-      auth.userData.access_token
+      auth.isLoading===false &&
+      auth.userData 
     ) {
       // Store the token in local storage
       localStorage.setItem("u-access-token", auth.userData.access_token);
