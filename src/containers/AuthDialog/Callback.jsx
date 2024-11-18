@@ -19,7 +19,9 @@ useEffect(() => {
   } else {
     //     // Handle errors or redirect back to login if authentication fails
         console.error('Authentication failed');
-        navigate('/');
+        // navigate('/');
+        alert("Authentication failed")
+        return;
       }
 }, [auth, navigate]);
   // useEffect(() => {
