@@ -1,29 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useAuth } from 'oidc-react';
 import { useNavigate } from 'react-router-dom';
+import Loader from 'components/Loader';
+import { Typography } from '@mui/material';
 
 const CallbackPage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
-console.log("auth",auth)
+  console.log("auth", auth);
 
+  useEffect(() => {
+    if (
+      auth &&
+      auth.isAuthenticated &&
+      auth.userData &&
+      auth.userData.access_token
+    ) {
+      // Store the token in local storage
+      localStorage.setItem("u-access-token", auth.userData.access_token);
+      console.log("Token saved to local storage:", auth.userData.access_token);
 
-useEffect(() => {
-  if (auth && auth.isAuthenticated && auth.userData && auth.userData.access_token) {
-    // Store the token in local storage
-    localStorage.setItem("u-access-token", auth.userData.access_token);
-    console.log("Token saved to local storage:", auth.userData.access_token);
-    
-    // Navigate to a specific route
-    navigate('/');
-  } else {
-    //     // Handle errors or redirect back to login if authentication fails
-        console.error('Authentication failed');
-        // navigate('/');
-        alert("Authentication failed")
-        return;
-      }
-}, [auth, navigate]);
+      // Navigate to a specific route
+      navigate("/");
+    } else {
+      //     // Handle errors or redirect back to login if authentication fails
+      console.error("Authentication failed");
+      // navigate('/');
+      alert("Authentication failed");
+      return;
+    }
+  }, [auth, navigate, auth?.isLoading]);
   // useEffect(() => {
   //   if (auth.isAuthenticated) {
   //     // Navigate to home after successful login
@@ -35,7 +41,15 @@ useEffect(() => {
   //   }
   // }, [auth, navigate]);
 
-  return <div>Processing login...</div>;
+  return (
+    <Fragment>
+      {auth.isLoading ? (
+        <Loader />
+      ) : (
+        <Typography>Processing login...</Typography>
+      )}
+    </Fragment>
+  );
 };
 
 export default CallbackPage;
