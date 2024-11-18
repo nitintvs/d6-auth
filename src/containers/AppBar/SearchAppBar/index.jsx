@@ -275,7 +275,9 @@ function SearchAppBar({
   useEffect(()=>{
    const accesstokendata= sessionStorage.getItem("oidc.user:https://id.zipalong.tech:webbieshop-wt")
     console.log("objectauth",accesstokendata)
-    localStorage.setItem("u-access-token", accesstokendata && accesstokendata?.access_token);
+    if(accesstokendata && accesstokendata?.access_token!==null){
+      localStorage.setItem("u-access-token", accesstokendata && accesstokendata?.access_token);
+    }
   })
 
   const CustomPopper = styled(Popper)(({ theme }) => ({
