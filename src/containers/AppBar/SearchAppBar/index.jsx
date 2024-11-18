@@ -279,7 +279,7 @@ function SearchAppBar({
       try {
         const parsedData = JSON.parse(accesstokendata); // Parse the JSON string
         if (parsedData?.access_token) {
-          localStorage.setItem("u-access-token", parsedData.access_token); // Store in localStorage
+          localStorage.setItem("D6-access-token", parsedData.access_token); // Store in localStorage
           console.log("Access token saved in localStorage:", parsedData.access_token);
         } else {
           console.warn("Access token not found in accesstokendata.");
