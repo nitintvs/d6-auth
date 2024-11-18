@@ -271,6 +271,12 @@ function SearchAppBar({
     setUnderline("#fff")
   },[])
 
+
+  useEffect(()=>{
+   const accesstokendata= sessionStorage.getItem("oidc.user:https://id.zipalong.tech:webbieshop-wt")
+    console.log("objectauth",accesstokendata)
+  })
+
   const CustomPopper = styled(Popper)(({ theme }) => ({
     width: "100% !important",
     padding:"10px",
