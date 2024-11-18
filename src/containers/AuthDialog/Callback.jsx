@@ -41,15 +41,7 @@ const CallbackPage = () => {
   //   }
   // }, [auth, navigate]);
 
-  return (
-    <Fragment>
-      {auth.isLoading ? (
-        <Loader />
-      ) : (
-        <Typography>Processing login...</Typography>
-      )}
-    </Fragment>
-  );
+  return <Fragment>{auth.isLoading && <Loader />}</Fragment>;
 };
 
 export default CallbackPage;
