@@ -26,8 +26,8 @@ const CallbackPage = () => {
       //     // Handle errors or redirect back to login if authentication fails
       console.error("Authentication failed");
       // navigate('/');
-      alert("Authentication failed");
-      return;
+      // alert("Authentication failed");
+
     }
   }, [auth, navigate, auth?.isLoading]);
   // useEffect(() => {
