@@ -19,8 +19,8 @@ const CallbackPage = () => {
       localStorage.setItem("u-access-token", auth.userData.access_token);
       console.log("Token saved to local storage:", auth.userData.access_token);
 
-      // Navigate to a specific route
       navigate("/");
+      // Navigate to a specific route
     } else {
       //     // Handle errors or redirect back to login if authentication fails
       console.error("Authentication failed");
