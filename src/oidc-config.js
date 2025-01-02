@@ -29,7 +29,7 @@
 
 export const oidcConfig = {
     authority: "https://id.zipalong.tech", // The authority URL (Issuer)
-    clientId: "webbieshop-app", // Your client ID
+    clientId: "webbieshop-wt", // Your client ID
     // redirectUri: "https://oauthdebugger.com/debug", // Redirect URI after authentication
     redirectUri: "https://d6auth.vercel.app/login/callback", // Redirect URI after authentication
     responseType: "code", // Use Authorization Code flow
