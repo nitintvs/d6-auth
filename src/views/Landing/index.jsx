@@ -246,7 +246,7 @@ const Landing = () => {
         if (webDetails?.websiteInfo?.store_name === "Testing Store") {
           const accesstokendata = localStorage.getItem("D6-access-token");
     
-          if (accesstokendata && loggedInUser?.mobile_number==null) {
+          if (accesstokendata) {
             try {
                 
                 const userInfoResponse = await axiosInstance.post(
@@ -264,7 +264,7 @@ const Landing = () => {
                       userInfoResponse?.data?.refresh
                     );
                     if (
-                      userInfoResponse?.data?.mobile_number_exist == true
+                      userInfoResponse?.data?.mobile_number_exist == false
                     ) {
                       setHasMobile(true);
                     }

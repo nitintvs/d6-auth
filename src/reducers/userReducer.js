@@ -1,5 +1,6 @@
 export default function getUser(state = {
     user: null,
+    islogin:false,
     doLogin: {
         open: false,
         handleLogin: undefined
@@ -9,7 +10,7 @@ export default function getUser(state = {
 }, action) {
     switch (action.type) {
         case "USER_DETAIL":
-            return { ...state, user: action.value };
+            return { ...state, user: action.value, islogin:true };
         case "LOGIN_OPEN":
             return { ...state, doLogin: action.value };
         case "AUTH_OPEN":
