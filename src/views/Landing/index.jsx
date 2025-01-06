@@ -168,7 +168,7 @@ const Landing = () => {
     const [featureCollection, setFeatureCollection] = useState([]);
     const navigate = useNavigate();
 
-    console.log("mobile",hasMobile)
+    console.log("mobile1",hasMobile)
     const handleCloseUpdateMObileModal=()=>{
         setHasMobile(false)
     }
@@ -260,12 +260,12 @@ const Landing = () => {
                         "u-refresh-token",
                         userInfoResponse?.data?.refresh
                       );
-                      getUser(userInfoResponse?.data?.access)
                       if (
                         userInfoResponse?.data?.mobile_number_exist == true
                       ) {
                         setHasMobile(true);
                       }
+                      getUser(userInfoResponse?.data?.access)
                     }
 
               } catch (error) {
