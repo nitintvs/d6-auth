@@ -227,6 +227,12 @@ const Landing = () => {
             updateManifest("/manifestvet.json"); // Fallback to default manifest
       
         }
+        
+        if(webDetails && webDetails?.websiteInfo?.store_name==="Testing Store"){
+            console.log("updated",webDetails?.websiteInfo?.store_name)
+        }
+
+        
     },[webDetails])
 console.log("document",document)
     const getTopCollection = async () => {

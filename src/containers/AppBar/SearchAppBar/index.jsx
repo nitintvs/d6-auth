@@ -272,25 +272,25 @@ function SearchAppBar({
   },[])
 
 
-  useEffect(() => {
-    const accesstokendata = sessionStorage.getItem("oidc.user:https://id.zipalong.tech:webbieshop-wt");
+  // useEffect(() => {
+  //   const accesstokendata = sessionStorage.getItem("oidc.user:https://id.zipalong.tech:webbieshop-wt");
     
-    if (accesstokendata) {
-      try {
-        const parsedData = JSON.parse(accesstokendata); // Parse the JSON string
-        if (parsedData?.access_token) {
-          localStorage.setItem("D6-access-token", parsedData.access_token); // Store in localStorage
-          console.log("Access token saved in localStorage:", parsedData.access_token);
-        } else {
-          console.warn("Access token not found in accesstokendata.");
-        }
-      } catch (error) {
-        console.error("Error parsing accesstokendata:", error);
-      }
-    } else {
-      console.warn("No accesstokendata found in sessionStorage.");
-    }
-  }, []);
+  //   if (accesstokendata) {
+  //     try {
+  //       const parsedData = JSON.parse(accesstokendata); // Parse the JSON string
+  //       if (parsedData?.access_token) {
+  //         localStorage.setItem("D6-access-token", parsedData.access_token); // Store in localStorage
+  //         console.log("Access token saved in localStorage:", parsedData.access_token);
+  //       } else {
+  //         console.warn("Access token not found in accesstokendata.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error parsing accesstokendata:", error);
+  //     }
+  //   } else {
+  //     console.warn("No accesstokendata found in sessionStorage.");
+  //   }
+  // }, []);
 
   const CustomPopper = styled(Popper)(({ theme }) => ({
     width: "100% !important",

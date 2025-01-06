@@ -16,7 +16,7 @@ const CallbackPage = () => {
       auth.userData 
     ) {
       // Store the token in local storage
-      localStorage.setItem("u-access-token", auth.userData.access_token);
+      localStorage.setItem("D6-access-token", auth.userData.access_token);
       console.log("Token saved to local storage:", auth.userData.access_token);
 
       navigate("/");
