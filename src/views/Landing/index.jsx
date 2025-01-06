@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import _ from 'lodash';
 
-import CloseIcon from "@mui/icons-material/Close";
-import { Button, Container,IconButton, Card,Modal, TextField,CardContent, Typography, CardMedia, CardActions, Grid, Box } from '@mui/material';
+import { Button, Container, Card, CardContent, Typography, CardMedia, CardActions, Grid, Box } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
 import CustomLayout from "views/CustomLayout";
@@ -16,7 +15,6 @@ import { GLOBAL_CURRENCY } from "constants/appConstants";
 import ProductList from "./ProductList";
 import ProductCard from "./ProductCard";
 import { isMobile } from "react-device-detect";
-import getUser from "reducers/userReducer";
 
 let formatCurrency = new Intl.NumberFormat(undefined, {
 	style: 'currency',
@@ -164,10 +162,10 @@ const Landing = () => {
     const webDetails = useSelector(state => state.webDetails);
     const { websiteInfo } = webDetails;
     const [topCollection, setTopCollection] = useState([]);
-   const [featureCollection, setFeatureCollection] = useState([]);
+    const [featureCollection, setFeatureCollection] = useState([]);
     const navigate = useNavigate();
-   
-   
+
+
     function updateMetaDescription(newDescription) {
         const metaDescriptionTag = document.querySelector("meta[name='description']");
         if (metaDescriptionTag) {
@@ -220,21 +218,17 @@ const Landing = () => {
         }
     }
 
-    useEffect(() => {
-       
-       
-          if (webDetails?.websiteInfo?.store_name === "The Vet Store") {
-            document.title = "The Vet Store";
-            updateMetaDescription("The Vet Store");
-            updateFavicon("/favicon1.ico");
-            updateAppleTouchIcon("/vetstore-512x512.png");
-            updateManifest("/manifestvet.json");
-          }
-
-        
-      }, [webDetails]);
+    useEffect(()=>{
+        if(webDetails && webDetails?.websiteInfo?.store_name==="The Vet Store"){
+            document.title="The Vet Store"
+            updateMetaDescription("The Vet Store")
+            updateFavicon("/favicon1.ico"); // Fallback to default favicon
+            updateAppleTouchIcon("/vetstore-512x512.png"); // Fallback to default apple-touch-icon
+            updateManifest("/manifestvet.json"); // Fallback to default manifest
       
-   
+        }
+    },[webDetails])
+console.log("document",document)
     const getTopCollection = async () => {
         setLoader(true)
         let res = await axiosInstance.get(APIRouteConstants.DASHBOARD.TOP_COLLECTION);
@@ -300,12 +294,8 @@ const Landing = () => {
                 style="background-color: rgba(0,0,0,0.1); margin-bottom: 3rem"
                 description="Discover our curated collection of must-have products. Shop now and redefine your world with us."
             />
-                </CustomLayout>
+        </CustomLayout>
     );
 };
-
-
-
-
 
 export default Landing;
