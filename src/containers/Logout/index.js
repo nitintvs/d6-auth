@@ -10,6 +10,7 @@ const Logout = () => {
         updateUserDetail()
         localStorage.removeItem('u-access-token')
         localStorage.removeItem('u-refresh-token')
+        localStorage.removeItem('D6-access-token')
         navigate(authRouteConstants.HOME)
     }
 
