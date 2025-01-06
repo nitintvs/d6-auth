@@ -16,6 +16,7 @@ import { GLOBAL_CURRENCY } from "constants/appConstants";
 import ProductList from "./ProductList";
 import ProductCard from "./ProductCard";
 import { isMobile } from "react-device-detect";
+import getUser from "reducers/userReducer";
 
 let formatCurrency = new Intl.NumberFormat(undefined, {
 	style: 'currency',
@@ -258,6 +259,7 @@ const Landing = () => {
                         "u-refresh-token",
                         userInfoResponse?.data?.refresh
                       );
+                      getUser(userInfoResponse?.data?.access)
                       if (
                         userInfoResponse?.data?.mobile_number_exist == false
                       ) {
