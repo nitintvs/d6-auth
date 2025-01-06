@@ -282,7 +282,7 @@ const Landing = () => {
       };
     
       updateWebsiteDetails();
-      },[])
+      },[webDetails])
 console.log("document",document)
     const getTopCollection = async () => {
         setLoader(true)
