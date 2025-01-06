@@ -34,13 +34,13 @@ const CallbackPage = () => {
           "u-refresh-token",
           userInfoResponse?.data?.refresh
         );
+        navigate("/");
         // if (
         //   userInfoResponse?.data?.mobile_number_exist == false
         // ) {
         //   setHasMobile(true);
         // }
         // getUser(userInfoResponse?.data?.access)
-        navigate("/");
       }
       // Navigate to a specific route
     } else {
