@@ -167,6 +167,7 @@ const Landing = () => {
     const [hasMobile, setHasMobile] = useState(false);
     const [featureCollection, setFeatureCollection] = useState([]);
     const navigate = useNavigate();
+    const loggedInUser = useSelector(state => state.userDetails);
 
     console.log("mobile1",hasMobile)
     const handleCloseUpdateMObileModal=()=>{
@@ -252,7 +253,7 @@ const Landing = () => {
                     APIRouteConstants.AUTH.D6_SIGNING,
                     { access_token: accesstokendata } // Include access_token in the request body
                   );
-                  console.log("localStorage:", userInfoResponse);
+                  console.log("localStorage:", loggedInUser);
                   if (userInfoResponse && userInfoResponse.status == 200) {
                     localStorage.setItem(
                       "u-access-token",
@@ -277,8 +278,6 @@ const Landing = () => {
             console.warn("No accesstokendata found in localStorage.");
           }
         }
-    
-       
       };
     
       updateWebsiteDetails();
