@@ -16,7 +16,7 @@ export const APIRouteConstants = {
         OTPVALIDATECHANGEPASSWORD:'/core/verify-otp-resetpassword/',
         RESETPASSWORD:'/core/reset-password/',
         D6_SIGNING:"/sso_d6/d6sso-signin/",
-        D6_UPDATE_PHONE:"/sso_d6/d6sso-signin/",
+        D6_UPDATE_PHONE:"/sso_d6/update_phone/",
     },
     DASHBOARD: {
         ALL_CATEGORY: "/customer/api/categories/",
