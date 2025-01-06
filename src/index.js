@@ -14,7 +14,7 @@ import { oidcConfig } from './oidc-config';
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode> 
-    <AuthProvider {...oidcConfig} autoSignIn={false} >
+    <AuthProvider {...oidcConfig} autoSignIn={true} >
         <Provider store={store}>
             <ColorProvider>
             <LoaderProvider>
