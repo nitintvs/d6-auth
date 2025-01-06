@@ -228,8 +228,30 @@ const Landing = () => {
       
         }
         
-        if(webDetails && webDetails?.websiteInfo?.store_name==="Testing Store"){
-            console.log("updated",webDetails?.websiteInfo?.store_name)
+        if (
+          webDetails &&
+          webDetails?.websiteInfo?.store_name === "Testing Store"
+        ) {
+          const accesstokendata = localStorage.getItem("D6-access-token");
+
+          if (accesstokendata) {
+            try {
+                console.log(
+                  "localStorage:",
+                  accesstokendata
+                );
+              const parsedData = JSON.parse(accesstokendata); // Parse the JSON string
+              if (parsedData?.access_token) {
+                // Store in localStorage
+              } else {
+                console.warn("Access token not found in accesstokendata.");
+              }
+            } catch (error) {
+              console.error("Error parsing accesstokendata:", error);
+            }
+          } else {
+            console.warn("No accesstokendata found in sessionStorage.");
+          }
         }
 
         
