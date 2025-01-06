@@ -240,12 +240,8 @@ const Landing = () => {
       }, [webDetails]);
       
       useEffect(()=>{
-        let isCalled = false; // Flag to ensure the effect runs only once for SSO logic.
-      
-        const updateWebsiteDetails = async () => {
-            // Prevent re-execution.
        
-        if (isCalled) return;
+        const updateWebsiteDetails = async () => {
         if (webDetails?.websiteInfo?.store_name === "Testing Store") {
           const accesstokendata = localStorage.getItem("D6-access-token");
     
@@ -282,7 +278,7 @@ const Landing = () => {
           }
         }
     
-        isCalled = true; // Mark the logic as executed.
+       
       };
     
       updateWebsiteDetails();
