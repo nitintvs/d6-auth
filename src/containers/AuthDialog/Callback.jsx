@@ -34,7 +34,7 @@ const CallbackPage = () => {
           "u-refresh-token",
           userInfoResponse?.data?.refresh
         );
-        navigate("/");
+        window.location.href="/"
         // if (
         //   userInfoResponse?.data?.mobile_number_exist == false
         // ) {
