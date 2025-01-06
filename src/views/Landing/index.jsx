@@ -382,7 +382,9 @@ console.log("mobile",open)
       
 
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Modal open={open} onClose={handleClose}  BackdropProps={{
+        onClick: (e) => e.stopPropagation(),
+      }}>
       <Box
         sx={{
           position: "absolute",
