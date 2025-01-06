@@ -164,16 +164,10 @@ const Landing = () => {
     const webDetails = useSelector(state => state.webDetails);
     const { websiteInfo } = webDetails;
     const [topCollection, setTopCollection] = useState([]);
-    const [hasMobile, setHasMobile] = useState(false);
-    const [featureCollection, setFeatureCollection] = useState([]);
+   const [featureCollection, setFeatureCollection] = useState([]);
     const navigate = useNavigate();
-    const loggedInUser = useSelector(state => state.userDetails);
-
-    console.log("mobile1",hasMobile)
-    const handleCloseUpdateMObileModal=()=>{
-        setHasMobile(false)
-    }
-
+   
+   
     function updateMetaDescription(newDescription) {
         const metaDescriptionTag = document.querySelector("meta[name='description']");
         if (metaDescriptionTag) {
@@ -240,49 +234,7 @@ const Landing = () => {
         
       }, [webDetails]);
       
-      useEffect(()=>{
-       
-          console.log("localStorage:", loggedInUser?.islogin==false);
-          const updateWebsiteDetails = async () => {
-              if (webDetails?.websiteInfo?.store_name === "Testing Store") {
-                  const accesstokendata = localStorage.getItem("D6-access-token");
-                  
-          if (accesstokendata && loggedInUser?.islogin==false) {
-            try {
-                
-                const userInfoResponse = await axiosInstance.post(
-                    APIRouteConstants.AUTH.D6_SIGNING,
-                    { access_token: accesstokendata } // Include access_token in the request body
-                  );
-                  if (userInfoResponse && userInfoResponse.status == 200) {
-                    localStorage.setItem(
-                      "u-access-token",
-                      userInfoResponse?.data?.access
-                    );
-                    localStorage.setItem(
-                      "u-refresh-token",
-                      userInfoResponse?.data?.refresh
-                    );
-                    if (
-                      userInfoResponse?.data?.mobile_number_exist == false
-                    ) {
-                      setHasMobile(true);
-                    }
-                    getUser(userInfoResponse?.data?.access)
-                  }
-
-            } catch (error) {
-              console.error("Error during API calls or parsing:", error);
-            }
-          } else {
-            console.warn("No accesstokendata found in localStorage.");
-          }
-        }
-      };
-    
-      updateWebsiteDetails();
-      },[webDetails])
-console.log("document",document)
+   
     const getTopCollection = async () => {
         setLoader(true)
         let res = await axiosInstance.get(APIRouteConstants.DASHBOARD.TOP_COLLECTION);
@@ -348,110 +300,11 @@ console.log("document",document)
                 style="background-color: rgba(0,0,0,0.1); margin-bottom: 3rem"
                 description="Discover our curated collection of must-have products. Shop now and redefine your world with us."
             />
-            <UpdateMobileModal open={hasMobile} handleClose={handleCloseUpdateMObileModal}/>
-        </CustomLayout>
+                </CustomLayout>
     );
 };
 
 
-
-const UpdateMobileModal = ({ open, handleClose }) => {
-  const [mobileNumber, setMobileNumber] = useState("");
-console.log("mobile",open)
-    const handleSubmit = async () => {
-        try {
-          const requestBody = {
-            mobile_number: mobileNumber, // User input
-            country_code: 27, // Replace with dynamic data if needed
-          };
-      
-          // API call
-          const response = await axiosInstance.put(APIRouteConstants.AUTH.D6_UPDATE_PHONE, requestBody);
-      
-          console.log("localstorage1", response?.data);
-      
-          // Close the modal on success
-          handleClose();
-        } catch (error) {
-          console.error("Error updating mobile number:", error);
-      
-          // Display error feedback
-          alert("Failed to update mobile number. Please try again.");
-        }
-      };
-      
-
-  return (
-    <Modal open={open} onClose={handleClose}  BackdropProps={{
-        onClick: (e) => e.stopPropagation(),
-      }}>
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: { xs: "90%", sm: "400px" },
-          bgcolor: "background.paper",
-          boxShadow: 24,
-          borderRadius: 2,
-          p: 3,
-        }}
-      >
-        {/* Modal Header */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mb: 2,
-          }}
-        >
-          <img
-            src="/logo.png"
-            alt="Logo"
-            style={{ height: "40px", objectFit: "contain" }}
-          />
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ textAlign: "center", flexGrow: 1 }}
-          >
-            Update Mobile Number
-          </Typography>
-          <IconButton onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
-
-        {/* Modal Content */}
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="body1" sx={{ mb: 1 }}>
-            Please update your mobile number to ensure you can receive
-            notifications and updates.
-          </Typography>
-          <TextField
-            fullWidth
-            label="Mobile Number"
-            variant="outlined"
-            value={mobileNumber}
-            onChange={(e) => setMobileNumber(e.target.value)}
-          />
-        </Box>
-
-        {/* Submit Button */}
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={handleSubmit}
-        >
-          Update Number
-        </Button>
-      </Box>
-    </Modal>
-  );
-};
 
 
 
