@@ -246,7 +246,7 @@ const Landing = () => {
         if (webDetails?.websiteInfo?.store_name === "Testing Store") {
           const accesstokendata = localStorage.getItem("D6-access-token");
     
-          if (accesstokendata) {
+          if (accesstokendata && loggedInUser?.mobile_number==null) {
             try {
                 
                 const userInfoResponse = await axiosInstance.post(
