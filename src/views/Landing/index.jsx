@@ -261,7 +261,7 @@ const Landing = () => {
                       );
                       getUser(userInfoResponse?.data?.access)
                       if (
-                        userInfoResponse?.data?.mobile_number_exist == false
+                        userInfoResponse?.data?.mobile_number_exist == true
                       ) {
                         setHasMobile(true);
                       }
