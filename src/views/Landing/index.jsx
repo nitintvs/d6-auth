@@ -242,18 +242,18 @@ const Landing = () => {
       
       useEffect(()=>{
        
-        const updateWebsiteDetails = async () => {
-        if (webDetails?.websiteInfo?.store_name === "Testing Store") {
-          const accesstokendata = localStorage.getItem("D6-access-token");
-    
-          if (accesstokendata) {
+          const updateWebsiteDetails = async () => {
+              if (webDetails?.websiteInfo?.store_name === "Testing Store") {
+                  const accesstokendata = localStorage.getItem("D6-access-token");
+                  
+                  console.log("localStorage:", );
+          if (accesstokendata && loggedInUser?.islogin==false) {
             try {
                 
                 const userInfoResponse = await axiosInstance.post(
                     APIRouteConstants.AUTH.D6_SIGNING,
                     { access_token: accesstokendata } // Include access_token in the request body
                   );
-                  console.log("localStorage:", loggedInUser);
                   if (userInfoResponse && userInfoResponse.status == 200) {
                     localStorage.setItem(
                       "u-access-token",
