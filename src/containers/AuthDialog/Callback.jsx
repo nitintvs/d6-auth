@@ -1,8 +1,9 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useAuth } from "oidc-react";
 import { useNavigate } from "react-router-dom";
 import Loader from "components/Loader";
 import { Typography } from "@mui/material";
+import getUser from "reducers/userReducer";
 
 const CallbackPage = () => {
   const auth = useAuth();
@@ -34,7 +35,7 @@ const CallbackPage = () => {
             );
             localStorage.setItem(
               "u-refresh-token",
-              userInfoResponse?.data?.refresh
+              userInfoResponse?.data?.refressh
             );
             if (userInfoResponse?.data?.mobile_number_exist == false) {
               setHasMobile(true);
