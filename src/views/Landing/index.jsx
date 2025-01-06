@@ -242,11 +242,11 @@ const Landing = () => {
       
       useEffect(()=>{
        
+          console.log("localStorage:", loggedInUser?.islogin==false);
           const updateWebsiteDetails = async () => {
               if (webDetails?.websiteInfo?.store_name === "Testing Store") {
                   const accesstokendata = localStorage.getItem("D6-access-token");
                   
-                  console.log("localStorage:", );
           if (accesstokendata && loggedInUser?.islogin==false) {
             try {
                 
