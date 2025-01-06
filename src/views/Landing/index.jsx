@@ -218,44 +218,47 @@ const Landing = () => {
         }
     }
 
-    useEffect(()=>{
-        if(webDetails && webDetails?.websiteInfo?.store_name==="The Vet Store"){
-            document.title="The Vet Store"
-            updateMetaDescription("The Vet Store")
-            updateFavicon("/favicon1.ico"); // Fallback to default favicon
-            updateAppleTouchIcon("/vetstore-512x512.png"); // Fallback to default apple-touch-icon
-            updateManifest("/manifestvet.json"); // Fallback to default manifest
+    useEffect(() => {
+        let isCalled = false; // Flag to ensure the effect runs only once for SSO logic.
       
-        }
-        
-        if (
-          webDetails &&
-          webDetails?.websiteInfo?.store_name === "Testing Store"
-        ) {
-          const accesstokendata = localStorage.getItem("D6-access-token");
-
-          if (accesstokendata) {
-            try {
-                console.log(
-                  "localStorage:",
-                  accesstokendata
-                );
-              const parsedData = JSON.parse(accesstokendata); // Parse the JSON string
-              if (parsedData?.access_token) {
-                // Store in localStorage
-              } else {
-                console.warn("Access token not found in accesstokendata.");
-              }
-            } catch (error) {
-              console.error("Error parsing accesstokendata:", error);
-            }
-          } else {
-            console.warn("No accesstokendata found in sessionStorage.");
+        const updateWebsiteDetails = async () => {
+           // Prevent re-execution.
+      
+          if (webDetails?.websiteInfo?.store_name === "The Vet Store") {
+            document.title = "The Vet Store";
+            updateMetaDescription("The Vet Store");
+            updateFavicon("/favicon1.ico");
+            updateAppleTouchIcon("/vetstore-512x512.png");
+            updateManifest("/manifestvet.json");
           }
-        }
 
-        
-    },[webDetails])
+          if (isCalled) return;
+          if (webDetails?.websiteInfo?.store_name === "Testing Store") {
+            const accesstokendata = localStorage.getItem("D6-access-token");
+      
+            if (accesstokendata) {
+              try {
+                  
+                  const userInfoResponse = await axiosInstance.post(
+                      APIRouteConstants.AUTH.D6_SIGNING,
+                      { access_token: accesstokendata } // Include access_token in the request body
+                    );
+                    console.log("localStorage:", userInfoResponse);
+
+              } catch (error) {
+                console.error("Error during API calls or parsing:", error);
+              }
+            } else {
+              console.warn("No accesstokendata found in localStorage.");
+            }
+          }
+      
+          isCalled = true; // Mark the logic as executed.
+        };
+      
+        updateWebsiteDetails();
+      }, [webDetails]);
+      
 console.log("document",document)
     const getTopCollection = async () => {
         setLoader(true)
