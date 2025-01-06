@@ -168,8 +168,9 @@ const Landing = () => {
     const [featureCollection, setFeatureCollection] = useState([]);
     const navigate = useNavigate();
 
+    console.log("mobile",hasMobile)
     const handleCloseUpdateMObileModal=()=>{
-        setHasMobile(!hasMobile)
+        setHasMobile(false)
     }
 
     function updateMetaDescription(newDescription) {
@@ -356,7 +357,7 @@ console.log("document",document)
 
 const UpdateMobileModal = ({ open, handleClose }) => {
   const [mobileNumber, setMobileNumber] = useState("");
-
+console.log("mobile",open)
     const handleSubmit = async () => {
         try {
           const requestBody = {
