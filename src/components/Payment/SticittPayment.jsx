@@ -170,17 +170,13 @@ const SticittPayment = ({ paymentId, orderId }) => {
   // Load the Sticitt SDK when the component mounts
   useEffect(() => {
     sessionStorage.setItem("order_id",orderId)
-    // if (window.sticittSDKLoaded) {
-    //   window.onPaid = onPaid;
-    //   window.onclose = onClosed;
-    // } else {
+    if (window.sticittSDKLoaded) {
+      window.onPaid = onPaid;
+      window.onclose = onClosed;
+    } else {
       const script = document.createElement('script');
       script.id = 'sticitt-pay-sdk';
-      script.setAttribute('data-client-id', 'webbieshop-app'); // Replace <client-id> with your actual client ID
-      script.setAttribute('data-client-secret', 'GAWtzPuPKK@JHAC7!Lyb4aFeyRF87qq!9VfFj!mD@nEDMP8VM!ekqtjFd@-Qnf2V'); // Replace <client-secret> with your actual client secret
       script.src = 'https://sdk-test.sticitt.co.za/js/lib/sdk.min.js';
-      // script.dataset.clientId = clientId;  // Set data-client-id dynamically
-      // script.dataset.clientSecret = clientSecret
       script.async = true;
       script.onload = () => {
         window.onPaid = onPaid;
@@ -188,7 +184,7 @@ const SticittPayment = ({ paymentId, orderId }) => {
         window.sticittSDKLoaded = true;
       };
       document.body.appendChild(script);
-    // }
+    }
   }, [onPaid, onClosed]);
 
   const handleRetry = () => {
