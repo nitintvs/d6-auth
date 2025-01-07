@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { useAuth } from 'oidc-react';
 import { useNavigate } from 'react-router-dom';
-import Loader from 'components/Loader';
 import { Typography } from '@mui/material';
 import axiosInstance from "../../configs/axiosConfig"
 import { APIRouteConstants } from 'constants/routeConstants';
@@ -64,5 +63,28 @@ const CallbackPage = () => {
 
   return <Fragment>{auth.isLoading && <Loader />}</Fragment>;
 };
+
+
+import * as React from 'react';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import Button from '@mui/material/Button';
+
+function Loader({
+    open,
+    setOpen
+}) {
+
+  return (
+        <Backdrop
+            sx={{ color: 'red', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={open}
+            // onClick={setO}
+        >
+            <CircularProgress color="inherit" />
+        </Backdrop>
+  );
+}
+
 
 export default CallbackPage;
