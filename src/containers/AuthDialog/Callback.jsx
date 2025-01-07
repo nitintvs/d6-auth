@@ -63,7 +63,7 @@ const CallbackPage = () => {
   //   }
   // }, [auth, navigate]);
 
-  return <Fragment>{auth.isLoading && <Typography sx={{color:"#00000"}} > Loading</Typography>}</Fragment>;
+  return <Fragment> <Loader/> </Fragment>;
 };
 
 
