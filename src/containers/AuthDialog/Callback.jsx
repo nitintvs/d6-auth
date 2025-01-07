@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import axiosInstance from "../../configs/axiosConfig"
 import { APIRouteConstants } from 'constants/routeConstants';
-
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import Button from '@mui/material/Button';
 const CallbackPage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
@@ -65,10 +67,6 @@ const CallbackPage = () => {
 };
 
 
-import * as React from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
-import Button from '@mui/material/Button';
 
 function Loader({
     open,
