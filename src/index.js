@@ -12,6 +12,7 @@ import FullScreenLoader from "Context/FullScreenLoader";
 import { AuthProvider } from 'oidc-react';
 import { oidcConfig } from './oidc-config';
 const root = ReactDOM.createRoot(document.getElementById("root"));
+console.log("location",window.location)
 root.render(
     <React.StrictMode> 
     <AuthProvider {...oidcConfig} autoSignIn={false} >
