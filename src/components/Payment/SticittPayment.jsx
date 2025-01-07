@@ -182,6 +182,7 @@ const SticittPayment = ({ paymentId, orderId }) => {
 
       script.async = true;
       script.onload = () => {
+        console.log("STICITTSDKINITINLIZED",script)
         window.onPaid = onPaid;
         window.onclose = onClosed;
         window.sticittSDKLoaded = true;
