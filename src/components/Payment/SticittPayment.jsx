@@ -171,6 +171,7 @@ const SticittPayment = ({ paymentId, orderId }) => {
   useEffect(() => {
     sessionStorage.setItem("order_id",orderId)
     if (window.sticittSDKLoaded) {
+      console.log("STICITTSDKINITINLIZED",script)
       window.onPaid = onPaid;
       window.onclose = onClosed;
     } else {
