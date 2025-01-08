@@ -27,9 +27,9 @@
     <title>Webbie Shop | Online shopping site for mobiles, electronics, furniture, grocery, shoes, accessories, Tv, clothes
       and apparels.</title>
       <script id="sticitt-pay-sdk" src="https://sdk-test.sticitt.co.za/js/lib/sdk.min.js" defer></script>
-      <!-- <script id="sticitt-pay-sdk" src="https://sdk-test.sticitt.co.za/js/lib/sdk-relay.min.js"
+      <script id="sticitt-pay-sdk" src="https://sdk-test.sticitt.co.za/js/lib/sdk-relay.min.js"
         data-client-id="webbieshop-app" data-client-secret="GAWtzPuPKK@JHAC7!Lyb4aFeyRF87qq!9VfFj!mD@nEDMP8VM!ekqtjFd@-Qnf2V">
-        </script> -->
+        </script>
       <!--import sticitt sdk -->
       <!-- <script
         id="sticitt-pay-sdk"
@@ -40,14 +40,6 @@
   <body style="margin: 0%;">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <script>
-      const script = document.createElement("script");
-      script.id = "sticitt-pay-sdk";
-      script.src = "https://sdk-test.sticitt.co.za/js/lib/sdk-relay.min.js";
-      script.setAttribute("data-client-id", process.env.REACT_APP_CLIENT_ID );
-      script.setAttribute("data-client-secret", process.env.REACT_CLIENT_SECRET );
-      document.head.appendChild(script);
-    </script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

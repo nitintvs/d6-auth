@@ -32,7 +32,8 @@ const getParameterByName = (name, url) => {
   
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-console.log("location",window.location)
+console.log("location",window.location?.host==="d6auth.vercel.app")
+// console.log("location",window.location?.host==="sticitt.webbieshop.com")
 // sticiit.webbieshop.com
 root.render(
     <React.StrictMode> 
