@@ -92,7 +92,7 @@ const isAuthApp = window?.location?.host === "d6auth.vercel.app";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-if (isAuthApp) {
+if (!isAuthApp) {
   // Render Auth-enabled App
   root.render(
     <React.StrictMode>
