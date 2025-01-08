@@ -193,7 +193,7 @@ export default function AuthDialog({ isAuthDialogOpen, setAuthDialog, refreshUse
      const IS_D6_APP=  window?.location?.host === "d6auth.vercel.app"
     return (
         <div>
-           {!IS_D6_APP? <D6Modal  logoUrl={logoUrl} isDialogOpen={isAuthDialogOpen} setDialogOpen={setAuthDialog}/>: <CustomDialog
+           {IS_D6_APP? <D6Modal  logoUrl={logoUrl} isDialogOpen={isAuthDialogOpen} setDialogOpen={setAuthDialog}/>: <CustomDialog
                 isDialogOpen={isAuthDialogOpen}
                 setDialogOpen={setAuthDialog}
                 header={!isForgotPass && DialogHeader}
