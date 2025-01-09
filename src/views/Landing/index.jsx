@@ -236,9 +236,10 @@ const Landing = () => {
             setHasMobileUpdateModal(true)
         }
         // if(webDetails && webDetails?.websiteInfo?.store_name==="The Vet Store"){
-       console.log("websitedetails",webDetails && webDetails?.websiteInfo?.store_name,D6USERDATA)    
-        // }
-    },[webDetails])
+            // }
+            console.log("hasMobileUpdateModal", typeof D6USERDATA, D6USERDATA )    
+        },[webDetails])
+        console.log("hasMobileUpdateModal",hasMobileUpdateModal, typeof hasMobileUpdateModal )    
 console.log("document",document)
     const getTopCollection = async () => {
         setLoader(true)
@@ -321,7 +322,7 @@ const D6UpdateMobileModal = ({ isDialogOpen, setDialogOpen }) => {
   const [countryCode, setCountryCode] = useState("27"); // Default country code
   const [mobileNumber, setMobileNumber] = useState("");
   const [error, setError] = useState("");
-
+console.log("hasMobileUpdateModal",isDialogOpen,typeof isDialogOpen)
   const handleUpdate = async () => {
     if (!mobileNumber) {
       setError("Mobile number is required.");
