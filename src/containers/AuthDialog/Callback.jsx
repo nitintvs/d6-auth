@@ -49,6 +49,7 @@ const CallbackPage = () => {
     }
   }, [auth, navigate, auth?.isLoading]);
   
+  console.log("loading",loading)
   return (
     <Fragment>
       <Grid sx={{display:"flex",justifyContent:"center",alignItems:"center",height:"100vh"}}>
