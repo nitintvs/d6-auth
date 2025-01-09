@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import _ from 'lodash';
 
-import { Button, Container, Card, CardContent, Typography, CardMedia, CardActions, Grid, Box } from '@mui/material';
+import { Button, Container, Card, CardContent, Typography, CardMedia, CardActions, Grid, Box, Modal, TextField, MenuItem, CircularProgress } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
 import CustomLayout from "views/CustomLayout";
@@ -15,6 +15,7 @@ import { GLOBAL_CURRENCY } from "constants/appConstants";
 import ProductList from "./ProductList";
 import ProductCard from "./ProductCard";
 import { isMobile } from "react-device-detect";
+import instance from "configs/axiosConfig";
 
 let formatCurrency = new Intl.NumberFormat(undefined, {
 	style: 'currency',
@@ -163,6 +164,7 @@ const Landing = () => {
     const { websiteInfo } = webDetails;
     const [topCollection, setTopCollection] = useState([]);
     const [featureCollection, setFeatureCollection] = useState([]);
+    const [hasMobileUpdateModal, setHasMobileUpdateModal] = useState(false);
     const navigate = useNavigate();
 
 
@@ -230,6 +232,9 @@ const Landing = () => {
     },[webDetails])
     useEffect(()=>{
         const D6USERDATA= localStorage.getItem("d6_user_data")
+        if(D6USERDATA?.mobile_number_exist == true){
+            setHasMobileUpdateModal(true)
+        }
         // if(webDetails && webDetails?.websiteInfo?.store_name==="The Vet Store"){
        console.log("websitedetails",webDetails && webDetails?.websiteInfo?.store_name,D6USERDATA)    
         // }
@@ -300,8 +305,124 @@ console.log("document",document)
                 style="background-color: rgba(0,0,0,0.1); margin-bottom: 3rem"
                 description="Discover our curated collection of must-have products. Shop now and redefine your world with us."
             />
+            <D6UpdateMobileModal isDialogOpen={hasMobileUpdateModal} setDialogOpen={setHasMobileUpdateModal}  />
         </CustomLayout>
     );
 };
 
 export default Landing;
+
+
+
+
+const D6UpdateMobileModal = ({ isDialogOpen, setDialogOpen }) => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [countryCode, setCountryCode] = useState("+1"); // Default country code
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [error, setError] = useState("");
+
+  const handleUpdate = async () => {
+    if (!mobileNumber) {
+      setError("Mobile number is required.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+    try {
+      const response = await instance.post("https://api.example.com/update-mobile", {
+        countryCode,
+        mobileNumber,
+      });
+      console.log("API Response:", response.data);
+      setDialogOpen(false)
+      // Navigate or take further actions on success
+      navigate("/");
+    } catch (error) {
+      console.error("Error updating mobile number:", error);
+      setError("Failed to update the mobile number. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
+
+  return (
+    <>
+      <Modal open={isDialogOpen}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: { xs: "90%", sm: "75%", md: "50%", lg: "40%" },
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 3,
+          }}
+        >
+          {/* Header Section */}
+          <Grid container alignItems="center" spacing={2} sx={{ mb: 2 }}>
+            <Typography variant="h6" textAlign="center" sx={{ width: "100%" }}>
+              Please update your mobile number (mandatory)
+            </Typography>
+          </Grid>
+
+          {/* Modal Content */}
+          <Grid container direction="column" alignItems="center">
+            {/* Country Code Dropdown and Mobile Number Input */}
+            <Grid item xs={12} sx={{ width: "100%", mb: 2 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <TextField
+                    select
+                    fullWidth
+                    value={countryCode}
+                    onChange={(e) => setCountryCode(e.target.value)}
+                    label="Country Code"
+                  >
+                    {/* Add more country codes as needed */}
+                    <MenuItem value="+1">+1 (USA)</MenuItem>
+                    <MenuItem value="+91">+91 (India)</MenuItem>
+                    <MenuItem value="+44">+44 (UK)</MenuItem>
+                    <MenuItem value="+61">+61 (Australia)</MenuItem>
+                  </TextField>
+                </Grid>
+                <Grid item xs={8}>
+                  <TextField
+                    fullWidth
+                    value={mobileNumber}
+                    onChange={(e) => setMobileNumber(e.target.value)}
+                    label="Mobile Number"
+                    type="tel"
+                    error={!!error}
+                    helperText={error}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+
+            {/* Submit Button */}
+            <Grid item xs={12} sx={{ width: "100%", mt: 2 }}>
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={handleUpdate}
+                sx={{ textTransform: "none" }}
+                disabled={loading}
+              >
+                {loading ? <CircularProgress size={24} /> : "Update Mobile Number"}
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Modal>
+    </>
+  );
+};
