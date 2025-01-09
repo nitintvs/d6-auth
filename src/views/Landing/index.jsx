@@ -238,7 +238,7 @@ const Landing = () => {
         // if(webDetails && webDetails?.websiteInfo?.store_name==="The Vet Store"){
        console.log("websitedetails",webDetails && webDetails?.websiteInfo?.store_name,D6USERDATA)    
         // }
-    },[])
+    },[webDetails])
 console.log("document",document)
     const getTopCollection = async () => {
         setLoader(true)
