@@ -328,7 +328,7 @@ console.log("hasMobileUpdateModal",isDialogOpen,typeof isDialogOpen)
       setError("Mobile number is required.");
       return;
     }
-    if (mobileNumber.length === 10) {
+    if (mobileNumber.length > 10 || mobileNumber.length < 10 ) {
         setError("Mobile number must be 10 digits.");
       return;
     }
