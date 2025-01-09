@@ -328,8 +328,8 @@ console.log("hasMobileUpdateModal",isDialogOpen,typeof isDialogOpen)
       setError("Mobile number is required.");
       return;
     }
-    if (/^\d{0,10}$/.test(mobileNumber)) {
-        setError(mobileNumber.length === 10 ? "" : "Mobile number must be 10 digits.");
+    if (mobileNumber.length === 10) {
+        setError("Mobile number must be 10 digits.");
       return;
     }
     const token= localStorage.getItem("u-access-token")
