@@ -228,6 +228,12 @@ const Landing = () => {
       
         }
     },[webDetails])
+    useEffect(()=>{
+        const D6USERDATA= localStorage.getItem("d6_user_data")
+        // if(webDetails && webDetails?.websiteInfo?.store_name==="The Vet Store"){
+       console.log("websitedetails",webDetails && webDetails?.websiteInfo?.store_name,D6USERDATA)    
+        // }
+    },[])
 console.log("document",document)
     const getTopCollection = async () => {
         setLoader(true)

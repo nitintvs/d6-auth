@@ -50,6 +50,7 @@ export default function AuthDialog({ isAuthDialogOpen, setAuthDialog, refreshUse
     const [isD6AuthDialogOpen, setisD6AuthDialogOpen] = useState(false)
     const [isD6AuthDialog, setD6AuthDialog] = useState(false)
 
+    const auth = useAuth();
     const handleLoginView = () => {
         if (isForgotPass) {
             setIsForgotPass(false)
@@ -197,7 +198,10 @@ export default function AuthDialog({ isAuthDialogOpen, setAuthDialog, refreshUse
 
 
     const handleLoginD6=()=>{
-        setisD6AuthDialogOpen(!isD6AuthDialogOpen)
+        
+    auth.signIn(); // Trigger login flow only when the button is clicked
+          
+        // setisD6AuthDialogOpen(!isD6AuthDialogOpen)
     }
     const handleLoginD6Close=()=>{
         setisD6AuthDialogOpen(!isD6AuthDialogOpen)
