@@ -227,12 +227,11 @@ const Landing = () => {
             updateFavicon("/favicon1.ico"); // Fallback to default favicon
             updateAppleTouchIcon("/vetstore-512x512.png"); // Fallback to default apple-touch-icon
             updateManifest("/manifestvet.json"); // Fallback to default manifest
-      
         }
     },[webDetails])
     useEffect(()=>{
         const D6USERDATA= localStorage.getItem("d6_user_data")
-        if(D6USERDATA == "true"){
+        if(D6USERDATA == "false"){
             setHasMobileUpdateModal(true)
         }
         // if(webDetails && webDetails?.websiteInfo?.store_name==="The Vet Store"){
@@ -347,7 +346,7 @@ console.log("hasMobileUpdateModal",isDialogOpen,typeof isDialogOpen)
     );
       console.log("API Response:", response.data);
       if(response.data){
-        localStorage.setItem("d6_user_data",JSON.stringify(false))
+        localStorage.setItem("d6_user_data",JSON.stringify(true))
     setError("");
           setDialogOpen(false)
           // Navigate or take further actions on success
