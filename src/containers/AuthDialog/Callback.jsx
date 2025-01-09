@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import { TextField, MenuItem } from "@mui/material";
 import axios from "axios";
 const CallbackPage = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const auth = useAuth();
   const navigate = useNavigate();
   console.log("auth", auth);
