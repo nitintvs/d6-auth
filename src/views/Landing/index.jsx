@@ -232,7 +232,7 @@ const Landing = () => {
     },[webDetails])
     useEffect(()=>{
         const D6USERDATA= localStorage.getItem("d6_user_data")
-        if(D6USERDATA?.mobile_number_exist == true){
+        if(D6USERDATA == true){
             setHasMobileUpdateModal(true)
         }
         // if(webDetails && webDetails?.websiteInfo?.store_name==="The Vet Store"){
