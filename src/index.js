@@ -68,6 +68,7 @@ import FullScreenLoader from "Context/FullScreenLoader";
 
 import { AuthProvider } from "oidc-react";
 import { oidcConfig as initialOidcConfig } from "./oidc-config";
+import { isMobile } from "react-device-detect";
 
 // Helper function to get URL parameters
 const getParameterByName = (name, url) => {
@@ -96,7 +97,7 @@ if (isAuthApp) {
   // Render Auth-enabled App
   root.render(
     <React.StrictMode>
-      <AuthProvider {...oidcConfig} autoSignIn={tokenNonce?true:false}>
+      <AuthProvider {...oidcConfig} autoSignIn={(isMobile || tokenNonce) ? true : false}>
         <Provider store={store}>
           <ColorProvider>
             <LoaderProvider>
@@ -120,7 +121,7 @@ if (isAuthApp) {
   // Render Regular App
   root.render(
     <React.StrictMode>
-       <AuthProvider {...oidcConfig} autoSignIn={tokenNonce?true:false}>
+       <AuthProvider {...oidcConfig} autoSignIn={(isMobile || tokenNonce) ? true : false}>
       <Provider store={store}>
         <ColorProvider>
           <LoaderProvider>
