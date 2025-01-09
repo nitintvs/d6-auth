@@ -16,11 +16,11 @@ const CallbackPage = () => {
   console.log("auth", auth);
 
   useEffect(async () => {
+    setLoading(true)
     if (auth && auth.isLoading === false && auth.userData) {
       // Store the token in local storage
       localStorage.setItem("D6-access-token", auth.userData.access_token);
       console.log("Token saved to local storage:", auth.userData);
-      setLoading(true)
       const userInfoResponse = await axiosInstance.post(
         APIRouteConstants.AUTH.D6_SIGNING,
         { access_token: auth.userData.access_token } // Include access_token in the request body
