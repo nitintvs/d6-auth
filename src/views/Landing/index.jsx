@@ -347,7 +347,7 @@ console.log("hasMobileUpdateModal",isDialogOpen,typeof isDialogOpen)
     );
       console.log("API Response:", response.data);
       if(response.data){
-          
+        localStorage.setItem("d6_user_data",JSON.stringify(false))
     setError("");
           setDialogOpen(false)
           // Navigate or take further actions on success
