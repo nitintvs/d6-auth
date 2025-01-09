@@ -52,7 +52,8 @@ const CallbackPage = () => {
   return (
     <Fragment>
       <Grid sx={{display:"flex",justifyContent:"center",alignItems:"center",height:"100vh"}}>
-      {(auth?.isLoading||loading) && <CircularProgress color="secondary" size={34}/> }  
+      {(auth?.isLoading) && <CircularProgress color="secondary" size={34}/> }  
+      {(loading) && <CircularProgress color="secondary" size={34}/> }  
       </Grid>
     </Fragment>
   );
