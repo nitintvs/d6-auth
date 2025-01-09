@@ -9,7 +9,8 @@ import {
     InputAdornment,
     Select,
     MenuItem,
-    CardMedia
+    CardMedia,
+    Grid
 } from '@mui/material';
 import { Modal, Box, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -27,6 +28,7 @@ import Forgotpassword from 'containers/Forgotpassword';
 import PrivacyPolicy from 'containers/PrivacyPolicy';
 import TermsAndConditions from 'containers/TermsAndConditions';
 import { useAuth } from 'oidc-react';
+import { useSelector } from 'react-redux';
 
 export default function AuthDialog({ isAuthDialogOpen, setAuthDialog, refreshUser, logoUrl }) {
     const { register, formState: { errors }, handleSubmit, control, getValues } = useForm({
@@ -45,6 +47,8 @@ export default function AuthDialog({ isAuthDialogOpen, setAuthDialog, refreshUse
     const [isForgotPass, setIsForgotPass] = useState(false)
     const [isOpenPrivacy, setOpenPrivacy] = useState(false)
     const [isOpenTerms, setOpenTerms] = useState(false)
+    const [isD6AuthDialogOpen, setisD6AuthDialogOpen] = useState(false)
+    const [isD6AuthDialog, setD6AuthDialog] = useState(false)
 
     const handleLoginView = () => {
         if (isForgotPass) {
@@ -190,241 +194,324 @@ export default function AuthDialog({ isAuthDialogOpen, setAuthDialog, refreshUse
     const openPrivacyPolicy = (value) => {
         setOpenPrivacy(value);
     }
+
+
+    const handleLoginD6=()=>{
+        setisD6AuthDialogOpen(!isD6AuthDialogOpen)
+    }
+    const handleLoginD6Close=()=>{
+        setisD6AuthDialogOpen(!isD6AuthDialogOpen)
+    }
+
      const IS_D6_APP=  window?.location?.host === "d6auth.vercel.app"
     return (
-        <div>
-           {IS_D6_APP? <D6Modal  logoUrl={logoUrl} isDialogOpen={isAuthDialogOpen} setDialogOpen={setAuthDialog}/>: <CustomDialog
-                isDialogOpen={isAuthDialogOpen}
-                setDialogOpen={setAuthDialog}
-                header={!isForgotPass && DialogHeader}
-                footer={DialogFooter}
-                isFormattedDialog={!isForgotPass}
-                action={DialogAction}
-                handleForm={handleAuth}
-                logoUrl={logoUrl}
-                subFooter={!isForgotPass && privacyStatement}
-            >
-                <Loader open={loader} />
-                {!isForgotPass ? (
-                    <div>
-                        {isLoginView ?
-                            <form onSubmit={handleSubmit(handleAuth)}>
-                                <div className="dialog-body">
-                                    <div className='auth-wrapper form-wrapper'>
-                                        <FormControl className='form-control'>
-                                            <TextField
-                                                margin="dense"
-                                                id="email"
-                                                placeholder="Email"
-                                                type="email"
-                                                fullWidth
-                                                variant="outlined"
-                                                size="small"
-                                                InputLabelProps={{ shrink: false }}
-                                                {...register("email", { required: true })}
-                                                error={errors.email?.type}
-                                                helperText={errors.email?.type === "required" && (
-                                                    'Email or Phone number is required'
-                                                )}
-                                            />
-                                        </FormControl>
-                                        <FormControl className='form-control'>
-                                            <TextField
-                                                margin="dense"
-                                                id="name"
-                                                placeholder="Enter Password"
-                                                type="password"
-                                                fullWidth
-                                                variant="outlined"
-                                                size="small"
-                                                // label="Password"
-                                                InputLabelProps={{ shrink: false }}
-                                                {...register("password", { required: true })}
-                                                error={errors.password?.type}
-                                                helperText={errors.password?.type === "required" && (
-                                                    'Password is required'
-                                                )}
-                                            />
-                                        </FormControl>
-                                    </div>
-                                </div>
-                                <DialogActions className='dialog-action-wrapper'>
-                                    {DialogAction}
-                                </DialogActions>
-                            </form>
-                            : <form onSubmit={handleSubmit(handleAuth)}>
-                                <div className="dialog-body">
-                                    <div className='auth-wrapper form-wrapper'>
-                                        <FormControl className='form-control'>
-                                            <TextField
-                                                margin="dense"
-                                                id="first_name"
-                                                placeholder="First Name"
-                                                type="text"
-                                                fullWidth
-                                                variant="outlined"
-                                                size="small"
-                                                InputLabelProps={{ shrink: false }}
-                                                {...register("first_name", { required: true, maxLength: 20 })}
-                                                error={errors.first_name?.type}
-                                                helperText={errors.first_name?.type === "required" && (
-                                                    'First name is required'
-                                                )}
-                                            />
-                                        </FormControl>
-                                        <FormControl className='form-control'>
-                                            <TextField
-                                                margin="dense"
-                                                id="last_name"
-                                                placeholder="Last Name"
-                                                type="text"
-                                                fullWidth
-                                                variant="outlined"
-                                                size="small"
-                                                InputLabelProps={{ shrink: false }}
-                                                {...register("last_name", { required: true, maxLength: 20 })}
-                                                error={errors.last_name?.type}
-                                                helperText={errors.last_name?.type === "required" && (
-                                                    'Last name is required'
-                                                )}
-                                            />
-                                        </FormControl>
-                                        <FormControl className='form-control'>
-                                            <TextField
-                                                margin="dense"
-                                                id="email"
-                                                placeholder="Email"
-                                                type="email"
-                                                fullWidth
-                                                variant="outlined"
-                                                size="small"
-                                                InputLabelProps={{ shrink: false }}
-                                                {...register("email", { required: true, pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/i })}
-                                                error={errors.email?.type}
-                                                helperText={(errors.email?.type === "required" && (
-                                                    'Email is required'
-                                                ) || errors.email?.type === "pattern" && (
-                                                    'Email is invalid'
-                                                ))}
-                                            />
-                                        </FormControl>
-                                        <FormControl fullWidth className='select-wrapper'>
-                                            <Controller
-                                                control={control}
-                                                name="mobile_number"
-                                                rules={{ required: true, maxLength: 10, minLength: 10 }}
-                                                // defaultValue={contact?.mobile_number}
-                                                render={({ field: { onChange, value } }) => (
-                                                    <TextField
-                                                        margin="dense"
-                                                        id="name"
-                                                        placeholder="Mobile Number"
-                                                        type="text"
-                                                        fullWidth
-                                                        variant="outlined"
-                                                        size="small"
-                                                        onChange={onChange}
-                                                        value={value}
-                                                        autoComplete='false'
-                                                        InputLabelProps={{ shrink: false }}
-                                                        InputProps={{
-                                                            startAdornment: <InputAdornment position="start">
-                                                                <Select
-                                                                    labelId="demo-simple-select-label"
-                                                                    id="demo-simple-select"
-                                                                    className="select-input"
-                                                                    label="Status"
-                                                                    size="small"
-                                                                    fullWidth
-                                                                    sx={{
-                                                                        ".MuiOutlinedInput-notchedOutline": { border: 0 },
-                                                                        "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
-                                                                        {
-                                                                            border: 0,
-                                                                        },
-                                                                        "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                                                                        {
-                                                                            border: 0,
-                                                                        },
-                                                                    }}
-                                                                    renderValue={(selected) => (
-                                                                        <div className="dial-code-wrapper">
-                                                                            <img src={selected.flag} />
-                                                                            {'+' + selected.dial_code}
-                                                                        </div>
-                                                                    )}
-                                                                    defaultValue={GLOBAL_COUNTRY_CODE}
-                                                                    {...register("country_code", { required: true })}
-                                                                    error={getValues()['mobile_number'] && errors.country_code?.type}
-                                                                >
-                                                                    {countryCode.map((code, index) =>
-                                                                        <MenuItem className="dial-code-wrapper" value={code}>
-                                                                            <img src={code.flag} />
-                                                                            {'+' + code.dial_code}
-                                                                        </MenuItem>
-                                                                    )}
-                                                                </Select>
-                                                            </InputAdornment>,
-                                                        }}
-                                                    />
-                                                )}
-                                            />
-                                            <span className="error-text">
-                                                {(errors.mobile_number?.type === "required" && (
-                                                    'Mobile number is mandatory'
-                                                ) || errors.mobile_number?.type === "maxLength" && (
-                                                    'Mobile number must be 10 digit in length'
-                                                ) || errors.mobile_number?.type === "minLength" && (
-                                                    'Mobile number must be 10 digit in length'
-                                                ))}
-                                                {/* {getValues()['mobile_number'] && errors.country_code?.type === "required" && (
+      <div>
+          {isD6AuthDialogOpen && <D6Modal
+            logoUrl={logoUrl}
+            isDialogOpen={isD6AuthDialogOpen}
+            setDialogOpen1={handleLoginD6Close}
+          />}
+          <CustomDialog
+            isDialogOpen={isAuthDialogOpen}
+            setDialogOpen={setAuthDialog}
+            header={!isForgotPass && DialogHeader}
+            footer={DialogFooter}
+            isFormattedDialog={!isForgotPass}
+            action={DialogAction}
+            handleForm={handleAuth}
+            logoUrl={logoUrl}
+            subFooter={!isForgotPass && privacyStatement}
+          >
+            <Loader open={loader} />
+            {!isForgotPass ? (
+              <div>
+                {isLoginView ? (
+                  <form onSubmit={handleSubmit(handleAuth)}>
+                    <div className="dialog-body">
+                      <div className="auth-wrapper form-wrapper">
+                        <FormControl className="form-control">
+                          <TextField
+                            margin="dense"
+                            id="email"
+                            placeholder="Email"
+                            type="email"
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            InputLabelProps={{ shrink: false }}
+                            {...register("email", { required: true })}
+                            error={errors.email?.type}
+                            helperText={
+                              errors.email?.type === "required" &&
+                              "Email or Phone number is required"
+                            }
+                          />
+                        </FormControl>
+                        <FormControl className="form-control">
+                          <TextField
+                            margin="dense"
+                            id="name"
+                            placeholder="Enter Password"
+                            type="password"
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            // label="Password"
+                            InputLabelProps={{ shrink: false }}
+                            {...register("password", { required: true })}
+                            error={errors.password?.type}
+                            helperText={
+                              errors.password?.type === "required" &&
+                              "Password is required"
+                            }
+                          />
+                        </FormControl>
+                      </div>
+                    </div>
+                    <DialogActions className="dialog-action-wrapper">
+                      {DialogAction}
+                    </DialogActions>
+                    {IS_D6_APP && (
+                      <Grid
+                        item
+                        xs={12}
+                        textAlign={"center"}
+                        sx={{ width: "90%", margin: "auto", mt: 2 }}
+                      >
+                        <Button
+                          variant="contained"
+                          onClick={handleLoginD6}
+                          sx={{ width: "96%", textTransform: "none" }}
+                        >
+                          Login with D6
+                        </Button>
+                      </Grid>
+                    )}
+                  </form>
+                ) : (
+                  <form onSubmit={handleSubmit(handleAuth)}>
+                    <div className="dialog-body">
+                      <div className="auth-wrapper form-wrapper">
+                        <FormControl className="form-control">
+                          <TextField
+                            margin="dense"
+                            id="first_name"
+                            placeholder="First Name"
+                            type="text"
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            InputLabelProps={{ shrink: false }}
+                            {...register("first_name", {
+                              required: true,
+                              maxLength: 20,
+                            })}
+                            error={errors.first_name?.type}
+                            helperText={
+                              errors.first_name?.type === "required" &&
+                              "First name is required"
+                            }
+                          />
+                        </FormControl>
+                        <FormControl className="form-control">
+                          <TextField
+                            margin="dense"
+                            id="last_name"
+                            placeholder="Last Name"
+                            type="text"
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            InputLabelProps={{ shrink: false }}
+                            {...register("last_name", {
+                              required: true,
+                              maxLength: 20,
+                            })}
+                            error={errors.last_name?.type}
+                            helperText={
+                              errors.last_name?.type === "required" &&
+                              "Last name is required"
+                            }
+                          />
+                        </FormControl>
+                        <FormControl className="form-control">
+                          <TextField
+                            margin="dense"
+                            id="email"
+                            placeholder="Email"
+                            type="email"
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            InputLabelProps={{ shrink: false }}
+                            {...register("email", {
+                              required: true,
+                              pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/i,
+                            })}
+                            error={errors.email?.type}
+                            helperText={
+                              (errors.email?.type === "required" &&
+                                "Email is required") ||
+                              (errors.email?.type === "pattern" &&
+                                "Email is invalid")
+                            }
+                          />
+                        </FormControl>
+                        <FormControl fullWidth className="select-wrapper">
+                          <Controller
+                            control={control}
+                            name="mobile_number"
+                            rules={{
+                              required: true,
+                              maxLength: 10,
+                              minLength: 10,
+                            }}
+                            // defaultValue={contact?.mobile_number}
+                            render={({ field: { onChange, value } }) => (
+                              <TextField
+                                margin="dense"
+                                id="name"
+                                placeholder="Mobile Number"
+                                type="text"
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                onChange={onChange}
+                                value={value}
+                                autoComplete="false"
+                                InputLabelProps={{ shrink: false }}
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start">
+                                      <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        className="select-input"
+                                        label="Status"
+                                        size="small"
+                                        fullWidth
+                                        sx={{
+                                          ".MuiOutlinedInput-notchedOutline": {
+                                            border: 0,
+                                          },
+                                          "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                                            {
+                                              border: 0,
+                                            },
+                                          "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                                            {
+                                              border: 0,
+                                            },
+                                        }}
+                                        renderValue={(selected) => (
+                                          <div className="dial-code-wrapper">
+                                            <img src={selected.flag} />
+                                            {"+" + selected.dial_code}
+                                          </div>
+                                        )}
+                                        defaultValue={GLOBAL_COUNTRY_CODE}
+                                        {...register("country_code", {
+                                          required: true,
+                                        })}
+                                        error={
+                                          getValues()["mobile_number"] &&
+                                          errors.country_code?.type
+                                        }
+                                      >
+                                        {countryCode.map((code, index) => (
+                                          <MenuItem
+                                            className="dial-code-wrapper"
+                                            value={code}
+                                          >
+                                            <img src={code.flag} />
+                                            {"+" + code.dial_code}
+                                          </MenuItem>
+                                        ))}
+                                      </Select>
+                                    </InputAdornment>
+                                  ),
+                                }}
+                              />
+                            )}
+                          />
+                          <span className="error-text">
+                            {(errors.mobile_number?.type === "required" &&
+                              "Mobile number is mandatory") ||
+                              (errors.mobile_number?.type === "maxLength" &&
+                                "Mobile number must be 10 digit in length") ||
+                              (errors.mobile_number?.type === "minLength" &&
+                                "Mobile number must be 10 digit in length")}
+                            {/* {getValues()['mobile_number'] && errors.country_code?.type === "required" && (
                                         'Country code is required'
                                     )} */}
-                                            </span>
-                                        </FormControl>
-                                        <FormControl className='form-control'>
-                                            <TextField
-                                                margin="dense"
-                                                id="password"
-                                                placeholder="Password"
-                                                type="password"
-                                                fullWidth
-                                                variant="outlined"
-                                                size="small"
-                                                InputLabelProps={{ shrink: false }}
-                                                {...register("password", { required: true, minLength: 6, maxLength: 20 })}
-                                                error={errors.password?.type}
-                                                helperText={(errors.password?.type === "required" && (
-                                                    'Password is required'
-                                                ) || errors.password?.type === "minLength" && (
-                                                    'Password should be atleast 6 character in length'
-                                                ) || errors.password?.type === "maxLength" && (
-                                                    'Password should not be more than 20 character in length'
-                                                ))}
-                                            />
-                                        </FormControl>
-                                    </div>
-                                </div>
-                                <DialogActions className='dialog-action-wrapper'>
-                                    {DialogAction}
-                                </DialogActions>
-                            </form>}
-
-                        <h4 type='button' className='link-wrapper-underLine' onClick={() => setIsForgotPass(true)} style={{ margin: '20px 40px 5px', fontSize: "14px" }}>Forgot password? </h4>
+                          </span>
+                        </FormControl>
+                        <FormControl className="form-control">
+                          <TextField
+                            margin="dense"
+                            id="password"
+                            placeholder="Password"
+                            type="password"
+                            fullWidth
+                            variant="outlined"
+                            size="small"
+                            InputLabelProps={{ shrink: false }}
+                            {...register("password", {
+                              required: true,
+                              minLength: 6,
+                              maxLength: 20,
+                            })}
+                            error={errors.password?.type}
+                            helperText={
+                              (errors.password?.type === "required" &&
+                                "Password is required") ||
+                              (errors.password?.type === "minLength" &&
+                                "Password should be atleast 6 character in length") ||
+                              (errors.password?.type === "maxLength" &&
+                                "Password should not be more than 20 character in length")
+                            }
+                          />
+                        </FormControl>
+                      </div>
                     </div>
-                ) : <Forgotpassword onBack={() => setIsForgotPass(false)} />}
+                    <DialogActions className="dialog-action-wrapper">
+                      {DialogAction}
+                    </DialogActions>
+                  </form>
+                )}
 
-            </CustomDialog>}
-            <PrivacyPolicy isOpen={isOpenPrivacy} openPrivacyPolicy={openPrivacyPolicy}/>
-            <TermsAndConditions isOpen={isOpenTerms} openTermsAndConditions={openTermsAndConditions}/>
-        </div>
+                <h4
+                  type="button"
+                  className="link-wrapper-underLine"
+                  onClick={() => setIsForgotPass(true)}
+                  style={{ margin: "20px 40px 5px", fontSize: "14px" }}
+                >
+                  Forgot password?{" "}
+                </h4>
+              </div>
+            ) : (
+              <Forgotpassword onBack={() => setIsForgotPass(false)} />
+            )}
+          </CustomDialog>
+        
+        <PrivacyPolicy
+          isOpen={isOpenPrivacy}
+          openPrivacyPolicy={openPrivacyPolicy}
+        />
+        <TermsAndConditions
+          isOpen={isOpenTerms}
+          openTermsAndConditions={openTermsAndConditions}
+        />
+      </div>
     );
 }
 
 
 
-const D6Modal = ({isDialogOpen,setDialogOpen, logoUrl}) => {
+const D6Modal = ({isDialogOpen,setDialogOpen1, logoUrl}) => {
 
+    const webDetails = useSelector(state => state.webDetails);
+    const { websiteInfo } = webDetails;
     const auth = useAuth();
   
     const handleLogin = () => {
@@ -434,62 +521,64 @@ const D6Modal = ({isDialogOpen,setDialogOpen, logoUrl}) => {
     const handleLogout = () => {
       auth.signOutRedirect({ post_logout_redirect_uri: "https://d6auth.vercel.app/login" });
     };
-  const handleClose = () =>{setDialogOpen(false)} ;
+  const handleClose = () =>{setDialogOpen1(false)} ;
 
   return (
     <>
-      <Modal open={isDialogOpen} onClose={handleClose}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "40%",
-            margin:"auto",
-            bgcolor: "background.paper",
-            borderRadius: 2,
-            boxShadow: 24,
-            p: 2,
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              mb: 2,
-            }}
-          >
+       <Modal open={isDialogOpen} onClose={handleClose}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: { xs: "90%", sm: "75%", md: "50%", lg: "40%" },
+          bgcolor: "background.paper",
+          borderRadius: 2,
+          boxShadow: 24,
+          p: 3,
+        }}
+      >
+        {/* Header Section */}
+        <Grid container alignItems="center" spacing={2} sx={{ mb: 2 }}>
+          <Grid item xs={10}>
             <img src={logoUrl} alt="Logo" style={{ width: 50, height: 50 }} />
+          </Grid>
+          <Grid item xs={2} textAlign="right">
             <IconButton onClick={handleClose}>
               <CloseIcon />
             </IconButton>
-          </Box>
-        <Box textAlign={'center'} sx={{display:"flex",justifyContent:"center",alignItems:"center"}} >
+          </Grid>
+        </Grid>
 
+        {/* Centered Image */}
+        <Grid container justifyContent="center" sx={{ mb: 3 }}>
           <CardMedia
-            component={"img"}
+            component="img"
             src={logoUrl}
             alt="Logo"
-            style={{ width: 50, height: 50 }}
-            />
-            </Box>
-          {/* Modal Content */}
-          <Typography variant="h6" align="center" gutterBottom>
-            Welcome to Testing Store!
-          </Typography>
+            sx={{ width: 50, height: 50 }}
+          />
+        </Grid>
 
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={handleLogin}
-            sx={{ mt: 2, textTransform: "none" }}
-          >
-            Login with D6
-          </Button>
-        </Box>
-      </Modal>
+        {/* Modal Content */}
+        <Grid container direction="column" alignItems="center">
+          <Typography variant="h6" align="center" gutterBottom>
+            Welcome to {websiteInfo?.store_name || "our store"}
+          </Typography>
+          <Grid item xs={12} sx={{ width: "100%", mt: 2 }}>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={handleLogin}
+              sx={{ textTransform: "none" }}
+            >
+              Login with D6
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+    </Modal>
     </>
   );
 };
