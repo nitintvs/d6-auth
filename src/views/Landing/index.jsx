@@ -318,7 +318,7 @@ export default Landing;
 const D6UpdateMobileModal = ({ isDialogOpen, setDialogOpen }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [countryCode, setCountryCode] = useState("+1"); // Default country code
+  const [countryCode, setCountryCode] = useState("27"); // Default country code
   const [mobileNumber, setMobileNumber] = useState("");
   const [error, setError] = useState("");
 
@@ -327,18 +327,31 @@ const D6UpdateMobileModal = ({ isDialogOpen, setDialogOpen }) => {
       setError("Mobile number is required.");
       return;
     }
-
+    if (/^\d{0,10}$/.test(mobileNumber)) {
+        setError(mobileNumber.length === 10 ? "" : "Mobile number must be 10 digits.");
+      return;
+    }
+    const token= localStorage.getItem("u-access-token")
     setLoading(true);
-    setError("");
     try {
-      const response = await instance.post("https://api.example.com/update-mobile", {
-        countryCode,
-        mobileNumber,
-      });
+      const response = await axiosInstance.put(APIRouteConstants.AUTH.D6_UPDATE_PHONE, {
+          mobile_number:mobileNumber,
+          country_code:countryCode,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
       console.log("API Response:", response.data);
-      setDialogOpen(false)
-      // Navigate or take further actions on success
-      navigate("/");
+      if(response.data){
+          
+    setError("");
+          setDialogOpen(false)
+          // Navigate or take further actions on success
+          window.location.reload()
+        }
     } catch (error) {
       console.error("Error updating mobile number:", error);
       setError("Failed to update the mobile number. Please try again.");
@@ -360,7 +373,7 @@ const D6UpdateMobileModal = ({ isDialogOpen, setDialogOpen }) => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: { xs: "90%", sm: "75%", md: "50%", lg: "40%" },
+            width: { xs: "80%", sm: "75%", md: "50%", lg: "40%" },
             bgcolor: "background.paper",
             borderRadius: 2,
             boxShadow: 24,
@@ -368,9 +381,9 @@ const D6UpdateMobileModal = ({ isDialogOpen, setDialogOpen }) => {
           }}
         >
           {/* Header Section */}
-          <Grid container alignItems="center" spacing={2} sx={{ mb: 2 }}>
-            <Typography variant="h6" textAlign="center" sx={{ width: "100%" }}>
-              Please update your mobile number (mandatory)
+          <Grid container alignItems="center" spacing={0} sx={{ mb: 4 }}>
+            <Typography variant="body1" textAlign="left" sx={{ width: "100%" }}>
+              Please update your mobile number (mandatory)!
             </Typography>
           </Grid>
 
@@ -381,22 +394,20 @@ const D6UpdateMobileModal = ({ isDialogOpen, setDialogOpen }) => {
               <Grid container spacing={2}>
                 <Grid item xs={4}>
                   <TextField
+                  size="small"
                     select
                     fullWidth
                     value={countryCode}
                     onChange={(e) => setCountryCode(e.target.value)}
                     label="Country Code"
                   >
-                    {/* Add more country codes as needed */}
-                    <MenuItem value="+1">+1 (USA)</MenuItem>
-                    <MenuItem value="+91">+91 (India)</MenuItem>
-                    <MenuItem value="+44">+44 (UK)</MenuItem>
-                    <MenuItem value="+61">+61 (Australia)</MenuItem>
+                    <MenuItem value="27">27 (SA)</MenuItem>
                   </TextField>
                 </Grid>
                 <Grid item xs={8}>
                   <TextField
                     fullWidth
+                    size="small"
                     value={mobileNumber}
                     onChange={(e) => setMobileNumber(e.target.value)}
                     label="Mobile Number"
@@ -404,6 +415,7 @@ const D6UpdateMobileModal = ({ isDialogOpen, setDialogOpen }) => {
                     error={!!error}
                     helperText={error}
                   />
+                  {console.log("error",error)}
                 </Grid>
               </Grid>
             </Grid>

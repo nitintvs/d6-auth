@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import { TextField, MenuItem } from "@mui/material";
 import axios from "axios";
 const CallbackPage = () => {
-  const [hasMobile, setHasMobile] = useState(false);
+  const [loading, setLoading] = useState(false);
   const auth = useAuth();
   const navigate = useNavigate();
   console.log("auth", auth);
@@ -20,7 +20,7 @@ const CallbackPage = () => {
       // Store the token in local storage
       localStorage.setItem("D6-access-token", auth.userData.access_token);
       console.log("Token saved to local storage:", auth.userData);
-
+      setLoading(true)
       const userInfoResponse = await axiosInstance.post(
         APIRouteConstants.AUTH.D6_SIGNING,
         { access_token: auth.userData.access_token } // Include access_token in the request body
@@ -33,6 +33,7 @@ const CallbackPage = () => {
         );
         localStorage.setItem("d6_user_data", userInfoResponse?.data?.mobile_number_exist == true);
         window.location.href = "/";
+        setLoading(false)
         // if (userInfoResponse?.data?.mobile_number_exist == true) {
         //   setHasMobile(true);
         // }else{
@@ -51,7 +52,7 @@ const CallbackPage = () => {
   return (
     <Fragment>
       <Grid sx={{display:"flex",justifyContent:"center",alignItems:"center",height:"100vh"}}>
-      {auth?.isLoading && <CircularProgress color="secondary" size={34}/> }  
+      {(auth?.isLoading||loading) && <CircularProgress color="secondary" size={34}/> }  
       </Grid>
     </Fragment>
   );

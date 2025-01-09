@@ -88,12 +88,12 @@ if (tokenNonce) {
 }
 
 // Determine which version of the app to render
-const isAuthApp = window?.location?.host === "d6auth.vercel.app";
+// const isAuthApp = window?.location?.host === "d6auth.vercel.app";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-if (isAuthApp) {
-  // Render Auth-enabled App
+// if (isAuthApp) {
+//   // Render Auth-enabled App
   root.render(
     <React.StrictMode>
       <AuthProvider {...oidcConfig} autoSignIn={tokenNonce?true:false}>
@@ -116,26 +116,26 @@ if (isAuthApp) {
       </AuthProvider>
     </React.StrictMode>
   );
-} else {
+// } else {
   // Render Regular App
-  root.render(
-    <React.StrictMode>
-      <Provider store={store}>
-        <ColorProvider>
-          <LoaderProvider>
-            <SnackbarProvider
-              autoHideDuration={3000}
-              maxSnack={3}
-              anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            >
-              <BrowserRouter>
-                <FullScreenLoader />
-                <Routes />
-              </BrowserRouter>
-            </SnackbarProvider>
-          </LoaderProvider>
-        </ColorProvider>
-      </Provider>
-    </React.StrictMode>
-  );
-}
+  // root.render(
+  //   <React.StrictMode>
+  //     <Provider store={store}>
+  //       <ColorProvider>
+  //         <LoaderProvider>
+  //           <SnackbarProvider
+  //             autoHideDuration={3000}
+  //             maxSnack={3}
+  //             anchorOrigin={{ vertical: "top", horizontal: "right" }}
+  //           >
+  //             <BrowserRouter>
+  //               <FullScreenLoader />
+  //               <Routes />
+  //             </BrowserRouter>
+  //           </SnackbarProvider>
+  //         </LoaderProvider>
+  //       </ColorProvider>
+  //     </Provider>
+  //   </React.StrictMode>
+  // );
+// }
