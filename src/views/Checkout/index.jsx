@@ -1150,21 +1150,21 @@ export function PayButton({ paymentId, order_Id, storeorderid, setLoader }) {
   const handleRedirect = useCallback(async () => {
     try {
       handleClose();
-      setLoader(true)
-      console.log("handleRedirect called"); 
-      let res = await instance.get("/sticitt_pay/sticitt-payment-status/", {
-        params: {
-          transaction_id: order_Id ? order_Id : storeorderid,
-        },
-      });
-      let { data } = res;
-      console.log("Navigating to order-status with:", data?.data?.transaction_id);
-      if (data && data?.data && data?.data?.transaction_id) {
-        navigate(`/order-status?orderid=${data?.data?.transaction_id}`, {
-          state: { order: data },
-        });
-        setLoader(false)
-      }
+      // setLoader(true)
+      // console.log("handleRedirect called"); 
+      // let res = await instance.get("/sticitt_pay/sticitt-payment-status/", {
+      //   params: {
+      //     transaction_id: order_Id ? order_Id : storeorderid,
+      //   },
+      // });
+      // let { data } = res;
+      // console.log("Navigating to order-status with:", data?.data?.transaction_id);
+      // if (data && data?.data && data?.data?.transaction_id) {
+        navigate(`/order-status?orderid=${order_Id ? order_Id : storeorderid}`)
+          // state: { order: data },
+      //   });
+      //   setLoader(false)
+      // }
     } catch (error) {
       setLoader(false)
       console.error("Error fetching payment status:", error);
