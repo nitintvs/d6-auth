@@ -73,7 +73,7 @@ function Loader() {
     <Backdrop
       sx={{ color: "#ccc", zIndex: (theme) => theme.zIndex.drawer + 1 }}
     >
-      <CircularProgress color="secondary" />
+      <CircularProgress sx={{color:"blueviolet"}} />
     </Backdrop>
   );
 }
