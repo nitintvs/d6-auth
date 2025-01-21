@@ -61,7 +61,7 @@ const CallbackPage = () => {
           height: "100vh",
         }}
       >
-        {(auth?.isLoading || loading) && <Loader/>}
+        {(auth?.isLoading || loading) && <CircularProgress color="secondary" size={24} />}
       </Grid>
     </Fragment>
   );
