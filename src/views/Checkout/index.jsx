@@ -1160,7 +1160,8 @@ export function PayButton({ paymentId, order_Id, storeorderid, setLoader }) {
       // let { data } = res;
       // console.log("Navigating to order-status with:", data?.data?.transaction_id);
       // if (data && data?.data && data?.data?.transaction_id) {
-        navigate(`/order-status?orderid=${order_Id ? order_Id : storeorderid}`)
+        window.location.href = `/order-status?orderid=${order_Id ? order_Id : storeorderid}`;
+        // navigate(`/order-status?orderid=${order_Id ? order_Id : storeorderid}`)
           // state: { order: data },
       //   });
       //   setLoader(false)
