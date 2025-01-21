@@ -75,6 +75,7 @@ const OrderComplete = ({ breadcrumbs }) => {
         if (response && response.status == 404) {
             setOrderStatus(_.upperCase(response.statusText))
         }
+        
     console.log("orderstatus",data.data.payment_status)
         if (!_.isEmpty(data) && data.data) {
             setOrder(data.data)
