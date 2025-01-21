@@ -1160,9 +1160,8 @@ export function PayButton({ paymentId, order_Id, storeorderid, setLoader }) {
       // let { data } = res;
       // console.log("Navigating to order-status with:", data?.data?.transaction_id);
       // if (data && data?.data && data?.data?.transaction_id) {
-      setTimeout(() => {
+     
         navigate(`/order-status?orderid=${order_Id ? order_Id : storeorderid}`)
-      }, 10000);
           // state: { order: data },
       //   });
       //   setLoader(false)
@@ -1180,8 +1179,9 @@ export function PayButton({ paymentId, order_Id, storeorderid, setLoader }) {
         new SticittPaySDK.PayButton(buttonRef.current, {
           onPaid: (button, paymentId) => {
             console.log("Payment successful:", button, paymentId);
-            
-            handleRedirect(); // Redirect after payment success
+            setTimeout(() => {
+              handleRedirect(); // Redirect after 5 seconds
+          }, 5000);
           },
           onClosed: (button, paymentId) => {
             console.log("Payment modal closed:", button, paymentId); // Log to check if called
