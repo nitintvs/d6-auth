@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-
+import LoadInProgress from '../../assets/images/LoadInProgress.jpg';
+import { Grid } from '@mui/material';
 const LoadWebsite = ({ activate }) => {
     useEffect(() => {
         if (activate) {
@@ -11,10 +12,10 @@ const LoadWebsite = ({ activate }) => {
 
     return (
         <div id="overlay" className="overlay-wrapper">
-            <div className="img-wrapper">
+            <Grid className="img-wrapper">
                 <img src={require('../../assets/images/LoadInProgress.jpg')} slt="" />
                 <h2>Load In Progress . . .</h2>
-            </div>
+            </Grid>
         </div>
     )
 }

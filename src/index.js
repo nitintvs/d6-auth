@@ -121,7 +121,7 @@ if (isAuthApp) {
   // Render Regular App
   root.render(
     <React.StrictMode>
-       <AuthProvider {...oidcConfig} autoSignIn={(isMobile || tokenNonce) ? true : false}>
+       <AuthProvider {...oidcConfig} autoSignIn={false}>
       <Provider store={store}>
         <ColorProvider>
           <LoaderProvider>

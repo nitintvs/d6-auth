@@ -1,25 +1,154 @@
+// .overlay-wrapper {
+//     position: fixed; /* Sit on top of the page content */
+//     display: none; /* Hidden by default */
+//     width: 100%; /* Full width (cover the whole page) */
+//     height: 100vh; /* Full height (cover the whole page) */
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     background-color: rgba(255,255,255,1); /* Black background with opacity */
+//     z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+//     cursor: pointer; /* Add a pointer on hover */
+
+//     .img-wrapper {
+//         width: 100%;
+//         height: 100%;
+//         display: flex;
+//         justify-content: center;
+//         align-items: center;
+
+//         img {
+//             height: 50%;
+//         }
+//     }
+// }
 .overlay-wrapper {
-    position: fixed; /* Sit on top of the page content */
-    display: none; /* Hidden by default */
-    width: 100%; /* Full width (cover the whole page) */
-    height: 100vh; /* Full height (cover the whole page) */
+    position: fixed;
+    /* Sit on top of the page content */
+    display: none;
+    /* Hidden by default */
+    width: 100%;
+    /* Full width (cover the whole page) */
+    height: 100vh;
+    /* Full height (cover the whole page) */
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(255,255,255,1); /* Black background with opacity */
-    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
-    cursor: pointer; /* Add a pointer on hover */
+    background-color: rgba(255, 255, 255, 1);
+    /* White background */
+    z-index: 2;
+    /* Specify a stack order */
+    cursor: pointer;
+    /* Add a pointer on hover */
+}
 
-    .img-wrapper {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+.overlay-wrapper .img-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // flex-direction: column; /* Stack content vertically for mobile */
+    text-align: center;
+}
 
-        img {
-            height: 50%;
+.overlay-wrapper .img-wrapper img {
+    height: 80%;
+    /* Default size for medium screens */
+    width: auto;
+    /* Maintain aspect ratio */
+    max-width: 90%;
+    /* Prevent the image from being too wide on small screens */
+    margin-bottom: 1rem;
+    /* Add space below the image */
+}
+
+.overlay-wrapper .img-wrapper h2 {
+    font-size: 2.5rem;
+    /* Default size for medium screens */
+    color: #000;
+    /* Text color */
+    margin: 0;
+}
+
+/* Large screens (lg) */
+@media (max-width: 1200px) {
+    .overlay-wrapper .img-wrapper img {
+        height: 80%;
+        /* Increase image size for large screens */
+    }
+
+    .overlay-wrapper .img-wrapper h2 {
+        font-size: 2rem;
+        /* Slightly smaller heading */
+    }
+}
+
+/* Medium screens (md) */
+@media (max-width: 992px) {
+    .overlay-wrapper .img-wrapper img {
+        height: 70%;
+        /* Standard size for medium screens */
+    }
+
+    .overlay-wrapper .img-wrapper h2 {
+        font-size: 1.8rem;
+        /* Adjust heading size */
+    }
+}
+
+/* Small screens (sm) */
+@media (max-width: 768px) {
+    .overlay-wrapper .img-wrapper img {
+       width: 100%;
+        /* Smaller size for small screens */
+    }
+
+    .overlay-wrapper .img-wrapper h2 {
+        font-size: 1.9rem;
+        /* Adjust heading size for small screens */
+    }
+
+    .overlay-wrapper .img-wrapper {
+        flex-direction: column;
+       }
+}
+
+/* Extra small screens (xs) */
+@media (max-width: 576px) {
+    .overlay-wrapper .img-wrapper img {
+        width:100%;
+        /* Smallest size for extra small screens */
+        max-width: 80%;
+        /* Ensure it fits smaller devices */
+    }
+
+    .overlay-wrapper .img-wrapper h2 {
+        font-size: 1.8rem;
+        /* Smaller heading for extra small screens */
+    }
+
+
+    .overlay-wrapper .img-wrapper {
+        flex-direction: column;
         }
+}
+
+/* Mobile-specific styles (additional tweaks) */
+@media (max-width: 480px) {
+    .overlay-wrapper .img-wrapper img {
+        width:100%;
+        /* Reduce image height for smaller mobile devices */
+    }
+
+    .overlay-wrapper .img-wrapper h2 {
+        font-size: 1.8rem;
+        /* Fit the text on small mobile screens */
+        line-height: 1.5;
+        /* Improve readability */
+    }
+
+    .overlay-wrapper .img-wrapper {   
+        flex-direction: column;
     }
 }

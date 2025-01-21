@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Grid, CircularProgress } from '@mui/material';
 import axiosInstance from "../../configs/axiosConfig";
 import { APIRouteConstants } from 'constants/routeConstants';
+import Backdrop from '@mui/material/Backdrop';
 
 const CallbackPage = () => {
   const [loading, setLoading] = useState(true);
@@ -60,10 +61,21 @@ const CallbackPage = () => {
           height: "100vh",
         }}
       >
-        {(auth?.isLoading || loading) && <CircularProgress color="secondary" size={34} />}
+        {(auth?.isLoading || loading) && <Loader/>}
       </Grid>
     </Fragment>
   );
 };
+
+
+function Loader() {
+  return (
+    <Backdrop
+      sx={{ color: "#ccc", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    >
+      <CircularProgress color="secondary" />
+    </Backdrop>
+  );
+}
 
 export default CallbackPage;
