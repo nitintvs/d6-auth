@@ -30,7 +30,7 @@ const CallbackPage = () => {
             localStorage.setItem("d6_user_data", userInfoResponse?.data?.mobile_number_exist === true);
 
             setLoading(false); // Set loading to false before redirecting
-            window.location.href = "/"; // Redirect to the home page
+            window.location.href = "/products"; // Redirect to the home page
           } else {
             console.error("Failed to fetch user information");
             setLoading(false); // Stop loading if there's an issue

@@ -28,18 +28,18 @@ import SilentRenew from "containers/AuthDialog/SilentRenew";
 
 // eslint-disable-next-line
 export default () => {
-    const navigate = useNavigate();
-    useEffect(() => {
-      const isvisitedbefore = sessionStorage.getItem("visitedBefore");
-      console.log("location", isvisitedbefore);
-      if (
-        window.location.host === "d6auth.vercel.app" &&
-        isvisitedbefore == null
-      ) {
-        sessionStorage.setItem("visitedBefore", "true");
-        navigate("/products");
-      }
-    }, []);
+    // const navigate = useNavigate();
+    // useEffect(() => {
+    //   const isvisitedbefore = sessionStorage.getItem("visitedBefore");
+    //   console.log("location", isvisitedbefore);
+    //   if (
+    //     window.location.host === "d6auth.vercel.app" &&
+    //     isvisitedbefore == null
+    //   ) {
+    //     sessionStorage.setItem("visitedBefore", "true");
+    //     navigate("/products");
+    //   }
+    // }, []);
 
 
 
