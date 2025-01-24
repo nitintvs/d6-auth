@@ -131,7 +131,7 @@ const DraftSection = ({ title, description, collection, style = {} }) => (
 )
 
 const bgImage = require("../../assets/images/background.jpg");
-
+// "test"
 const ResponsiveBgBox = ({ websiteInfo, ...props }) => (
     <>
         <Box
