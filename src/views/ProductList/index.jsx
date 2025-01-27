@@ -16,7 +16,12 @@ import {
     Slide,
     DialogContentText,
     DialogTitle,
-    TablePagination
+    TablePagination,
+    Modal,
+    Box,
+    MenuItem,
+    TextField,
+    CircularProgress
 } from '@mui/material';
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
@@ -196,6 +201,20 @@ const ProductList = ({ breadcrumbs }) => {
     const [sorting, selectSort] = useState('');
     const { enqueueSnackbar } = useSnackbar();
     const { search } = query;
+
+    const [hasMobileUpdateModal, setHasMobileUpdateModal] = useState(false);
+
+    useEffect(()=>{
+        const D6USERDATA= localStorage.getItem("d6_user_data")
+        if(D6USERDATA == "false"){
+            setHasMobileUpdateModal(true)
+        }
+        // if(webDetails && webDetails?.websiteInfo?.store_name==="The Vet Store"){
+            // }
+            console.log("hasMobileUpdateModal", typeof D6USERDATA, D6USERDATA )    
+        },[webDetails])
+        console.log("hasMobileUpdateModal",hasMobileUpdateModal, typeof hasMobileUpdateModal )   
+
 
     var token = getAccessToken();
 
@@ -426,8 +445,136 @@ const ProductList = ({ breadcrumbs }) => {
                     </Grid>
                 </Grid>
             </div>
+            <D6UpdateMobileModal isDialogOpen={hasMobileUpdateModal} setDialogOpen={setHasMobileUpdateModal}  />
         </CustomLayout>
     );
 };
+
+
+
+const D6UpdateMobileModal = ({ isDialogOpen, setDialogOpen }) => {
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [countryCode, setCountryCode] = useState("27"); // Default country code
+    const [mobileNumber, setMobileNumber] = useState("");
+    const [error, setError] = useState("");
+  console.log("hasMobileUpdateModal",isDialogOpen,typeof isDialogOpen)
+    const handleUpdate = async () => {
+      if (!mobileNumber) {
+        setError("Mobile number is required.");
+        return;
+      }
+      if (mobileNumber.length > 10 || mobileNumber.length < 10 ) {
+          setError("Mobile number must be 10 digits.");
+        return;
+      }
+      const token= localStorage.getItem("u-access-token")
+      setLoading(true);
+      try {
+        const response = await axiosInstance.put(APIRouteConstants.AUTH.D6_UPDATE_PHONE, {
+            mobile_number:mobileNumber,
+            country_code:countryCode,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+        console.log("API Response:", response.data);
+        if(response.data){
+          localStorage.setItem("d6_user_data",JSON.stringify(true))
+      setError("");
+            setDialogOpen(false)
+            // Navigate or take further actions on success
+            window.location.reload()
+          }
+      } catch (error) {
+        console.error("Error updating mobile number:", error);
+        setError("Failed to update the mobile number. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    const handleClose = () => {
+      setDialogOpen(false);
+    };
+  
+    return (
+      <>
+        <Modal open={isDialogOpen}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: { xs: "80%", sm: "75%", md: "50%", lg: "40%" },
+              bgcolor: "background.paper",
+              borderRadius: 2,
+              boxShadow: 24,
+              p: 3,
+            }}
+          >
+            {/* Header Section */}
+            <Grid container alignItems="center" spacing={0} sx={{ mb: 4 }}>
+              <Typography variant="body1" textAlign="left" sx={{ width: "100%" }}>
+                Please update your mobile number (mandatory)!
+              </Typography>
+            </Grid>
+  
+            {/* Modal Content */}
+            <Grid container direction="column" alignItems="center">
+              {/* Country Code Dropdown and Mobile Number Input */}
+              <Grid item xs={12} sx={{ width: "100%", mb: 2 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={4}>
+                    <TextField
+                    size="small"
+                      select
+                      fullWidth
+                      value={countryCode}
+                      onChange={(e) => setCountryCode(e.target.value)}
+                      label="Country Code"
+                    >
+                      <MenuItem value="27">27 (SA)</MenuItem>
+                    </TextField>
+                  </Grid>
+                  <Grid item xs={8}>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      value={mobileNumber}
+                      onChange={(e) => setMobileNumber(e.target.value)}
+                      label="Mobile Number"
+                      type="tel"
+                      error={!!error}
+                      helperText={error}
+                    />
+                    {console.log("error",error)}
+                  </Grid>
+                </Grid>
+              </Grid>
+  
+              {/* Submit Button */}
+              <Grid item xs={12} sx={{ width: "100%", mt: 2 }}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  onClick={handleUpdate}
+                  sx={{ textTransform: "none" }}
+                  disabled={loading}
+                >
+                  {loading ? <CircularProgress size={24} /> : "Update Mobile Number"}
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Modal>
+      </>
+    );
+  };
+  
 
 export default ProductList;
