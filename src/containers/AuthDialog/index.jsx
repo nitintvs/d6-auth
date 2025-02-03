@@ -207,7 +207,7 @@ export default function AuthDialog({ isAuthDialogOpen, setAuthDialog, refreshUse
         setisD6AuthDialogOpen(!isD6AuthDialogOpen)
     }
 
-     const IS_D6_APP=  window?.location?.host === "d6auth.vercel.app"
+     const IS_D6_APP=  window?.location?.host === "multid6auth.vercel.app"
     return (
       <div>
           {isD6AuthDialogOpen && <D6Modal
@@ -523,7 +523,7 @@ const D6Modal = ({isDialogOpen,setDialogOpen1, logoUrl}) => {
     };
   
     const handleLogout = () => {
-      auth.signOutRedirect({ post_logout_redirect_uri: "https://d6auth.vercel.app/login" });
+      auth.signOutRedirect({ post_logout_redirect_uri: "https://multid6auth.vercel.app/login" });
     };
   const handleClose = () =>{setDialogOpen1(false)} ;
 

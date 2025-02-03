@@ -89,7 +89,7 @@ if (tokenNonce) {
 }
 
 // Determine which version of the app to render
-const isAuthApp = window?.location?.host === "d6auth.vercel.app";
+const isAuthApp = window?.location?.host === "multid6auth.vercel.app";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
