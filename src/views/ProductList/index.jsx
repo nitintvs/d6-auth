@@ -50,6 +50,7 @@ import { ReactComponent as NoData } from 'assets/svgs/NoData.svg';
 import { isMobile } from "react-device-detect";
 import FilterDropdown from "containers/DynamicFilter/FilterDropdown";
 import FlagContent from "components/InappropriateContent";
+import { useAuth } from "oidc-react";
 // import FlagContent from "components/InappropriateContent";
 
 let formatCurrency = new Intl.NumberFormat(undefined, {
@@ -184,6 +185,10 @@ function queryStringToJSON(search) {
 };
 
 const ProductList = ({ breadcrumbs }) => {
+
+  
+    const auth = useAuth();
+    console.log("auth",auth)
     const navigate = useNavigate();
     const [loader, setLoader] = useState(false);
     const webDetails = useSelector(state => state.webDetails);
