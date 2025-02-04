@@ -17,7 +17,7 @@ const CallbackPage = () => {
         try {
           // Store the token in local storage
           localStorage.setItem("D6-access-token", auth.userData.access_token);
-          localStorage.setItem("D6-userdata", auth.userData);
+          localStorage.setItem("D6-userdata", auth);
           console.log("Token saved to local storage:", auth.userData);
            
           const userInfoResponse = await axiosInstance.post(
