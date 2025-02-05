@@ -27,7 +27,7 @@ const CallbackPage = () => {
           if (userInfoResponse && userInfoResponse.status === 200) {
             localStorage.setItem("u-access-token", userInfoResponse?.data?.access);
             localStorage.setItem("u-refresh-token", userInfoResponse?.data?.refresh);
-            localStorage.setItem("d6_user_data", userInfoResponse?.data?.mobile_number_exist === true);
+            localStorage.setItem("d6_user_data", userInfoResponse?.data?.mobile_number_exist);
 
             setLoading(false); // Set loading to false before redirecting
             window.location.href = "/products"; // Redirect to the home page
