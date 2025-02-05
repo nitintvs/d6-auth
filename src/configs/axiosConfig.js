@@ -20,8 +20,8 @@ const instance = axios.create({
             // return 'istore.webbieshop.com'
             // return 'thevetstore.webbieshop.com'
             // return 'testing-sites.webbieshop.com'
-            return  'mclardies.webbieshop.com'
-            // return 'ritu-store.webbieshop.com' //for d6 live demo enviroment
+            // return  'mclardies.webbieshop.com'
+            return 'ritu-store.webbieshop.com' //for d6 live demo enviroment
             // return 'PGtest.webbieshop.com'
         })(),
     }
