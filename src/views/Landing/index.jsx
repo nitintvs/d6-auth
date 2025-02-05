@@ -229,17 +229,17 @@ const Landing = () => {
             updateManifest("/manifestvet.json"); // Fallback to default manifest
         }
     },[webDetails])
-    useEffect(()=>{
-        const D6USERDATA= localStorage.getItem("d6_user_data")
-        if(D6USERDATA == "false"){
-            setHasMobileUpdateModal(true)
-        }
-        // if(webDetails && webDetails?.websiteInfo?.store_name==="The Vet Store"){
-            // }
-            console.log("hasMobileUpdateModal", typeof D6USERDATA, D6USERDATA )    
-        },[webDetails])
-        console.log("hasMobileUpdateModal",hasMobileUpdateModal, typeof hasMobileUpdateModal )    
-console.log("document",document)
+//     useEffect(()=>{
+//         const D6USERDATA= localStorage.getItem("d6_user_data")
+//         if(D6USERDATA == "false"){
+//             setHasMobileUpdateModal(true)
+//         }
+//         // if(webDetails && webDetails?.websiteInfo?.store_name==="The Vet Store"){
+//             // }
+//             console.log("hasMobileUpdateModal", typeof D6USERDATA, D6USERDATA )    
+//         },[webDetails])
+//         console.log("hasMobileUpdateModal",hasMobileUpdateModal, typeof hasMobileUpdateModal )    
+// console.log("document",document)
     const getTopCollection = async () => {
         setLoader(true)
         let res = await axiosInstance.get(APIRouteConstants.DASHBOARD.TOP_COLLECTION);

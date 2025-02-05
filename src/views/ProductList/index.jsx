@@ -214,8 +214,7 @@ const ProductList = ({ breadcrumbs }) => {
         if(D6USERDATA == "false"){
             setHasMobileUpdateModal(true)
         }
-        // if(webDetails && webDetails?.websiteInfo?.store_name==="The Vet Store"){
-            // }
+       
             console.log("hasMobileUpdateModal", typeof D6USERDATA, D6USERDATA )    
         },[webDetails])
         console.log("hasMobileUpdateModal",hasMobileUpdateModal, typeof hasMobileUpdateModal )   
