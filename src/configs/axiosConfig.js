@@ -21,7 +21,7 @@ const instance = axios.create({
             // return 'thevetstore.webbieshop.com'
             // return 'testing-sites.webbieshop.com'
             // return  'mclardies.webbieshop.com'
-            return 'ritu-store.webbieshop.com' //for d6 live demo enviroment
+            return 'd6-demo.webbieshop.com' //for d6 live demo enviroment
             // return 'PGtest.webbieshop.com'
         })(),
     }
