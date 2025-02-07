@@ -49,6 +49,7 @@ import { countryCode } from 'constants/appData/filters';
 import { GLOBAL_COUNTRY_CODE, GLOBAL_CURRENCY, GOOGLE_KEY } from 'constants/appConstants';
 import SticittPayment from 'components/Payment/SticittPayment';
 import instance from 'configs/axiosConfig';
+import { useAuth } from 'oidc-react';
 
 let formatCurrency = new Intl.NumberFormat(undefined, {
     style: 'currency',
@@ -307,6 +308,7 @@ const GoogleMapContainer = ({
 const Checkout = ({ breadcrumbs }) => {
     const [loader, setLoader] = useState(true);
     const [cartItems, setCartItems] = useState([]);
+    const auth = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const { orderId } = location.state;
@@ -317,6 +319,7 @@ const Checkout = ({ breadcrumbs }) => {
     const [cartSummary, setCartSummary] = useState();
     const [paymentModes, setPaymentModes] = useState([]);
     const [paymentid, setPaymentid] = useState();
+    const [paymentidRelaykey, setPaymentRelaykey] = useState();
     const [paymentstatus, setPaymentstatus] = useState();
     const [selectedPaymentMode, selectPaymentMode] = useState();
     const [locationPin, selectLocation] = useState();
@@ -401,7 +404,8 @@ const Checkout = ({ breadcrumbs }) => {
             addressId: selectedAddress.id,
             transactionId: orderId,
             selectedPaymentMode: selectedPaymentMode.id,
-            order_notes: ''
+            order_notes: '',
+            d6_access_token: auth.userData.access_token?auth.userData.access_token:null,
         }
         let res = await axiosInstance.post(APIRouteConstants.DASHBOARD.PROCEED_PAYMENT, formData)
         let { data, response } = res;
@@ -417,9 +421,11 @@ const Checkout = ({ breadcrumbs }) => {
           if (data.checkout_url) {
             window.open(data.checkout_url, "_blank");
             setLoader(false)
-          } else if (data?.payment_id) {
+          } else if (data?.payment_id ||data?.pck_key) {
            setPaymentid(data?.payment_id) 
            setPaymentstatus(data?.payment_status) 
+           setPaymentRelaykey(data?.pck_key)
+
           //  navigate(`/payment/${data?.payment_id}/${orderId}`);
           setLoader(false)
           } else {
@@ -1034,83 +1040,85 @@ const Checkout = ({ breadcrumbs }) => {
         </div>
         {console.log("sticittpay",window)}
       {paymentstatus =="pending"  && 
-      <PayButton paymentId={paymentid} storeorderid={orderId} orderId={orderId} setLoader={setLoader}/>}
+      <PayButton paymentId={paymentid} storeorderid={orderId} relayKey={paymentidRelaykey} orderId={orderId} setLoader={setLoader}/>}
       </CustomLayout>
     );
 }
 
 export default Checkout
 
-// export function PayButton({ paymentId }) {
-//   const buttonRef = useRef(null);
-//   const [isSDKReady, setSDKReady] = useState(false);
-//   const [SticittPaySDK, setsticittPaySDK] = useState();
-
-//   // Function to check if the SDK is loaded
-//   const loadSticittPaySDK = () => {
-//     if (window.SticittPaySDK) {
-//       setSDKReady(true);
-//       setsticittPaySDK(window.SticittPaySDK)
-//     } else {
-//       const sdkScript = document.getElementById("sticitt-pay-sdk");
-//       if (sdkScript) {
-//         sdkScript.addEventListener("load", () => {
-//           setSDKReady(true);
-//         });
-//       }
-//     }
-//   };
-
-//   useEffect(() => {
-//     loadSticittPaySDK();
-//   }, []);
-
-//   useEffect(() => {
-//     if (isSDKReady && buttonRef.current) {
-//       // Now the SDK is ready, and we can safely register the button
-//       SticittPaySDK.AddButton(
-//         new SticittPaySDK.PayButton(buttonRef.current, {
-//           onPaid: (button, paymentId) => {
-//             console.log("Payment successful:", button, paymentId);
-//           },
-//           onClosed: (button, paymentId) => {
-//             console.log("Payment modal closed:", button, paymentId);
-//           },
-//         })
-//       );
-//     }
-//   }, [isSDKReady, buttonRef]);
-
-//   return (
-//     <button ref={buttonRef} data-payment-id={paymentId}>
-//       Dynamic Pay Button
-//     </button>
-//   );
-// }
-
-
-export function PayButton({ paymentId, order_Id, storeorderid, setLoader }) {
+export function PayButton({ paymentId, order_Id, storeorderid, setLoader,paymentidRelaykey }) {
   const buttonRef = useRef(null);
   const [isSDKReady, setSDKReady] = useState(false);
   const [SticittPaySDK, setsticittPaySDK] = useState();
   const [SticittPay, setsticittPay] = useState(true);
+  const [useTestSDK, setUseTestSDK] = useState(true);
   const navigate = useNavigate();
   
   const { enqueueSnackbar } = useSnackbar();
   // Function to check if the SDK is loaded
-  const loadSticittPaySDK = () => {
+  // const loadSticittPaySDK = () => {
+  //   if (window.SticittPaySDK) {
+  //     setSDKReady(true);
+  //     setsticittPaySDK(window.SticittPaySDK);
+  //   } else {
+  //     const sdkScript = document.getElementById("sticitt-pay-sdk");
+  //     if (sdkScript) {
+  //       sdkScript.addEventListener("load", () => {
+  //         setSDKReady(true);
+  //       });
+  //     }
+  //   }
+  // };
+
+
+  const loadSticittPaySDK = (useTestSDK, setSDKReady, setSticittPaySDK) => {
+    // Match the existing script IDs in index.html
+    const scriptId = "sticitt-pay-sdk"; // This is the same for both SDKs
+  
     if (window.SticittPaySDK) {
       setSDKReady(true);
-      setsticittPaySDK(window.SticittPaySDK);
-    } else {
-      const sdkScript = document.getElementById("sticitt-pay-sdk");
-      if (sdkScript) {
-        sdkScript.addEventListener("load", () => {
-          setSDKReady(true);
-        });
-      }
+      setSticittPaySDK(window.SticittPaySDK);
+      return;
     }
+  
+    const existingScript = document.getElementById(scriptId);
+    if (existingScript) {
+      existingScript.addEventListener("load", () => {
+        setSDKReady(true);
+        setSticittPaySDK(window.SticittPaySDK);
+      });
+      return;
+    }
+  
+    // Create and append the script dynamically
+    const sdkScript = document.createElement("script");
+    sdkScript.id = scriptId;
+    sdkScript.src = useTestSDK
+      ? "https://sdk-test.sticitt.co.za/js/lib/sdk-relay.min.js"
+      : "https://sdk.sticitt.co.za/js/lib/sdk.min.js";
+  
+    if (useTestSDK) {
+      sdkScript.setAttribute("data-client-id", "webbieshop-app");
+      sdkScript.setAttribute(
+        "data-client-secret",
+        "GAWtzPuPKK@JHAC7!Lyb4aFeyRF87qq!9VfFj!mD@nEDMP8VM!ekqtjFd@-Qnf2V"
+      );
+    }
+  
+    sdkScript.onload = () => {
+      setSDKReady(true);
+      setSticittPaySDK(window.SticittPaySDK);
+    };
+  
+    sdkScript.onerror = () => {
+      console.error("Failed to load Sticitt SDK");
+    };
+  
+    document.body.appendChild(sdkScript);
   };
+  
+  
 
   const handleClose=()=>{
     setsticittPay(!SticittPay);
@@ -1143,9 +1151,21 @@ export function PayButton({ paymentId, order_Id, storeorderid, setLoader }) {
 
 
 
+
   useEffect(() => {
-    loadSticittPaySDK();
-  }, []);
+    if (!paymentId) {
+
+      loadSticittPaySDK(false, setSDKReady, setsticittPaySDK);
+    } else if (paymentidRelaykey) {
+
+      loadSticittPaySDK(true, setSDKReady, setsticittPaySDK);
+    }
+  }, [paymentId, paymentidRelaykey]);
+
+
+  // useEffect(() => {
+  //   loadSticittPaySDK();
+  // }, []);
 
   const handleRedirect = useCallback(async () => {
     try {

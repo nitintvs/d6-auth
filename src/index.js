@@ -54,10 +54,10 @@
 //     </React.StrictMode>
 // );
 
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useNavigate } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 
 import Routes from "routes/route";
@@ -69,6 +69,7 @@ import FullScreenLoader from "Context/FullScreenLoader";
 import { AuthProvider } from "oidc-react";
 import { oidcConfig as initialOidcConfig } from "./oidc-config";
 import { isMobile } from "react-device-detect";
+import AuthWrapper from "AuthWrapper";
 
 // Helper function to get URL parameters
 const getParameterByName = (name, url) => {
@@ -80,6 +81,7 @@ const getParameterByName = (name, url) => {
 
 // Check for token_nonce in URL
 const tokenNonce = getParameterByName("token_nonce");
+
 
 // Clone and update the OIDC config with token_nonce if present
 const oidcConfig = { ...initialOidcConfig };
@@ -98,6 +100,7 @@ if (isAuthApp) {
   root.render(
     <React.StrictMode>
       <AuthProvider {...oidcConfig} autoSignIn={(isMobile || tokenNonce) ? true : false}>
+      <AuthWrapper>
         <Provider store={store}>
           <ColorProvider>
             <LoaderProvider>
@@ -114,6 +117,7 @@ if (isAuthApp) {
             </LoaderProvider>
           </ColorProvider>
         </Provider>
+        </AuthWrapper>
       </AuthProvider>
     </React.StrictMode>
   );
