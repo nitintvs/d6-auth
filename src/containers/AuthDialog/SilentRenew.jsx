@@ -7,6 +7,7 @@ const SilentRenew = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("renew",auth);
     const renewD6Token = async () => {
       try {
         const user = await auth.signinSilent(); // 🔄 Silent renewal
