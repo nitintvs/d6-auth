@@ -46,7 +46,7 @@ export const oidcConfig = {
     // redirectUri: "https://oauthdebugger.com/debug", // Redirect URI after authentication
     redirectUri: "https://multid6auth.vercel.app/login/callback", // Redirect URI after authentication
     responseType: "code", // Use Authorization Code flow
-    scope: "openid profile offline_access", // Requested scopes
+    scope: "openid profile", // Requested scopes
     silent_redirect_uri: "https://multid6auth.vercel.app/silent-renew",
     post_logout_redirect_uri: "https://multid6auth.vercel.app/login",
     response_mode: "fragment",
