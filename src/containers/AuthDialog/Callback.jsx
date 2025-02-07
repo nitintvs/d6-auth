@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "oidc-react";
-import { useNavigate } from "react-router-dom";
-import { Grid, CircularProgress, Backdrop } from "@mui/material";
+import React, { Fragment, useEffect, useState } from 'react';
+import { useAuth } from 'oidc-react';
+import { useNavigate } from 'react-router-dom';
+import { Grid, CircularProgress } from '@mui/material';
 import axiosInstance from "../../configs/axiosConfig";
-import { APIRouteConstants } from "constants/routeConstants";
+import { APIRouteConstants } from 'constants/routeConstants';
+import Backdrop from '@mui/material/Backdrop';
 
 const CallbackPage = () => {
   const [loading, setLoading] = useState(true);
@@ -11,95 +12,69 @@ const CallbackPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isTokenExpired = (expiryTimestamp) => {
-      if (!expiryTimestamp) return true; // If there's no expiry, assume it's expired
-      const currentTimestamp = Math.floor(Date.now() / 1000);
-      return currentTimestamp >= expiryTimestamp;
-    };
-
     const authenticateUser = async () => {
-      if (!auth || auth.isLoading) return; // Wait until authentication is finished
+      if (auth && auth.isLoading === false && auth.userData) {
+        try {
+          // Store the token in local storage
+          localStorage.setItem("D6-access-token", auth.userData.access_token);
+          console.log("Token saved to local storage:", auth.userData);
 
-      if (!auth.userData) {
-        console.error("No user data available. Redirecting to login.");
-        setLoading(false);
-        navigate("/login");
-        return;
-      }
+          const userInfoResponse = await axiosInstance.post(
+            APIRouteConstants.AUTH.D6_SIGNING,
+            { access_token: auth.userData.access_token }
+          );
 
-      try {
-        const expiryTimestamp = auth.userData.expires_at;
-        
-        // 🔄 If token expired, attempt silent renew before redirecting
-        if (isTokenExpired(expiryTimestamp)) {
-          console.warn("Token expired. Attempting silent renew...");
-          if (auth.userManager) {
-            try {
-              const refreshedUser = await auth.userManager.signinSilent();
-              if (refreshedUser) {
-                console.log("Token successfully renewed.");
-                localStorage.setItem("D6-access-token", refreshedUser.access_token);
-              } else {
-                console.warn("Silent renew failed. Redirecting to login.");
-                navigate("/login");
-                return;
-              }
-            } catch (silentError) {
-              console.error("Silent renew error:", silentError);
-              navigate("/login");
-              return;
-            }
+          if (userInfoResponse && userInfoResponse.status === 200) {
+            localStorage.setItem("u-access-token", userInfoResponse?.data?.access);
+            localStorage.setItem("u-refresh-token", userInfoResponse?.data?.refresh);
+            localStorage.setItem("d6_user_data", userInfoResponse?.data?.mobile_number_exist);
+
+            setLoading(false); // Set loading to false before redirecting
+            window.location.href = "/products"; // Redirect to the home page
           } else {
-            console.warn("User manager not available for silent renew.");
-            navigate("/login");
-            return;
+            console.error("Failed to fetch user information");
+            setLoading(false); // Stop loading if there's an issue
           }
+        } catch (error) {
+          console.error("Error during authentication process:", error);
+          setLoading(false); // Stop loading on error
+          navigate("/login"); // Redirect to login if an error occurs
         }
-
-        // ✅ Store new access token in local storage
-        localStorage.setItem("D6-access-token", auth.userData.access_token);
-
-        // 🔄 Fetch user information
-        const userInfoResponse = await axiosInstance.post(
-          APIRouteConstants.AUTH.D6_SIGNING,
-          { access_token: auth.userData.access_token }
-        );
-
-        if (userInfoResponse.status === 200) {
-          // ✅ Store additional tokens and data
-          localStorage.setItem("u-access-token", userInfoResponse?.data?.access);
-          localStorage.setItem("u-refresh-token", userInfoResponse?.data?.refresh);
-          localStorage.setItem("d6_user_data", userInfoResponse?.data?.mobile_number_exist);
-
-          setLoading(false);
-          navigate("/products"); // 🚀 Redirect to products page
-        } else {
-          console.error("Failed to fetch user information");
-          setLoading(false);
-          navigate("/login");
-        }
-      } catch (error) {
-        console.error("Error during authentication process:", error);
-        setLoading(false);
-        navigate("/login"); // 🚀 Redirect to login on error
+      } else if (auth?.isLoading === false) {
+        console.error("Authentication failed");
+        setLoading(false); // Stop loading when auth fails
+        navigate("/login"); // Redirect to login if auth fails
       }
     };
 
     authenticateUser();
   }, [auth, navigate]);
 
+  // Show the loader until the page transitions
   return (
-    <Grid
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      {(auth?.isLoading || loading) && <CircularProgress color="secondary" />}
-    </Grid>
+    <Fragment>
+      <Grid
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        {(auth?.isLoading || loading) && <CircularProgress color="secondary"/>}
+      </Grid>
+    </Fragment>
   );
 };
+
+function Loader() {
+  return (
+    <Backdrop
+      sx={{ color: "#ccc", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    >
+      <CircularProgress sx={{color:"blueviolet"}} />
+    </Backdrop>
+  );
+}
 
 export default CallbackPage;
