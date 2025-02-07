@@ -6,7 +6,6 @@ import { APIRouteConstants } from "constants/routeConstants";
 import axiosInstance from "configs/axiosConfig";
 const AuthWrapper = ({ children }) => {
   const auth = useAuth();
-  const navigate = useNavigate();
   const [lastD6Token, setLastD6Token] = useState(null);
 
   useEffect(() => {
@@ -41,13 +40,10 @@ const AuthWrapper = ({ children }) => {
             }
           } catch (error) {
             console.error("Error during authentication process:", error);
-            navigate("/login");
+            // navigate("/login");
           }
         }
-      } else if (auth?.isLoading === false) {
-        console.error("Authentication failed");
-        navigate("/login");
-      }
+      } 
     };
 
     handleTokenRefresh();
