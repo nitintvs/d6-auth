@@ -1,26 +1,20 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useAuth } from "oidc-react";
-import { useNavigate } from "react-router-dom";
 
 const SilentRenew = () => {
   const auth = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("renew",auth);
+    console.log("Silent renew initiated...", auth);
+
     const renewD6Token = async () => {
+      if (!auth.userManager) return; // Ensure userManager is available
+
       try {
-        const user = await auth.signinSilent(); // 🔄 Silent renewal
+        const user = await auth.userManager.signinSilent(); // 🔄 Silent renewal
         if (user) {
           console.log("D6 Token successfully renewed:", user.access_token);
-
-          // ✅ Store new d6AccessToken
-          localStorage.setItem("d6AccessToken", user.access_token);
-
-          // 🚀 Redirect to Callback Component to complete login flow (Only if in Login Flow)
-          if (window.location.pathname === "/silent-renew") {
-            navigate("/login/callback"); // ⬅️ Redirect only if needed
-          }
+          localStorage.setItem("d6AccessToken", user.access_token); // ✅ Store new token
         }
       } catch (error) {
         console.error("Silent renewal failed", error);
@@ -28,9 +22,9 @@ const SilentRenew = () => {
     };
 
     renewD6Token();
-  }, [auth, navigate]);
+  }, []); // ✅ No unnecessary re-renders
 
-  return <div>Loading...</div>; // This component should be invisible
+  return <div style={{ display: "none" }}>Silent Renewing...</div>; // Invisible Component
 };
 
 export default SilentRenew;
