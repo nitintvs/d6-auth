@@ -130,17 +130,17 @@ const CallbackPage = () => {
           } else {
             console.error("Failed to fetch user information");
             setLoading(false); // Stop loading if user info fetch fails
-            navigate("/login"); // Redirect to login if fetch fails
+            navigate("/silent-renew"); // Redirect to login if fetch fails
           }
         } catch (error) {
           console.error("Error during authentication process:", error);
           setLoading(false); // Stop loading on error
-          navigate("/login"); // Redirect to login on error
+          navigate("/silent-renew"); // Redirect to login on error
         }
       } else {
         console.error("Authentication failed");
         setLoading(false); // Stop loading if auth fails
-        navigate("/login"); // Redirect to login if auth fails
+        navigate("/silent-renew"); // Redirect to login if auth fails
       }
     };
 
