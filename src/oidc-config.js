@@ -47,11 +47,13 @@ export const oidcConfig = {
     redirectUri: "https://multid6auth.vercel.app/login/callback", // Redirect URI after authentication
     responseType: "code", // Use Authorization Code flow
     scope: "openid profile offline_access", // Requested scopes
-    silent_redirect_uri: "https://multid6auth.vercel.app/login/callback",
+    silent_redirect_uri: "https://multid6auth.vercel.app/silent-renew",
     post_logout_redirect_uri: "https://multid6auth.vercel.app/login",
     response_mode: "fragment",
     automaticSilentRenew: true, // Silent token renewal
     loadUserInfo: false, // Load additional user info from the userinfo endpoint
+    checkSessionInterval: 1000,
+    silentRequestTimeout: 10000
   };
   
   // https://multid6auth.vercel.app/
