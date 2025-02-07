@@ -6,7 +6,7 @@ import { APIRouteConstants } from "constants/routeConstants";
 const SilentRenewToken = () => {
   const auth = useAuth();
   // const navigate = useNavigate();
-  const [lastD6Token, setLastD6Token] = useState(null);
+  const [lastD6Token, setLastD6Token] = useState(localStorage.getItem("D6-access-token"));
 
   useEffect(() => {
     const handleTokenRenewal = async () => {
