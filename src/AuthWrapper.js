@@ -1,26 +1,27 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "oidc-react";
-import { useNavigate } from "react-router-dom";
-import { APIRouteConstants } from "constants/routeConstants";
-
 import axiosInstance from "configs/axiosConfig";
-const AuthWrapper = ({ children }) => {
+import { APIRouteConstants } from "constants/routeConstants";
+import { useNavigate } from "react-router-dom";
+
+const SilentRenewToken = () => {
   const auth = useAuth();
+  const navigate = useNavigate();
   const [lastD6Token, setLastD6Token] = useState(null);
 
   useEffect(() => {
-    const handleTokenRefresh = async () => {
+    const handleTokenRenewal = async () => {
       if (auth && auth.isLoading === false && auth.userData) {
         const newD6Token = auth.userData.access_token;
 
-        // ✅ Only proceed if the D6 token has changed
+        // ✅ Only proceed if the token has changed
         if (newD6Token && newD6Token !== lastD6Token) {
-          setLastD6Token(newD6Token); // Update state to track last token
+          setLastD6Token(newD6Token); // Track last token
 
           try {
-            console.log("New D6 Token detected, fetching new access/refresh tokens...");
+            console.log("🔄 New D6 Token detected, fetching new access/refresh tokens...");
 
-            // Store the D6 token in local storage
+            // Store the new D6 token in local storage
             localStorage.setItem("D6-access-token", newD6Token);
 
             // Call API to get the new access & refresh token
@@ -34,22 +35,25 @@ const AuthWrapper = ({ children }) => {
               localStorage.setItem("u-refresh-token", userInfoResponse?.data?.refresh);
               localStorage.setItem("d6_user_data", userInfoResponse?.data?.mobile_number_exist);
 
-              console.log("Updated user tokens successfully!");
+              console.log("✅ Updated user tokens successfully!");
             } else {
-              console.error("Failed to fetch user information");
+              console.error("❌ Failed to fetch user information");
             }
           } catch (error) {
-            console.error("Error during authentication process:", error);
-            // navigate("/login");
+            console.error("❌ Error during authentication process:", error);
+            navigate("/login");
           }
         }
-      } 
+      } else if (auth?.isLoading === false) {
+        console.error("❌ Authentication failed");
+        navigate("/login");
+      }
     };
 
-    handleTokenRefresh();
+    handleTokenRenewal();
   }, [auth, navigate]);
 
-  return children;
+  return null; // Since this component doesn't render anything
 };
 
-export default AuthWrapper;
+export default SilentRenewToken;

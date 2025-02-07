@@ -69,7 +69,7 @@ import FullScreenLoader from "Context/FullScreenLoader";
 import { AuthProvider } from "oidc-react";
 import { oidcConfig as initialOidcConfig } from "./oidc-config";
 import { isMobile } from "react-device-detect";
-import AuthWrapper from "AuthWrapper";
+import SilentRenewToken from "AuthWrapper";
 
 // Helper function to get URL parameters
 const getParameterByName = (name, url) => {
@@ -100,7 +100,7 @@ if (isAuthApp) {
   root.render(
     <React.StrictMode>
       <AuthProvider {...oidcConfig} autoSignIn={(isMobile || tokenNonce) ? true : false}>
-      <AuthWrapper>
+      <SilentRenewToken />
         <Provider store={store}>
           <ColorProvider>
             <LoaderProvider>
@@ -117,7 +117,6 @@ if (isAuthApp) {
             </LoaderProvider>
           </ColorProvider>
         </Provider>
-        </AuthWrapper>
       </AuthProvider>
     </React.StrictMode>
   );
@@ -126,7 +125,6 @@ if (isAuthApp) {
   root.render(
     <React.StrictMode>
        <AuthProvider {...oidcConfig} autoSignIn={false}>
-        <AuthWrapper>
       <Provider store={store}>
         <ColorProvider>
           <LoaderProvider>
@@ -143,7 +141,6 @@ if (isAuthApp) {
           </LoaderProvider>
         </ColorProvider>
       </Provider>
-      </AuthWrapper>
               </AuthProvider>
     </React.StrictMode>
   );
