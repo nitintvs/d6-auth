@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { useAuth } from "oidc-react";
 import axiosInstance from "configs/axiosConfig";
 import { APIRouteConstants } from "constants/routeConstants";
-import { useNavigate } from "react-router-dom";
 
 const SilentRenewToken = () => {
   const auth = useAuth();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [lastD6Token, setLastD6Token] = useState(null);
 
   useEffect(() => {
@@ -41,17 +40,17 @@ const SilentRenewToken = () => {
             }
           } catch (error) {
             console.error("❌ Error during authentication process:", error);
-            navigate("/login");
+            // navigate("/login");
           }
         }
       } else if (auth?.isLoading === false) {
         console.error("❌ Authentication failed");
-        navigate("/login");
+        // navigate("/login");
       }
     };
 
     handleTokenRenewal();
-  }, [auth, navigate]);
+  }, [auth]);
 
   return null; // Since this component doesn't render anything
 };
