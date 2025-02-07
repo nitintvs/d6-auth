@@ -126,6 +126,7 @@ if (isAuthApp) {
   root.render(
     <React.StrictMode>
        <AuthProvider {...oidcConfig} autoSignIn={false}>
+        <AuthWrapper>
       <Provider store={store}>
         <ColorProvider>
           <LoaderProvider>
@@ -142,6 +143,7 @@ if (isAuthApp) {
           </LoaderProvider>
         </ColorProvider>
       </Provider>
+      </AuthWrapper>
               </AuthProvider>
     </React.StrictMode>
   );
