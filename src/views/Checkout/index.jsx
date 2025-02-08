@@ -405,7 +405,7 @@ const Checkout = ({ breadcrumbs }) => {
             transactionId: orderId,
             selectedPaymentMode: selectedPaymentMode.id,
             order_notes: '',
-            d6_access_token: auth.userData.access_token?auth.userData.access_token:null,
+            d6_access_token: auth?.userData?.access_token?auth?.userData?.access_token:null,
         }
         let res = await axiosInstance.post(APIRouteConstants.DASHBOARD.PROCEED_PAYMENT, formData)
         let { data, response } = res;
