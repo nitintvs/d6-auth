@@ -50,13 +50,18 @@ const isNativeApp = /d6app|d6mobile/i.test(window.navigator.userAgent) || // Che
 const parentOrigin = isIframe ? document.referrer : null;
 const isD6ParentDomain = parentOrigin ? /d6|zipalong/i.test(new URL(parentOrigin).hostname) : false;
 
+// Check for existing D6 session
+const existingD6Token = localStorage.getItem('d6_auth_token') || 
+                       localStorage.getItem('oidc.user:https://id.zipalong.tech:webbieshop-wt');
+const isD6Environment = isIframe || isNativeApp || isD6WebView || isD6ParentDomain;
+
 // Configure authentication based on environment
-if (isIframe || isNativeApp) {
-  // In iframe or native app - use existing auth context
+if (isD6Environment) {
+  // In D6 Suite context - use existing auth context
   oidcConfig.automaticSilentRenew = true;
   oidcConfig.monitorSession = true;
-  oidcConfig.prompt = 'none';
-  oidcConfig.silentRequestTimeout = 10000; // 10 seconds timeout for silent requests
+  oidcConfig.prompt = 'none'; // Don't show login prompt
+  oidcConfig.silentRequestTimeout = 10000;
   
   // Use localStorage for persistent auth in trusted environments
   oidcConfig.userStore = new WebStorageStateStore({ 
@@ -65,7 +70,6 @@ if (isIframe || isNativeApp) {
 
   // Allow iframe embedding
   if (isIframe) {
-    // Remove X-Frame-Options if present
     if (window.top !== window.self) {
       const meta = document.createElement('meta');
       meta.setAttribute('content', 'ALLOWALL');
@@ -87,26 +91,24 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 if (isAuthApp) {
   // Render Auth-enabled App
-  alert(`auth app",${isMobile}, "tokenNonce",${tokenNonce}`)
-  console.log("ismobile",isMobile)
   root.render(
     <React.StrictMode>
-      <AuthProvider {...oidcConfig} autoSignIn={(tokenNonce||isMobile) ? true : false}>
-      <SilentRenewToken />
+      <AuthProvider {...oidcConfig} autoSignIn={isD6Environment || existingD6Token || tokenNonce ? true : false}>
+        <SilentRenewToken />
         <Provider store={store}>
           <ColorProvider>
-          <LoaderProvider>
-          <SnackbarProvider
-            autoHideDuration={3000}
-            maxSnack={3}
-            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          >
-            <BrowserRouter>
-            <FullScreenLoader />
-              <Routes />
-            </BrowserRouter>
-          </SnackbarProvider>
-          </LoaderProvider>
+            <LoaderProvider>
+              <SnackbarProvider
+                autoHideDuration={3000}
+                maxSnack={3}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              >
+                <BrowserRouter>
+                  <FullScreenLoader />
+                  <Routes />
+                </BrowserRouter>
+              </SnackbarProvider>
+            </LoaderProvider>
           </ColorProvider>
         </Provider>
       </AuthProvider>

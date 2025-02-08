@@ -9,15 +9,18 @@ export const oidcConfig = {
     silent_redirect_uri: "https://multid6auth.vercel.app/silent-renew",
     post_logout_redirect_uri: "https://multid6auth.vercel.app",
     response_mode: "query",
-    automaticSilentRenew: true, // Silent token renewal
-    loadUserInfo: false, // Load additional user info from the userinfo endpoint
+    automaticSilentRenew: true,
+    loadUserInfo: false,
     userStore: new WebStorageStateStore({ store: window.localStorage }),
-    pkce: true, // Enable PKCE for better security
-    clockSkew: 300, // 5 minutes clock skew for token validation
-    staleStateAge: 3600, // 1 hour state age
+    pkce: true,
+    clockSkew: 300,
+    staleStateAge: 3600,
     monitorSession: true,
-    silentRequestTimeout: 10000, // 10 seconds timeout for silent requests
-    checkSessionIntervalInSeconds: 30, // Check session every 30 seconds
-    accessTokenExpiringNotificationTimeInSeconds: 60, // Notify 1 minute before token expires
-    includeIdTokenInSilentRenew: true, // Include ID token in silent renewal
+    silentRequestTimeout: 10000,
+    checkSessionIntervalInSeconds: 30,
+    accessTokenExpiringNotificationTimeInSeconds: 60,
+    includeIdTokenInSilentRenew: true,
+    mergeClaims: true, // Merge claims from multiple sources
+    storeAuthStateInCookie: true, // Store auth state in cookie for better persistence
+    revokeTokensOnSignout: false, // Don't revoke tokens on signout to maintain D6 session
 };
