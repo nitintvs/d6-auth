@@ -97,10 +97,10 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 if (isAuthApp) {
   // Render Auth-enabled App
+  console.log("ismobile",isMobile)
   root.render(
     <React.StrictMode>
-      <AuthProvider {...oidcConfig} autoSignIn={true}>
-      {/* <AuthProvider {...oidcConfig} autoSignIn={(isMobile || tokenNonce) ? true : false}> */}
+      <AuthProvider {...oidcConfig} autoSignIn={(isMobile || tokenNonce) ? true : false}>
       <SilentRenewToken />
         <Provider store={store}>
           <ColorProvider>
