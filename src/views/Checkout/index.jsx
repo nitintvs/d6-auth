@@ -1256,6 +1256,7 @@ console.log("sticitpay",paymentId,relayKey)
 
       {/* Pay Button */}
         {(paymentId && relayKey == null) ? <Button
+        class="sticitt-pay-button"
           ref={buttonRef}
           variant="contained"
           color="primary"
@@ -1265,6 +1266,7 @@ console.log("sticitpay",paymentId,relayKey)
           Pay with sticitt
         </Button>
           : <Button
+          class="sticitt-pay-button"
             ref={buttonRef}
             variant="contained"
             color="primary"
