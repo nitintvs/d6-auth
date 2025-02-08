@@ -1097,7 +1097,7 @@ export function PayButton({ paymentId, order_Id, storeorderid, setLoader,relayKe
     const sdkScript = document.createElement("script");
     sdkScript.id = scriptId;
     sdkScript.src = useTestSDK
-    ? "https://sdk-test.sticitt.co.za/js/lib/sdk-relay.min.js"
+    ? "https://sdk.sticitt.co.za/js/lib/sdk-relay.min.js"
     : "https://sdk.sticitt.co.za/js/lib/sdk.min.js";
     
     if (useTestSDK) {
