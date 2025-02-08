@@ -56,7 +56,7 @@ export const oidcConfig = {
     response_mode: "query",
     automaticSilentRenew: true, // Silent token renewal
     loadUserInfo: true, // Load additional user info from the userinfo endpoint
-    userStore:new WebStorageStateStore({ store: window.localStorage }),
+    // userStore:new WebStorageStateStore({ store: window.localStorage }),
   };
   
   // https://multid6auth.vercel.app/
