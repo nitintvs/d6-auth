@@ -1249,15 +1249,26 @@ console.log("sticitpay",paymentId,paymentidRelaykey)
       </Typography>
 
       {/* Pay Button */}
-      <Button
-        ref={buttonRef}
-        variant="contained"
-        color="primary"
-        data-payment-id={paymentId}
-        fullWidth
-      >
-        Pay with sticitt
-      </Button>
+        {(paymentId && paymentidRelaykey == null) ? <Button
+          ref={buttonRef}
+          variant="contained"
+          color="primary"
+          data-payment-id={paymentId}
+          fullWidth
+        >
+          Pay with sticitt
+        </Button>
+          : <Button
+            ref={buttonRef}
+            variant="contained"
+            color="primary"
+            data-payment-id={paymentId}
+            data-relay-key={paymentidRelaykey}
+
+            fullWidth
+          >
+            Pay with sticitt
+          </Button>}
     </Box>
   </Modal>
   );
