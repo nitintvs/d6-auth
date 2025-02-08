@@ -12,11 +12,10 @@
 //     pkce:true
 //   };
 
-import { WebStorageStateStore } from "oidc-react";
 
 //   export default oidcConfig;
 // export const oidcConfig = {
-//     authority: "https://id.zipalong.tech", // The authority URL (Issuer)
+  //     authority: "https://id.zipalong.tech", // The authority URL (Issuer)
 //     clientId: "webbieshop-wt", // Your client ID
 //     // redirectUri: "https://oauthdebugger.com/debug", // Redirect URI after authentication
 //     redirectUri: "https://d6auth.vercel.app/login/callback", // Redirect URI after authentication
@@ -42,6 +41,7 @@ import { WebStorageStateStore } from "oidc-react";
 //     automaticSilentRenew: true, // Silent token renewal
 //     loadUserInfo: false, // Load additional user info from the userinfo endpoint
 //   };
+import { WebStorageStateStore } from "oidc-react";
 export const oidcConfig = {
     authority: "https://id.zipalong.tech", // The authority URL (Issuer)
     clientId: "webbieshop-wt", // Your client ID

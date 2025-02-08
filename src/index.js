@@ -66,7 +66,7 @@ import { ColorProvider } from "utils/UIContext";
 import { LoaderProvider } from "Context/LoaderContext";
 import FullScreenLoader from "Context/FullScreenLoader";
 
-import { AuthProvider } from "oidc-react";
+import { AuthProvider, UserManager } from "oidc-react";
 import { oidcConfig as initialOidcConfig } from "./oidc-config";
 import { isMobile } from "react-device-detect";
 import SilentRenewToken from "AuthWrapper";
@@ -84,7 +84,7 @@ const tokenNonce = getParameterByName("token_nonce");
 
 
 // Clone and update the OIDC config with token_nonce if present
-const oidcConfig = { ...initialOidcConfig };
+const oidcConfig = new UserManager ({ ...initialOidcConfig });
 if (tokenNonce) {
   oidcConfig.acr_values = `token_nonce:${tokenNonce}`;
   console.log("Updated OIDC Config with token_nonce:", oidcConfig);
