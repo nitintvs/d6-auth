@@ -1090,7 +1090,9 @@ export function PayButton({ paymentId, order_Id, storeorderid, setLoader,relayKe
     //   });
     //   return;
     // }
-  
+    const oldScript = document.getElementById(scriptId);
+    if (oldScript) oldScript.remove();
+    
     // Create and append the script dynamically
     const sdkScript = document.createElement("script");
     sdkScript.id = scriptId;
@@ -1108,6 +1110,9 @@ export function PayButton({ paymentId, order_Id, storeorderid, setLoader,relayKe
     }
   
     sdkScript.onload = () => {
+      console.log("Client ID:", sdkScript.getAttribute("data-client-id")); // Should log "webbieshop-app"
+      console.log("Client Secret:", sdkScript.getAttribute("data-client-secret")); // Should log the secret
+    
       setSDKReady(true);
       setSticittPaySDK(window.SticittPaySDK);
     };
