@@ -1102,7 +1102,7 @@ export function PayButton({ paymentId, order_Id, storeorderid, setLoader,relayKe
     
     if (useTestSDK) {
       console.log("sticitpay",useTestSDK)
-      sdkScript.setAttribute("data-client-id", "webbieshop-app");
+      sdkScript.setAttribute("data-client-id", "webbieshop-wt");
       sdkScript.setAttribute(
         "data-client-secret",
         "GAWtzPuPKK@JHAC7!Lyb4aFeyRF87qq!9VfFj!mD@nEDMP8VM!ekqtjFd@-Qnf2V"
