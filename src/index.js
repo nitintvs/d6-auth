@@ -95,7 +95,7 @@ const isAuthApp = window?.location?.host === "multid6auth.vercel.app";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-if (isAuthApp) {
+if (isAuthApp||isMobile) {
   // Render Auth-enabled App
   console.log("ismobile",isMobile)
   root.render(
