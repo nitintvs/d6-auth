@@ -84,7 +84,7 @@ const tokenNonce = getParameterByName("token_nonce");
 
 
 // Clone and update the OIDC config with token_nonce if present
-const oidcConfig = new UserManager ({ ...initialOidcConfig });
+const oidcConfig = new UserManager (initialOidcConfig );
 if (tokenNonce) {
   oidcConfig.acr_values = `token_nonce:${tokenNonce}`;
   console.log("Updated OIDC Config with token_nonce:", oidcConfig);
