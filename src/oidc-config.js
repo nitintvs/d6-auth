@@ -49,11 +49,10 @@ export const oidcConfig = {
     scope: "openid profile", // Requested scopes
     silent_redirect_uri: "https://multid6auth.vercel.app/silent-renew",
     post_logout_redirect_uri: "https://multid6auth.vercel.app",
-    response_mode: "fragment",
+    response_mode: "query",
     automaticSilentRenew: true, // Silent token renewal
     loadUserInfo: false, // Load additional user info from the userinfo endpoint
-    checkSessionInterval: 5000, // Check session every 5 seconds
-    silentRequestTimeout: 10000,
+    userStore:new WebStorageStateStore({ store: window.localStorage }),
   };
   
   // https://multid6auth.vercel.app/
