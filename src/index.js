@@ -100,7 +100,7 @@ if (isAuthApp) {
   console.log("ismobile",isMobile)
   root.render(
     <React.StrictMode>
-      <AuthProvider {...oidcConfig} autoSignIn={(isMobile || tokenNonce) ? true : false}>
+      <AuthProvider {...oidcConfig} autoSignIn={(tokenNonce||isMobile) ? true : false}>
       <SilentRenewToken />
         <Provider store={store}>
           <ColorProvider>
