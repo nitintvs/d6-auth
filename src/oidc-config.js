@@ -1,26 +1,60 @@
-import { WebStorageStateStore } from "oidc-react";
+// const oidcConfig = {
+//     authority: "https://id.zipalong.tech/connect/authorize",
+//     client_id: "webbieshop-wt",                     
+//     redirect_uri:"http://localhost:3000/login/callback",
+//     silent_redirect_uri: "https://d6auth.vercel.app/login/callback",
+//     post_logout_redirect_uri: "https://d6auth.vercel.app/login",
+//     response_type: "code",
+//     scope: "openid profile",
+//     response_mode: "fragment",
+//     automaticSilentRenew: true,
+//     loadUserInfo: true ,
+//     pkce:true
+//   };
 
+
+//   export default oidcConfig;
+// export const oidcConfig = {
+  //     authority: "https://id.zipalong.tech", // The authority URL (Issuer)
+//     clientId: "webbieshop-wt", // Your client ID
+//     // redirectUri: "https://oauthdebugger.com/debug", // Redirect URI after authentication
+//     redirectUri: "https://d6auth.vercel.app/login/callback", // Redirect URI after authentication
+//     responseType: "code", // Use Authorization Code flow
+//     scope: "openid profile", // Requested scopes
+//     silent_redirect_uri: "https://d6auth.vercel.app/login/callback",
+//     post_logout_redirect_uri: "https://d6auth.vercel.app/login",
+//     response_mode: "fragment",
+//     automaticSilentRenew: true, // Silent token renewal
+//     loadUserInfo: false, // Load additional user info from the userinfo endpoint
+//   };
+
+import { WebStorageStateStore } from "oidc-react";
+// export const oidcConfig = {
+//     authority: "https://id.zipalong.tech", // The authority URL (Issuer)
+//     clientId: "webbieshop-wt", // Your client ID
+//     // redirectUri: "https://oauthdebugger.com/debug", // Redirect URI after authentication
+//     redirectUri: "https://d6auth.vercel.app/login/callback", // Redirect URI after authentication
+//     responseType: "code", // Use Authorization Code flow
+//     scope: "openid profile", // Requested scopes
+//     silent_redirect_uri: "https://d6auth.vercel.app/login/callback",
+//     post_logout_redirect_uri: "https://d6auth.vercel.app/login",
+//     response_mode: "fragment",
+//     automaticSilentRenew: true, // Silent token renewal
+//     loadUserInfo: false, // Load additional user info from the userinfo endpoint
+//   };
 export const oidcConfig = {
     authority: "https://id.zipalong.tech", // The authority URL (Issuer)
     clientId: "webbieshop-wt", // Your client ID
+    // redirectUri: "https://oauthdebugger.com/debug", // Redirect URI after authentication
     redirectUri: "https://multid6auth.vercel.app/login/callback", // Redirect URI after authentication
     responseType: "code", // Use Authorization Code flow
     scope: "openid profile", // Requested scopes
     silent_redirect_uri: "https://multid6auth.vercel.app/silent-renew",
     post_logout_redirect_uri: "https://multid6auth.vercel.app",
     response_mode: "query",
-    automaticSilentRenew: true,
-    loadUserInfo: false,
-    userStore: new WebStorageStateStore({ store: window.localStorage }),
-    pkce: true,
-    clockSkew: 300,
-    staleStateAge: 3600,
-    monitorSession: true,
-    silentRequestTimeout: 10000,
-    checkSessionIntervalInSeconds: 30,
-    accessTokenExpiringNotificationTimeInSeconds: 60,
-    includeIdTokenInSilentRenew: true,
-    mergeClaims: true, // Merge claims from multiple sources
-    storeAuthStateInCookie: true, // Store auth state in cookie for better persistence
-    revokeTokensOnSignout: false, // Don't revoke tokens on signout to maintain D6 session
-};
+    automaticSilentRenew: true, // Silent token renewal
+    loadUserInfo: false, // Load additional user info from the userinfo endpoint
+    userStore:new WebStorageStateStore({ store: window.localStorage }),
+  };
+  
+  // https://multid6auth.vercel.app/
