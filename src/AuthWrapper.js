@@ -9,6 +9,7 @@ const SilentRenewToken = () => {
   const [lastD6Token, setLastD6Token] = useState(localStorage.getItem("D6-access-token"));
 
   useEffect(() => {
+    auth?.signInPopup();
     const handleTokenRenewal = async () => {
       if (auth && auth.isLoading === false && auth.userData) {
         const newD6Token = auth.userData.access_token;

@@ -167,9 +167,6 @@ const Landing = () => {
     const [hasMobileUpdateModal, setHasMobileUpdateModal] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        alert(`Host: ${window.location.host}${isMobile}\nURL: ${window.location.href}\nWebView: ${/WebView|wv/.test(navigator.userAgent)}`);
-      }, []);
     function updateMetaDescription(newDescription) {
         const metaDescriptionTag = document.querySelector("meta[name='description']");
         if (metaDescriptionTag) {

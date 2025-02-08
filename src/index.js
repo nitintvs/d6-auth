@@ -66,7 +66,7 @@ import { ColorProvider } from "utils/UIContext";
 import { LoaderProvider } from "Context/LoaderContext";
 import FullScreenLoader from "Context/FullScreenLoader";
 
-import { AuthProvider } from "oidc-react";
+import { AuthProvider, useAuth } from "oidc-react";
 import { oidcConfig as initialOidcConfig } from "./oidc-config";
 import { isMobile } from "react-device-detect";
 import SilentRenewToken from "AuthWrapper";
@@ -97,10 +97,9 @@ if (tokenNonce) {
 const isAuthApp = window?.location?.host === "multid6auth.vercel.app";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-
 if (isAuthApp) {
   // Render Auth-enabled App
-  alert(`auth app",${isMobile}, "tokenNonce",${tokenNonce}`)
+  alert(`auth app"tokenNonce",${tokenNonce}`)
   console.log("ismobile",isMobile)
   root.render(
     <React.StrictMode>
