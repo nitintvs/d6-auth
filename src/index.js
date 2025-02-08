@@ -66,7 +66,7 @@ import { ColorProvider } from "utils/UIContext";
 import { LoaderProvider } from "Context/LoaderContext";
 import FullScreenLoader from "Context/FullScreenLoader";
 
-import { AuthProvider } from "react-oidc-context";
+import { AuthProvider } from "oidc-react";
 import { oidcConfig as initialOidcConfig } from "./oidc-config";
 import { isMobile } from "react-device-detect";
 import SilentRenewToken from "AuthWrapper";

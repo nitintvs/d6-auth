@@ -50,7 +50,7 @@ import { ReactComponent as NoData } from 'assets/svgs/NoData.svg';
 import { isMobile } from "react-device-detect";
 import FilterDropdown from "containers/DynamicFilter/FilterDropdown";
 import FlagContent from "components/InappropriateContent";
-import { useAuth } from "react-oidc-context";
+import { useAuth } from "oidc-react";
 // import FlagContent from "components/InappropriateContent";
 
 let formatCurrency = new Intl.NumberFormat(undefined, {

@@ -49,7 +49,7 @@ import { countryCode } from 'constants/appData/filters';
 import { GLOBAL_COUNTRY_CODE, GLOBAL_CURRENCY, GOOGLE_KEY } from 'constants/appConstants';
 import SticittPayment from 'components/Payment/SticittPayment';
 import instance from 'configs/axiosConfig';
-import { useAuth } from 'react-oidc-context';
+import { useAuth } from 'oidc-react';
 
 let formatCurrency = new Intl.NumberFormat(undefined, {
     style: 'currency',
