@@ -1151,12 +1151,12 @@ export function PayButton({ paymentId, order_Id, storeorderid, setLoader,payment
 
 
 
-
+console.log("sticitpay",paymentId,paymentidRelaykey)
   useEffect(() => {
-    if (!paymentId) {
+    if (paymentId&&paymentidRelaykey==null) {
 
       loadSticittPaySDK(false, setSDKReady, setsticittPaySDK);
-    } else if (paymentidRelaykey) {
+    } else if (paymentId && paymentidRelaykey!=null) {
 
       loadSticittPaySDK(true, setSDKReady, setsticittPaySDK);
     }
