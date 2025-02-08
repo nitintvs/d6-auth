@@ -1091,6 +1091,7 @@ export function PayButton({ paymentId, order_Id, storeorderid, setLoader,relayKe
       return;
     }
   
+console.log("sticitpay",useTestSDK)
     // Create and append the script dynamically
     const sdkScript = document.createElement("script");
     sdkScript.id = scriptId;
