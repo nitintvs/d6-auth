@@ -1076,20 +1076,20 @@ export function PayButton({ paymentId, order_Id, storeorderid, setLoader,relayKe
     // Match the existing script IDs in index.html
     const scriptId = "sticitt-pay-sdk"; // This is the same for both SDKs
   
-    if (window.SticittPaySDK) {
-      setSDKReady(true);
-      setSticittPaySDK(window.SticittPaySDK);
-      return;
-    }
+    // if (window.SticittPaySDK) {
+    //   setSDKReady(true);
+    //   setSticittPaySDK(window.SticittPaySDK);
+    //   return;
+    // }
   
-    const existingScript = document.getElementById(scriptId);
-    if (existingScript) {
-      existingScript.addEventListener("load", () => {
-        setSDKReady(true);
-        setSticittPaySDK(window.SticittPaySDK);
-      });
-      return;
-    }
+    // const existingScript = document.getElementById(scriptId);
+    // if (existingScript) {
+    //   existingScript.addEventListener("load", () => {
+    //     setSDKReady(true);
+    //     setSticittPaySDK(window.SticittPaySDK);
+    //   });
+    //   return;
+    // }
   
 console.log("sticitpay",useTestSDK)
     // Create and append the script dynamically
