@@ -1047,7 +1047,7 @@ const Checkout = ({ breadcrumbs }) => {
 
 export default Checkout
 
-export function PayButton({ paymentId, order_Id, storeorderid, setLoader,paymentidRelaykey }) {
+export function PayButton({ paymentId, order_Id, storeorderid, setLoader,relayKey }) {
   const buttonRef = useRef(null);
   const [isSDKReady, setSDKReady] = useState(false);
   const [SticittPaySDK, setsticittPaySDK] = useState();
@@ -1151,16 +1151,16 @@ export function PayButton({ paymentId, order_Id, storeorderid, setLoader,payment
 
 
 
-console.log("sticitpay",paymentId,paymentidRelaykey)
+console.log("sticitpay",paymentId,relayKey)
   useEffect(() => {
-    if (paymentId&&paymentidRelaykey==null) {
+    if (paymentId&&relayKey==null) {
 
       loadSticittPaySDK(false, setSDKReady, setsticittPaySDK);
-    } else if (paymentId && paymentidRelaykey!=null) {
+    } else if (paymentId && relayKey!=null) {
 
       loadSticittPaySDK(true, setSDKReady, setsticittPaySDK);
     }
-  }, [paymentId, paymentidRelaykey]);
+  }, [paymentId, relayKey]);
 
 
   // useEffect(() => {
@@ -1249,7 +1249,7 @@ console.log("sticitpay",paymentId,paymentidRelaykey)
       </Typography>
 
       {/* Pay Button */}
-        {(paymentId && paymentidRelaykey == null) ? <Button
+        {(paymentId && relayKey == null) ? <Button
           ref={buttonRef}
           variant="contained"
           color="primary"
@@ -1263,7 +1263,7 @@ console.log("sticitpay",paymentId,paymentidRelaykey)
             variant="contained"
             color="primary"
             data-payment-id={paymentId}
-            data-relay-key={paymentidRelaykey}
+            data-relay-key={relayKey}
 
             fullWidth
           >
