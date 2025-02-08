@@ -1,75 +1,163 @@
-// import React from "react";
+// // import React from "react";
+// // import ReactDOM from "react-dom/client";
+// // import { Provider } from "react-redux";
+// // import { BrowserRouter, HashRouter } from "react-router-dom";
+
+// // import { SnackbarProvider } from 'notistack';
+// // import Routes from "routes/route";
+// // import store from "store/store";
+// // import { ColorProvider } from "utils/UIContext";
+// // import { LoaderProvider } from "Context/LoaderContext";
+// // import FullScreenLoader from "Context/FullScreenLoader";
+// // import { AuthProvider } from 'oidc-react';
+// // import { oidcConfig as initialOidcConfig } from "./oidc-config";
+
+// // // Helper function to get URL parameters
+// // const getParameterByName = (name, url) => {
+// //     name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
+// //     const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+// //     const results = regex.exec(url || window.location.href);
+// //     return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
+// //   };
+  
+// //   // Check for token_nonce in URL
+// //   const tokenNonce = getParameterByName("token_nonce");
+  
+// //   // Clone and update the OIDC config with token_nonce if present
+// //   const oidcConfig = { ...initialOidcConfig };
+// //   if (tokenNonce) {
+// //     oidcConfig.acr_values = `token_nonce:${tokenNonce}`;
+// //     console.log("Updated OIDC Config with token_nonce:", oidcConfig);
+// //   }
+  
+
+// // const root = ReactDOM.createRoot(document.getElementById("root"));
+// // console.log("location",window.location?.host==="d6auth.vercel.app")
+// // // console.log("location",window.location?.host==="sticitt.webbieshop.com")
+// // // sticiit.webbieshop.com
+// // root.render(
+// //     <React.StrictMode> 
+// //     <AuthProvider {...oidcConfig} autoSignIn={true} >
+// //         <Provider store={store}>
+// //             <ColorProvider>
+// //             <LoaderProvider>
+// //             <SnackbarProvider autoHideDuration={3000} maxSnack={3} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+// //                 <BrowserRouter>
+// //                 <FullScreenLoader/>
+// //                     <Routes />
+// //                 </BrowserRouter>
+// //             </SnackbarProvider>
+// //             </LoaderProvider>
+// //             </ColorProvider>
+// //         </Provider>
+// //     </AuthProvider>
+// //     </React.StrictMode>
+// // );
+
+
+// import React, { useState } from "react";
 // import ReactDOM from "react-dom/client";
 // import { Provider } from "react-redux";
-// import { BrowserRouter, HashRouter } from "react-router-dom";
+// import { BrowserRouter, useNavigate } from "react-router-dom";
+// import { SnackbarProvider } from "notistack";
 
-// import { SnackbarProvider } from 'notistack';
 // import Routes from "routes/route";
 // import store from "store/store";
 // import { ColorProvider } from "utils/UIContext";
 // import { LoaderProvider } from "Context/LoaderContext";
 // import FullScreenLoader from "Context/FullScreenLoader";
-// import { AuthProvider } from 'oidc-react';
+
+// import { AuthProvider } from "oidc-react";
 // import { oidcConfig as initialOidcConfig } from "./oidc-config";
+// import { isMobile } from "react-device-detect";
+// import SilentRenewToken from "AuthWrapper";
 
 // // Helper function to get URL parameters
 // const getParameterByName = (name, url) => {
-//     name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
-//     const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-//     const results = regex.exec(url || window.location.href);
-//     return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
-//   };
-  
-//   // Check for token_nonce in URL
-//   const tokenNonce = getParameterByName("token_nonce");
-  
-//   // Clone and update the OIDC config with token_nonce if present
-//   const oidcConfig = { ...initialOidcConfig };
-//   if (tokenNonce) {
-//     oidcConfig.acr_values = `token_nonce:${tokenNonce}`;
-//     console.log("Updated OIDC Config with token_nonce:", oidcConfig);
-//   }
-  
+//   name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
+//   const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+//   const results = regex.exec(url || window.location.href);
+//   return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
+// };
+
+// // Check for token_nonce in URL
+// let tokenNonce = getParameterByName("token_nonce");
+
+
+// // Clone and update the OIDC config with token_nonce if present
+// const oidcConfig = { ...initialOidcConfig };
+// if (tokenNonce) {
+//   oidcConfig.acr_values = `token_nonce:${tokenNonce}`;
+//   localStorage.setItem("token_nonce", tokenNonce);
+//   console.log("Updated OIDC Config with token_nonce:", oidcConfig);
+// }else{
+//   tokenNonce= localStorage.getItem("token_nonce");
+// }
+
+// // Determine which version of the app to render
+// const isAuthApp = window?.location?.host === "multid6auth.vercel.app";
 
 // const root = ReactDOM.createRoot(document.getElementById("root"));
-// console.log("location",window.location?.host==="d6auth.vercel.app")
-// // console.log("location",window.location?.host==="sticitt.webbieshop.com")
-// // sticiit.webbieshop.com
-// root.render(
-//     <React.StrictMode> 
-//     <AuthProvider {...oidcConfig} autoSignIn={true} >
+
+// if (isAuthApp) {
+//   // Render Auth-enabled App
+//   alert(`auth app",${isMobile}, "tokenNonce",${tokenNonce}`)
+//   console.log("ismobile",isMobile)
+//   root.render(
+//     <React.StrictMode>
+//       <AuthProvider {...oidcConfig} autoSignIn={(tokenNonce||isMobile) ? true : false}>
+//       <SilentRenewToken />
 //         <Provider store={store}>
-//             <ColorProvider>
+//           <ColorProvider>
 //             <LoaderProvider>
-//             <SnackbarProvider autoHideDuration={3000} maxSnack={3} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+//               <SnackbarProvider
+//                 autoHideDuration={3000}
+//                 maxSnack={3}
+//                 anchorOrigin={{ vertical: "top", horizontal: "right" }}
+//               >
 //                 <BrowserRouter>
-//                 <FullScreenLoader/>
-//                     <Routes />
+//                   <FullScreenLoader />
+//                   <Routes />
 //                 </BrowserRouter>
-//             </SnackbarProvider>
+//               </SnackbarProvider>
 //             </LoaderProvider>
-//             </ColorProvider>
+//           </ColorProvider>
 //         </Provider>
-//     </AuthProvider>
+//       </AuthProvider>
 //     </React.StrictMode>
-// );
+//   );
+// } else {
+//   // Render Regular App
+//   root.render(
+//     <React.StrictMode>
+//        <AuthProvider {...oidcConfig} autoSignIn={false}>
+//       <Provider store={store}>
+//         <ColorProvider>
+//           <LoaderProvider>
+//             <SnackbarProvider
+//               autoHideDuration={3000}
+//               maxSnack={3}
+//               anchorOrigin={{ vertical: "top", horizontal: "right" }}
+//               >
+//               <BrowserRouter>
+//                 <FullScreenLoader />
+//                 <Routes />
+//               </BrowserRouter>
+//             </SnackbarProvider>
+//           </LoaderProvider>
+//         </ColorProvider>
+//       </Provider>
+//               </AuthProvider>
+//     </React.StrictMode>
+//   );
+// }
 
-import React, { useState } from "react";
+// src/index.js
+import React from "react";
 import ReactDOM from "react-dom/client";
-import { Provider } from "react-redux";
-import { BrowserRouter, useNavigate } from "react-router-dom";
-import { SnackbarProvider } from "notistack";
-
-import Routes from "routes/route";
-import store from "store/store";
-import { ColorProvider } from "utils/UIContext";
-import { LoaderProvider } from "Context/LoaderContext";
-import FullScreenLoader from "Context/FullScreenLoader";
-
-import { AuthProvider } from "oidc-react";
+import App from "./App";
 import { oidcConfig as initialOidcConfig } from "./oidc-config";
 import { isMobile } from "react-device-detect";
-import SilentRenewToken from "AuthWrapper";
 
 // Helper function to get URL parameters
 const getParameterByName = (name, url) => {
@@ -79,75 +167,23 @@ const getParameterByName = (name, url) => {
   return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
 };
 
-// Check for token_nonce in URL
+// Check for token_nonce in URL or localStorage
 let tokenNonce = getParameterByName("token_nonce");
+if (tokenNonce) {
+  localStorage.setItem("token_nonce", tokenNonce);
+} else {
+  tokenNonce = localStorage.getItem("token_nonce");
+}
 
-
-// Clone and update the OIDC config with token_nonce if present
+// Clone and update the OIDC config if tokenNonce is present
 const oidcConfig = { ...initialOidcConfig };
 if (tokenNonce) {
   oidcConfig.acr_values = `token_nonce:${tokenNonce}`;
-  localStorage.setItem("token_nonce", tokenNonce);
   console.log("Updated OIDC Config with token_nonce:", oidcConfig);
-}else{
-  tokenNonce= localStorage.getItem("token_nonce");
 }
 
-// Determine which version of the app to render
+// Determine if this is the auth app
 const isAuthApp = window?.location?.host === "multid6auth.vercel.app";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-
-if (isAuthApp) {
-  // Render Auth-enabled App
-  alert(`auth app",${isMobile}, "tokenNonce",${tokenNonce}`)
-  console.log("ismobile",isMobile)
-  root.render(
-    <React.StrictMode>
-      <AuthProvider {...oidcConfig} autoSignIn={true}>
-      {/* <AuthProvider {...oidcConfig} autoSignIn={(tokenNonce||isMobile) ? true : false}> */}
-      <SilentRenewToken />
-        <Provider store={store}>
-          <ColorProvider>
-            <LoaderProvider>
-              <SnackbarProvider
-                autoHideDuration={3000}
-                maxSnack={3}
-                anchorOrigin={{ vertical: "top", horizontal: "right" }}
-              >
-                <BrowserRouter>
-                  <FullScreenLoader />
-                  <Routes />
-                </BrowserRouter>
-              </SnackbarProvider>
-            </LoaderProvider>
-          </ColorProvider>
-        </Provider>
-      </AuthProvider>
-    </React.StrictMode>
-  );
-} else {
-  // Render Regular App
-  root.render(
-    <React.StrictMode>
-       <AuthProvider {...oidcConfig} autoSignIn={false}>
-      <Provider store={store}>
-        <ColorProvider>
-          <LoaderProvider>
-            <SnackbarProvider
-              autoHideDuration={3000}
-              maxSnack={3}
-              anchorOrigin={{ vertical: "top", horizontal: "right" }}
-              >
-              <BrowserRouter>
-                <FullScreenLoader />
-                <Routes />
-              </BrowserRouter>
-            </SnackbarProvider>
-          </LoaderProvider>
-        </ColorProvider>
-      </Provider>
-              </AuthProvider>
-    </React.StrictMode>
-  );
-}
+root.render(<App oidcConfig={oidcConfig} isAuthApp={isAuthApp} tokenNonce={tokenNonce} isMobile={isMobile} />);
