@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { useAuth } from 'oidc-react';
+import { useAuth } from 'react-oidc-context';
 import { useNavigate } from 'react-router-dom';
 import { Grid, CircularProgress } from '@mui/material';
 import axiosInstance from "../../configs/axiosConfig";
