@@ -8,7 +8,7 @@ import { LoaderProvider } from "Context/LoaderContext";
 import FullScreenLoader from "Context/FullScreenLoader";
 import Routes from "routes/route";
 import store from "store/store";
-import { AuthProvider } from "oidc-react";
+import { AuthProvider } from "react-oidc-context";
 import SilentRenewToken from "AuthWrapper";
 
 const App = ({ oidcConfig, isAuthApp, tokenNonce, isMobile }) => {

@@ -27,7 +27,7 @@ import { API_URL, GLOBAL_COUNTRY_CODE } from 'constants/appConstants'
 import Forgotpassword from 'containers/Forgotpassword';
 import PrivacyPolicy from 'containers/PrivacyPolicy';
 import TermsAndConditions from 'containers/TermsAndConditions';
-import { useAuth } from 'oidc-react';
+import { useAuth } from 'react-oidc-context';
 import { useSelector } from 'react-redux';
 
 export default function AuthDialog({ isAuthDialogOpen, setAuthDialog, refreshUser, logoUrl }) {
