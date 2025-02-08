@@ -80,14 +80,17 @@ const getParameterByName = (name, url) => {
 };
 
 // Check for token_nonce in URL
-const tokenNonce = getParameterByName("token_nonce");
+let tokenNonce = getParameterByName("token_nonce");
 
 
 // Clone and update the OIDC config with token_nonce if present
 const oidcConfig = { ...initialOidcConfig };
 if (tokenNonce) {
   oidcConfig.acr_values = `token_nonce:${tokenNonce}`;
+  localStorage.setItem("token_nonce", tokenNonce);
   console.log("Updated OIDC Config with token_nonce:", oidcConfig);
+}else{
+  tokenNonce= localStorage.getItem("token_nonce");
 }
 
 // Determine which version of the app to render
@@ -95,7 +98,7 @@ const isAuthApp = window?.location?.host === "multid6auth.vercel.app";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-if (isAuthApp||isMobile) {
+if (isAuthApp) {
   // Render Auth-enabled App
   alert(`auth app",${isMobile}, "tokenNonce",${tokenNonce}`)
   console.log("ismobile",isMobile)
