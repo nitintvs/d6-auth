@@ -12,6 +12,8 @@
 //     pkce:true
 //   };
 
+import { WebStorageStateStore } from "oidc-client-ts";
+
 
 //   export default oidcConfig;
 // export const oidcConfig = {
@@ -28,7 +30,6 @@
 //     loadUserInfo: false, // Load additional user info from the userinfo endpoint
 //   };
 
-import { WebStorageStateStore } from "oidc-react";
 // export const oidcConfig = {
 //     authority: "https://id.zipalong.tech", // The authority URL (Issuer)
 //     clientId: "webbieshop-wt", // Your client ID
