@@ -55,7 +55,7 @@ export const oidcConfig = {
     post_logout_redirect_uri: "https://multid6auth.vercel.app",
     response_mode: "query",
     automaticSilentRenew: true, // Silent token renewal
-    loadUserInfo: false, // Load additional user info from the userinfo endpoint
+    loadUserInfo: true, // Load additional user info from the userinfo endpoint
     userStore:new WebStorageStateStore({ store: window.localStorage }),
   };
   
