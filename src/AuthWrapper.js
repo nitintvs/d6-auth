@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "oidc-react";
+import { useAuth } from "react-oidc-context";
 import axiosInstance from "configs/axiosConfig";
 import { APIRouteConstants } from "constants/routeConstants";
 
