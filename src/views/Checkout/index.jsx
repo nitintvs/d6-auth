@@ -1091,15 +1091,15 @@ export function PayButton({ paymentId, order_Id, storeorderid, setLoader,relayKe
     //   return;
     // }
   
-console.log("sticitpay",useTestSDK)
     // Create and append the script dynamically
     const sdkScript = document.createElement("script");
     sdkScript.id = scriptId;
     sdkScript.src = useTestSDK
-      ? "https://sdk-test.sticitt.co.za/js/lib/sdk-relay.min.js"
-      : "https://sdk.sticitt.co.za/js/lib/sdk.min.js";
-  
+    ? "https://sdk-test.sticitt.co.za/js/lib/sdk-relay.min.js"
+    : "https://sdk.sticitt.co.za/js/lib/sdk.min.js";
+    
     if (useTestSDK) {
+      console.log("sticitpay",useTestSDK)
       sdkScript.setAttribute("data-client-id", "webbieshop-app");
       sdkScript.setAttribute(
         "data-client-secret",
