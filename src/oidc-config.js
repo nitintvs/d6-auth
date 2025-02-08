@@ -12,6 +12,8 @@
 //     pkce:true
 //   };
 
+import { WebStorageStateStore } from "oidc-react";
+
 //   export default oidcConfig;
 // export const oidcConfig = {
 //     authority: "https://id.zipalong.tech", // The authority URL (Issuer)
