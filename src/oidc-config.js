@@ -17,7 +17,6 @@ const detectIncognito = async () => {
 // In-memory storage for incognito mode
 const memoryStorage = new Map();
 
-import { WebStorageStateStore } from "oidc-client-ts";
 
 //   export default oidcConfig;
 // export const oidcConfig = {
