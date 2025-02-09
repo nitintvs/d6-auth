@@ -44,19 +44,34 @@ import { WebStorageStateStore } from "oidc-client-ts";
 //     loadUserInfo: false, // Load additional user info from the userinfo endpoint
 //   };
 export const oidcConfig = {
-    authority: "https://id.zipalong.tech", // The authority URL (Issuer)
-    clientId: "webbieshop-wt", // Your client ID
-    // redirectUri: "https://oauthdebugger.com/debug", // Redirect URI after authentication
-    redirectUri: "https://multid6auth.vercel.app/login/callback", // Redirect URI after authentication
-    responseType: "code", // Use Authorization Code flow
-    scope: "openid profile", // Requested scopes
-    silent_redirect_uri: "https://multid6auth.vercel.app/silent-renew",
-    post_logout_redirect_uri: "https://multid6auth.vercel.app",
+    authority: "https://id.zipalong.tech",
+    clientId: "webbieshop-wt",
+    redirectUri: "https://multid6auth.vercel.app/login/callback",
+    responseType: "code",
+    scope: "openid profile",
+    silent_redirect_uri: "https://multid6auth.vercel.app/login/callback",
+    post_logout_redirect_uri: "https://multid6auth.vercel.app/login",
     response_mode: "fragment",
-    automaticSilentRenew: true, // Silent token renewal
-    loadUserInfo: true, // Load additional user info from the userinfo endpoint
-    userStore:new WebStorageStateStore({ store: window.localStorage }),
-    stateStore:new WebStorageStateStore({ store: window.localStorage }),
-  };
+    automaticSilentRenew: true,
+    loadUserInfo: false,
+    monitorSession: true,
+    // Using cookies for storage
+    stateStore: {
+        set: (key, value) => {
+            document.cookie = `${key}=${value}; path=/; secure; samesite=strict`;
+            return Promise.resolve();
+        },
+        get: (key) => {
+            const value = document.cookie.split('; ')
+                .find(row => row.startsWith(key))
+                ?.split('=')[1];
+            return Promise.resolve(value);
+        },
+        remove: (key) => {
+            document.cookie = `${key}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+            return Promise.resolve();
+        }
+    }
+};
   
   // https://multid6auth.vercel.app/

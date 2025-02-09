@@ -12,13 +12,19 @@ const CallbackPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const setCookie = (name, value, days = 7) => {
+      const expires = new Date(Date.now() + days * 864e5).toUTCString();
+      document.cookie = `${name}=${encodeURIComponent(value)}; path=/; expires=${expires}; secure; samesite=strict`;
+    };
+
     const authenticateUser = async () => {
-      alert(`auth : ${auth}`)
       if (auth && auth.isLoading === false && auth.userData) {
         try {
-          // Store the token in local storage
+          // Store the token in cookie
           localStorage.setItem("D6-access-token", auth.userData.access_token);
-          console.log("Token saved to local storage:", auth.userData);
+          
+          setCookie("D6-access-token", auth.userData.access_token);
+          console.log("Token saved to cookie:", auth.userData);
 
           const userInfoResponse = await axiosInstance.post(
             APIRouteConstants.AUTH.D6_SIGNING,
@@ -29,6 +35,9 @@ const CallbackPage = () => {
             localStorage.setItem("u-access-token", userInfoResponse?.data?.access);
             localStorage.setItem("u-refresh-token", userInfoResponse?.data?.refresh);
             localStorage.setItem("d6_user_data", userInfoResponse?.data?.mobile_number_exist);
+            setCookie("u-access-token", userInfoResponse?.data?.access);
+            setCookie("u-refresh-token", userInfoResponse?.data?.refresh);
+            setCookie("d6_user_data", userInfoResponse?.data?.mobile_number_exist);
 
             setLoading(false); // Set loading to false before redirecting
             window.location.href = "/products"; // Redirect to the home page
@@ -37,7 +46,6 @@ const CallbackPage = () => {
             setLoading(false); // Stop loading if there's an issue
           }
         } catch (error) {
-          alert(`error: ${error}`)
           console.error("Error during authentication process:", error);
           setLoading(false); // Stop loading on error
           navigate("/login"); // Redirect to login if an error occurs
