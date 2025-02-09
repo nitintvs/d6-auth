@@ -12,6 +12,8 @@
 //     pkce:true
 //   };
 
+import { WebStorageStateStore } from "oidc-client-ts";
+
 
 //   export default oidcConfig;
 // export const oidcConfig = {
@@ -28,7 +30,6 @@
 //     loadUserInfo: false, // Load additional user info from the userinfo endpoint
 //   };
 
-import { WebStorageStateStore } from "oidc-react";
 // export const oidcConfig = {
 //     authority: "https://id.zipalong.tech", // The authority URL (Issuer)
 //     clientId: "webbieshop-wt", // Your client ID
@@ -51,10 +52,11 @@ export const oidcConfig = {
     scope: "openid profile", // Requested scopes
     silent_redirect_uri: "https://multid6auth.vercel.app/silent-renew",
     post_logout_redirect_uri: "https://multid6auth.vercel.app",
-    response_mode: "query",
+    response_mode: "fragment",
     automaticSilentRenew: true, // Silent token renewal
-    loadUserInfo: false, // Load additional user info from the userinfo endpoint
+    loadUserInfo: true, // Load additional user info from the userinfo endpoint
     userStore:new WebStorageStateStore({ store: window.localStorage }),
+    stateStore:new WebStorageStateStore({ store: window.localStorage }),
   };
   
   // https://multid6auth.vercel.app/

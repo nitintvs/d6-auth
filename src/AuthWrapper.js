@@ -11,6 +11,10 @@ const SilentRenewToken = () => {
 
   useEffect(() => {
 if(isMobile){
+  sessionStorage.getItem("oidc.user:https://id.zipalong.tech:webbieshop-wt");
+  localStorage.setItem("oidc.user:https://id.zipalong.tech:webbieshop-wt",auth.userData);
+}else{
+  sessionStorage.getItem("oidc.user:https://id.zipalong.tech:webbieshop-wt");
   localStorage.setItem("oidc.user:https://id.zipalong.tech:webbieshop-wt",auth.userData);
 }
 
