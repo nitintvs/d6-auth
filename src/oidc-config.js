@@ -1,3 +1,4 @@
+import { UserManager } from 'oidc-client-ts';
 // Function to detect incognito mode
 const detectIncognito = async () => {
     try {
@@ -17,7 +18,6 @@ const detectIncognito = async () => {
 // In-memory storage for incognito mode
 const memoryStorage = new Map();
 
-import { UserManager } from 'oidc-client-ts';
 
 // Helper to detect if running on mobile
 const isMobileDevice = () => {
