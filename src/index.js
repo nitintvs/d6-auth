@@ -91,6 +91,7 @@ if (tokenNonce) {
   console.log("Updated OIDC Config with token_nonce:", oidcConfig);
 }else{
   tokenNonce= localStorage.getItem("token_nonce");
+  oidcConfig.acr_values = `token_nonce:${tokenNonce}`;
 }
 
 // Determine which version of the app to render
