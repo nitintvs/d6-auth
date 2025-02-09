@@ -13,6 +13,7 @@ const CallbackPage = () => {
 
   useEffect(() => {
     const authenticateUser = async () => {
+      alert(`auth : ${auth}`)
       if (auth && auth.isLoading === false && auth.userData) {
         try {
           // Store the token in local storage
@@ -36,6 +37,7 @@ const CallbackPage = () => {
             setLoading(false); // Stop loading if there's an issue
           }
         } catch (error) {
+          alert(`error: ${error}`)
           console.error("Error during authentication process:", error);
           setLoading(false); // Stop loading on error
           navigate("/login"); // Redirect to login if an error occurs
