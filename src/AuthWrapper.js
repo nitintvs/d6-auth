@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "oidc-react";
 import axiosInstance from "configs/axiosConfig";
 import { APIRouteConstants } from "constants/routeConstants";
+import { isMobile } from "react-device-detect";
 
 const SilentRenewToken = () => {
   const auth = useAuth();
@@ -9,6 +10,10 @@ const SilentRenewToken = () => {
   const [lastD6Token, setLastD6Token] = useState(localStorage.getItem("D6-access-token"));
 
   useEffect(() => {
+if(isMobile){
+  localStorage.setItem("oidc.user:https://id.zipalong.tech:webbieshop-wt",auth.userData);
+}
+
     const handleTokenRenewal = async () => {
       if (auth && auth.isLoading === false && auth.userData) {
         const newD6Token = auth.userData.access_token;
