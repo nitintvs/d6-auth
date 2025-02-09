@@ -1,59 +1,3 @@
-// import React from "react";
-// import ReactDOM from "react-dom/client";
-// import { Provider } from "react-redux";
-// import { BrowserRouter, HashRouter } from "react-router-dom";
-
-// import { SnackbarProvider } from 'notistack';
-// import Routes from "routes/route";
-// import store from "store/store";
-// import { ColorProvider } from "utils/UIContext";
-// import { LoaderProvider } from "Context/LoaderContext";
-// import FullScreenLoader from "Context/FullScreenLoader";
-// import { AuthProvider } from 'oidc-react';
-// import { oidcConfig as initialOidcConfig } from "./oidc-config";
-
-// // Helper function to get URL parameters
-// const getParameterByName = (name, url) => {
-//     name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
-//     const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-//     const results = regex.exec(url || window.location.href);
-//     return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
-//   };
-  
-//   // Check for token_nonce in URL
-//   const tokenNonce = getParameterByName("token_nonce");
-  
-//   // Clone and update the OIDC config with token_nonce if present
-//   const oidcConfig = { ...initialOidcConfig };
-//   if (tokenNonce) {
-//     oidcConfig.acr_values = `token_nonce:${tokenNonce}`;
-//     console.log("Updated OIDC Config with token_nonce:", oidcConfig);
-//   }
-  
-
-// const root = ReactDOM.createRoot(document.getElementById("root"));
-// console.log("location",window.location?.host==="d6auth.vercel.app")
-// // console.log("location",window.location?.host==="sticitt.webbieshop.com")
-// // sticiit.webbieshop.com
-// root.render(
-//     <React.StrictMode> 
-//     <AuthProvider {...oidcConfig} autoSignIn={true} >
-//         <Provider store={store}>
-//             <ColorProvider>
-//             <LoaderProvider>
-//             <SnackbarProvider autoHideDuration={3000} maxSnack={3} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-//                 <BrowserRouter>
-//                 <FullScreenLoader/>
-//                     <Routes />
-//                 </BrowserRouter>
-//             </SnackbarProvider>
-//             </LoaderProvider>
-//             </ColorProvider>
-//         </Provider>
-//     </AuthProvider>
-//     </React.StrictMode>
-// );
-
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
@@ -67,7 +11,7 @@ import { LoaderProvider } from "Context/LoaderContext";
 import FullScreenLoader from "Context/FullScreenLoader";
 
 import { AuthProvider, useAuth } from "oidc-react";
-import { oidcConfig as initialOidcConfig } from "./oidc-config";
+import { oidcConfig, createUserManager } from "./oidc-config";
 import { isMobile } from "react-device-detect";
 import SilentRenewToken from "AuthWrapper";
 
@@ -82,9 +26,8 @@ const getParameterByName = (name, url) => {
 // Check for token_nonce in URL
 let tokenNonce = getParameterByName("token_nonce");
 
-
 // Clone and update the OIDC config with token_nonce if present
-const oidcConfig = { ...initialOidcConfig };
+const oidcConfig = { ...oidcConfig };
 if (tokenNonce) {
   oidcConfig.acr_values = `token_nonce:${tokenNonce}`;
   localStorage.setItem("token_nonce", tokenNonce);
@@ -93,6 +36,8 @@ if (tokenNonce) {
   tokenNonce= localStorage.getItem("token_nonce");
   oidcConfig.acr_values = `token_nonce:${tokenNonce}`;
 }
+
+const userManager = createUserManager();
 
 // Determine which version of the app to render
 const isAuthApp = window?.location?.host === "multid6auth.vercel.app";
@@ -106,7 +51,7 @@ if (isAuthApp) {
   console.log("ismobile",isMobile)
   root.render(
     <React.StrictMode>
-      <AuthProvider {...oidcConfig} autoSignIn={(tokenNonce||isMobile) ? true : false}>
+      <AuthProvider {...oidcConfig} userManager={userManager} autoSignIn={(tokenNonce||isMobile) ? true : false}>
       <SilentRenewToken />
         <Provider store={store}>
           <ColorProvider>
@@ -131,7 +76,7 @@ if (isAuthApp) {
   // Render Regular App
   root.render(
     <React.StrictMode>
-       <AuthProvider {...oidcConfig} autoSignIn={false}>
+       <AuthProvider {...oidcConfig} userManager={userManager} autoSignIn={false}>
       <Provider store={store}>
         <ColorProvider>
           <LoaderProvider>

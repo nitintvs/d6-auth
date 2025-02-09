@@ -17,35 +17,13 @@ const detectIncognito = async () => {
 // In-memory storage for incognito mode
 const memoryStorage = new Map();
 
+import { UserManager } from 'oidc-client-ts';
 
-//   export default oidcConfig;
-// export const oidcConfig = {
-  //     authority: "https://id.zipalong.tech", // The authority URL (Issuer)
-//     clientId: "webbieshop-wt", // Your client ID
-//     // redirectUri: "https://oauthdebugger.com/debug", // Redirect URI after authentication
-//     redirectUri: "https://d6auth.vercel.app/login/callback", // Redirect URI after authentication
-//     responseType: "code", // Use Authorization Code flow
-//     scope: "openid profile", // Requested scopes
-//     silent_redirect_uri: "https://d6auth.vercel.app/login/callback",
-//     post_logout_redirect_uri: "https://d6auth.vercel.app/login",
-//     response_mode: "fragment",
-//     automaticSilentRenew: true, // Silent token renewal
-//     loadUserInfo: false, // Load additional user info from the userinfo endpoint
-//   };
+// Helper to detect if running on mobile
+const isMobileDevice = () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
 
-// export const oidcConfig = {
-//     authority: "https://id.zipalong.tech", // The authority URL (Issuer)
-//     clientId: "webbieshop-wt", // Your client ID
-//     // redirectUri: "https://oauthdebugger.com/debug", // Redirect URI after authentication
-//     redirectUri: "https://d6auth.vercel.app/login/callback", // Redirect URI after authentication
-//     responseType: "code", // Use Authorization Code flow
-//     scope: "openid profile", // Requested scopes
-//     silent_redirect_uri: "https://d6auth.vercel.app/login/callback",
-//     post_logout_redirect_uri: "https://d6auth.vercel.app/login",
-//     response_mode: "fragment",
-//     automaticSilentRenew: true, // Silent token renewal
-//     loadUserInfo: false, // Load additional user info from the userinfo endpoint
-//   };
 export const oidcConfig = {
     authority: "https://id.zipalong.tech",
     clientId: "webbieshop-wt",
@@ -54,39 +32,57 @@ export const oidcConfig = {
     scope: "openid profile",
     silent_redirect_uri: "https://multid6auth.vercel.app/login/callback",
     post_logout_redirect_uri: "https://multid6auth.vercel.app/login",
-    response_mode: "fragment",
-    automaticSilentRenew: true,
-    loadUserInfo: false,
-    monitorSession: true,
-    prompt: "login",  // Force login prompt
-    clockSkew: 300,   // 5 minutes clock skew for token validation
-    stateStore: {
-        set: async (key, value) => {
-            const isIncognito = await detectIncognito();
-            if (isIncognito) {
-                memoryStorage.set(key, value);
-            } else {
-                localStorage.setItem(key, value);
-            }
-            return Promise.resolve();
-        },
-        get: async (key) => {
-            const isIncognito = await detectIncognito();
-            if (isIncognito) {
-                return Promise.resolve(memoryStorage.get(key));
-            }
-            return Promise.resolve(localStorage.getItem(key));
-        },
-        remove: async (key) => {
-            const isIncognito = await detectIncognito();
-            if (isIncognito) {
-                memoryStorage.delete(key);
-            } else {
-                localStorage.removeItem(key);
-            }
-            return Promise.resolve();
-        }
+    response_mode: "query",  // Changed from fragment to query
+    automaticSilentRenew: false,  // Disabled automatic renewal
+    loadUserInfo: true,
+    monitorSession: false,  // Disabled session monitoring
+    prompt: "consent",  // Always ask for consent
+    extraQueryParams: {
+        display: isMobileDevice() ? 'touch' : 'page',
+        max_age: 0,  // Force fresh authentication
+        ui_locales: 'en',
     }
 };
-  
-  // https://multid6auth.vercel.app/
+
+// Create UserManager instance
+export const createUserManager = () => {
+    const manager = new UserManager({
+        ...oidcConfig,
+        userStore: {
+            get: async (key) => {
+                const value = sessionStorage.getItem(key) || localStorage.getItem(key);
+                return value ? JSON.parse(value) : null;
+            },
+            set: async (key, value) => {
+                const strValue = JSON.stringify(value);
+                try {
+                    sessionStorage.setItem(key, strValue);
+                } catch {
+                    localStorage.setItem(key, strValue);
+                }
+            },
+            remove: async (key) => {
+                sessionStorage.removeItem(key);
+                localStorage.removeItem(key);
+            }
+        }
+    });
+
+    // Handle storage events
+    manager.events.addUserLoaded((user) => {
+        console.log("User loaded", user);
+    });
+
+    manager.events.addSilentRenewError((error) => {
+        console.error("Silent renew error", error);
+    });
+
+    manager.events.addUserSignedOut(() => {
+        console.log("User signed out");
+        sessionStorage.clear();
+        localStorage.clear();
+        window.location.href = "/login";
+    });
+
+    return manager;
+};

@@ -1,87 +1,72 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { useAuth } from 'oidc-react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Grid, CircularProgress } from '@mui/material';
+import { CircularProgress } from '@mui/material';
+import Backdrop from '@mui/material/Backdrop';
 import axiosInstance from "../../configs/axiosConfig";
 import { APIRouteConstants } from 'constants/routeConstants';
-import Backdrop from '@mui/material/Backdrop';
-
-// Memory storage for incognito mode
-const memoryStorage = new Map();
+import { createUserManager } from '../../oidc-config';
 
 const CallbackPage = () => {
   const [loading, setLoading] = useState(true);
-  const auth = useAuth();
   const navigate = useNavigate();
-
-  const detectIncognito = async () => {
-    try {
-      const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
-      return new Promise((resolve) => {
-        if (!fs) {
-          resolve(false);
-          return;
-        }
-        fs(window.TEMPORARY, 100, () => resolve(false), () => resolve(true));
-      });
-    } catch {
-      return false;
-    }
-  };
-
-  const setStorageItem = async (key, value) => {
-    const isIncognito = await detectIncognito();
-    if (isIncognito) {
-      memoryStorage.set(key, value);
-    } else {
-      localStorage.setItem(key, value);
-    }
-  };
-
+  
   useEffect(() => {
-    const authenticateUser = async () => {
-      if (auth?.error === 'login_required') {
-        console.log('Login required, redirecting to login page...');
-        navigate('/login');
-        return;
-      }
+    const handleCallback = async () => {
+      const userManager = createUserManager();
+      
+      try {
+        const user = await userManager.signinRedirectCallback();
+        console.log("User authenticated:", user);
 
-      if (auth && auth.isLoading === false && auth.userData) {
-        try {
-          await setStorageItem("D6-access-token", auth.userData.access_token);
-          console.log("Token saved:", auth.userData);
+        if (user && user.access_token) {
+          try {
+            const userInfoResponse = await axiosInstance.post(
+              APIRouteConstants.AUTH.D6_SIGNING,
+              { access_token: user.access_token }
+            );
 
-          const userInfoResponse = await axiosInstance.post(
-            APIRouteConstants.AUTH.D6_SIGNING,
-            { access_token: auth.userData.access_token }
-          );
+            if (userInfoResponse?.status === 200) {
+              // Try sessionStorage first, fallback to localStorage
+              try {
+                sessionStorage.setItem("u-access-token", userInfoResponse.data.access);
+                sessionStorage.setItem("u-refresh-token", userInfoResponse.data.refresh);
+                sessionStorage.setItem("d6_user_data", userInfoResponse.data.mobile_number_exist);
+              } catch {
+                localStorage.setItem("u-access-token", userInfoResponse.data.access);
+                localStorage.setItem("u-refresh-token", userInfoResponse.data.refresh);
+                localStorage.setItem("d6_user_data", userInfoResponse.data.mobile_number_exist);
+              }
 
-          if (userInfoResponse && userInfoResponse.status === 200) {
-            await setStorageItem("u-access-token", userInfoResponse?.data?.access);
-            await setStorageItem("u-refresh-token", userInfoResponse?.data?.refresh);
-            await setStorageItem("d6_user_data", userInfoResponse?.data?.mobile_number_exist);
-
-            setLoading(false);
-            window.location.href = "/products";
-          } else {
-            console.error("Failed to fetch user information");
-            setLoading(false);
+              window.location.href = "/products";
+            } else {
+              console.error("Failed to fetch user information");
+              navigate("/login");
+            }
+          } catch (error) {
+            console.error("API error:", error);
             navigate("/login");
           }
-        } catch (error) {
-          console.error("Error during authentication process:", error);
-          setLoading(false);
+        } else {
+          console.error("No access token received");
           navigate("/login");
         }
-      } else if (auth?.isLoading === false) {
-        console.error("Authentication failed");
+      } catch (error) {
+        console.error("Authentication error:", error);
+        if (error.message?.includes('login_required')) {
+          // Clear any existing tokens and redirect to login
+          sessionStorage.clear();
+          localStorage.clear();
+          window.location.href = "/login";
+        } else {
+          navigate("/login");
+        }
+      } finally {
         setLoading(false);
-        navigate("/login");
       }
     };
 
-    authenticateUser();
-  }, [auth, navigate]);
+    handleCallback();
+  }, [navigate]);
 
   return (
     <Backdrop open={loading} style={{ zIndex: 9999, color: '#fff' }}>
