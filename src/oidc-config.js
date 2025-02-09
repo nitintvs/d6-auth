@@ -1,23 +1,4 @@
 import { UserManager } from 'oidc-client-ts';
-// Function to detect incognito mode
-const detectIncognito = async () => {
-    try {
-        const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
-        return new Promise((resolve) => {
-            if (!fs) {
-                resolve(false);
-                return;
-            }
-            fs(window.TEMPORARY, 100, () => resolve(false), () => resolve(true));
-        });
-    } catch {
-        return false;
-    }
-};
-
-// In-memory storage for incognito mode
-const memoryStorage = new Map();
-
 
 // Helper to detect if running on mobile
 const isMobileDevice = () => {
@@ -25,48 +6,45 @@ const isMobileDevice = () => {
 };
 
 export const oidcConfig = {
-    authority: "https://id.zipalong.tech",
-    clientId: "webbieshop-wt",
-    redirectUri: "https://multid6auth.vercel.app/login/callback",
-    responseType: "code",
+    authority: "https://id.zipalong.tech/connect/authorize",  // Added /connect/authorize
+    client_id: "webbieshop-wt",
+    redirect_uri: "https://multid6auth.vercel.app/login/callback",
+    response_type: "code",
     scope: "openid profile",
     silent_redirect_uri: "https://multid6auth.vercel.app/login/callback",
     post_logout_redirect_uri: "https://multid6auth.vercel.app/login",
-    response_mode: "query",  // Changed from fragment to query
-    automaticSilentRenew: false,  // Disabled automatic renewal
+    response_mode: "query",
+    automaticSilentRenew: false,
     loadUserInfo: true,
-    monitorSession: false,  // Disabled session monitoring
-    prompt: "consent",  // Always ask for consent
+    monitorSession: false,
+    prompt: "consent",
+    metadata: {
+        issuer: "https://id.zipalong.tech",
+        authorization_endpoint: "https://id.zipalong.tech/connect/authorize",
+        token_endpoint: "https://id.zipalong.tech/connect/token",
+        userinfo_endpoint: "https://id.zipalong.tech/connect/userinfo",
+        end_session_endpoint: "https://id.zipalong.tech/connect/endsession"
+    },
     extraQueryParams: {
         display: isMobileDevice() ? 'touch' : 'page',
-        max_age: 0,  // Force fresh authentication
-        ui_locales: 'en',
+        max_age: 0
     }
 };
 
 // Create UserManager instance
-export const createUserManager = () => {
-    const manager = new UserManager({
-        ...oidcConfig,
-        userStore: {
-            get: async (key) => {
-                const value = sessionStorage.getItem(key) || localStorage.getItem(key);
-                return value ? JSON.parse(value) : null;
-            },
-            set: async (key, value) => {
-                const strValue = JSON.stringify(value);
-                try {
-                    sessionStorage.setItem(key, strValue);
-                } catch {
-                    localStorage.setItem(key, strValue);
-                }
-            },
-            remove: async (key) => {
-                sessionStorage.removeItem(key);
-                localStorage.removeItem(key);
-            }
-        }
-    });
+export const createUserManager = (config = oidcConfig) => {
+    // Ensure required fields are present
+    const finalConfig = {
+        ...config,
+        client_id: config.client_id || "webbieshop-wt",
+        redirect_uri: config.redirect_uri || "https://multid6auth.vercel.app/login/callback",
+        response_type: config.response_type || "code",
+        scope: config.scope || "openid profile"
+    };
+
+    console.log('Creating UserManager with config:', finalConfig);
+
+    const manager = new UserManager(finalConfig);
 
     // Handle storage events
     manager.events.addUserLoaded((user) => {

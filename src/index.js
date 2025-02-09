@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
@@ -8,7 +8,7 @@ import store from "store/store";
 import { ColorProvider } from "utils/UIContext";
 import { LoaderProvider } from "Context/LoaderContext";
 import FullScreenLoader from "Context/FullScreenLoader";
-import { AuthProvider, useAuth } from "oidc-react";
+import { AuthProvider } from "oidc-react";
 import { oidcConfig, createUserManager } from "./oidc-config";
 import { isMobile } from "react-device-detect";
 import SilentRenewToken from "AuthWrapper";
@@ -34,6 +34,8 @@ if (tokenNonce) {
   finalOidcConfig.acr_values = `token_nonce:${tokenNonce}`;
 }
 
+console.log('OIDC Config:', finalOidcConfig); // Debug log
+
 const userManager = createUserManager(finalOidcConfig);
 
 // Determine which version of the app to render
@@ -43,10 +45,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 // Render Auth App
 if (isAuthApp) {
-  console.log("ismobile", isMobile);
   root.render(
     <React.StrictMode>
-      <AuthProvider {...finalOidcConfig} userManager={userManager} autoSignIn={(tokenNonce || isMobile) ? true : false}>
+      <AuthProvider {...finalOidcConfig} userManager={userManager} autoSignIn={(tokenNonce || isMobile)? true : false}>
         <SilentRenewToken />
         <Provider store={store}>
           <ColorProvider>
@@ -67,7 +68,7 @@ if (isAuthApp) {
   // Render Regular App
   root.render(
     <React.StrictMode>
-      <AuthProvider {...finalOidcConfig} userManager={userManager} autoSignIn={false}>
+      <AuthProvider {...finalOidcConfig} userManager={userManager}>
         <Provider store={store}>
           <ColorProvider>
             <LoaderProvider>
