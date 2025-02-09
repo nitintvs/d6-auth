@@ -101,6 +101,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 if (isAuthApp) {
   // Render Auth-enabled App
   alert(`auth app"tokenNonce",${tokenNonce}`)
+  alert(`window location",${window.location}`)
+  alert(`oidc config",${oidcConfig}`)
   console.log("ismobile",isMobile)
   root.render(
     <React.StrictMode>
