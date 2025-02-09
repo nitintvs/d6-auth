@@ -10,6 +10,8 @@ const SilentRenewToken = () => {
   const [lastD6Token, setLastD6Token] = useState(localStorage.getItem("D6-access-token"));
 
   useEffect(() => {
+    console.log("auth",JSON.stringify(auth.userData))
+    console.log("auth",JSON.stringify(auth.userManager.signinSilent()))
 if(isMobile){
   sessionStorage.getItem("oidc.user:https://id.zipalong.tech:webbieshop-wt");
   localStorage.setItem("oidc.user:https://id.zipalong.tech:webbieshop-wt",auth.userData);
