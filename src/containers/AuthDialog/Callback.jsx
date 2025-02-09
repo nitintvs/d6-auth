@@ -6,25 +6,50 @@ import axiosInstance from "../../configs/axiosConfig";
 import { APIRouteConstants } from 'constants/routeConstants';
 import Backdrop from '@mui/material/Backdrop';
 
+// Memory storage for incognito mode
+const memoryStorage = new Map();
+
 const CallbackPage = () => {
   const [loading, setLoading] = useState(true);
   const auth = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const setCookie = (name, value, days = 7) => {
-      const expires = new Date(Date.now() + days * 864e5).toUTCString();
-      document.cookie = `${name}=${encodeURIComponent(value)}; path=/; expires=${expires}; secure; samesite=strict`;
-    };
+  const detectIncognito = async () => {
+    try {
+      const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
+      return new Promise((resolve) => {
+        if (!fs) {
+          resolve(false);
+          return;
+        }
+        fs(window.TEMPORARY, 100, () => resolve(false), () => resolve(true));
+      });
+    } catch {
+      return false;
+    }
+  };
 
+  const setStorageItem = async (key, value) => {
+    const isIncognito = await detectIncognito();
+    if (isIncognito) {
+      memoryStorage.set(key, value);
+    } else {
+      localStorage.setItem(key, value);
+    }
+  };
+
+  useEffect(() => {
     const authenticateUser = async () => {
+      if (auth?.error === 'login_required') {
+        console.log('Login required, redirecting to login page...');
+        navigate('/login');
+        return;
+      }
+
       if (auth && auth.isLoading === false && auth.userData) {
         try {
-          // Store the token in cookie
-          localStorage.setItem("D6-access-token", auth.userData.access_token);
-          
-          setCookie("D6-access-token", auth.userData.access_token);
-          console.log("Token saved to cookie:", auth.userData);
+          await setStorageItem("D6-access-token", auth.userData.access_token);
+          console.log("Token saved:", auth.userData);
 
           const userInfoResponse = await axiosInstance.post(
             APIRouteConstants.AUTH.D6_SIGNING,
@@ -32,59 +57,37 @@ const CallbackPage = () => {
           );
 
           if (userInfoResponse && userInfoResponse.status === 200) {
-            localStorage.setItem("u-access-token", userInfoResponse?.data?.access);
-            localStorage.setItem("u-refresh-token", userInfoResponse?.data?.refresh);
-            localStorage.setItem("d6_user_data", userInfoResponse?.data?.mobile_number_exist);
-            setCookie("u-access-token", userInfoResponse?.data?.access);
-            setCookie("u-refresh-token", userInfoResponse?.data?.refresh);
-            setCookie("d6_user_data", userInfoResponse?.data?.mobile_number_exist);
+            await setStorageItem("u-access-token", userInfoResponse?.data?.access);
+            await setStorageItem("u-refresh-token", userInfoResponse?.data?.refresh);
+            await setStorageItem("d6_user_data", userInfoResponse?.data?.mobile_number_exist);
 
-            setLoading(false); // Set loading to false before redirecting
-            window.location.href = "/products"; // Redirect to the home page
+            setLoading(false);
+            window.location.href = "/products";
           } else {
             console.error("Failed to fetch user information");
-            setLoading(false); // Stop loading if there's an issue
+            setLoading(false);
+            navigate("/login");
           }
         } catch (error) {
           console.error("Error during authentication process:", error);
-          setLoading(false); // Stop loading on error
-          navigate("/login"); // Redirect to login if an error occurs
+          setLoading(false);
+          navigate("/login");
         }
       } else if (auth?.isLoading === false) {
         console.error("Authentication failed");
-        setLoading(false); // Stop loading when auth fails
-        navigate("/login"); // Redirect to login if auth fails
+        setLoading(false);
+        navigate("/login");
       }
     };
 
     authenticateUser();
   }, [auth, navigate]);
 
-  // Show the loader until the page transitions
   return (
-    <Fragment>
-      <Grid
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        {(auth?.isLoading || loading) && <CircularProgress color="secondary"/>}
-      </Grid>
-    </Fragment>
-  );
-};
-
-function Loader() {
-  return (
-    <Backdrop
-      sx={{ color: "#ccc", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-    >
-      <CircularProgress sx={{color:"blueviolet"}} />
+    <Backdrop open={loading} style={{ zIndex: 9999, color: '#fff' }}>
+      <CircularProgress color="inherit" />
     </Backdrop>
   );
-}
+};
 
 export default CallbackPage;

@@ -1,19 +1,23 @@
-// const oidcConfig = {
-//     authority: "https://id.zipalong.tech/connect/authorize",
-//     client_id: "webbieshop-wt",                     
-//     redirect_uri:"http://localhost:3000/login/callback",
-//     silent_redirect_uri: "https://d6auth.vercel.app/login/callback",
-//     post_logout_redirect_uri: "https://d6auth.vercel.app/login",
-//     response_type: "code",
-//     scope: "openid profile",
-//     response_mode: "fragment",
-//     automaticSilentRenew: true,
-//     loadUserInfo: true ,
-//     pkce:true
-//   };
+// Function to detect incognito mode
+const detectIncognito = async () => {
+    try {
+        const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
+        return new Promise((resolve) => {
+            if (!fs) {
+                resolve(false);
+                return;
+            }
+            fs(window.TEMPORARY, 100, () => resolve(false), () => resolve(true));
+        });
+    } catch {
+        return false;
+    }
+};
+
+// In-memory storage for incognito mode
+const memoryStorage = new Map();
 
 import { WebStorageStateStore } from "oidc-client-ts";
-
 
 //   export default oidcConfig;
 // export const oidcConfig = {
@@ -55,20 +59,32 @@ export const oidcConfig = {
     automaticSilentRenew: true,
     loadUserInfo: false,
     monitorSession: true,
-    // Using cookies for storage
+    prompt: "login",  // Force login prompt
+    clockSkew: 300,   // 5 minutes clock skew for token validation
     stateStore: {
-        set: (key, value) => {
-            document.cookie = `${key}=${value}; path=/; secure; samesite=strict`;
+        set: async (key, value) => {
+            const isIncognito = await detectIncognito();
+            if (isIncognito) {
+                memoryStorage.set(key, value);
+            } else {
+                localStorage.setItem(key, value);
+            }
             return Promise.resolve();
         },
-        get: (key) => {
-            const value = document.cookie.split('; ')
-                .find(row => row.startsWith(key))
-                ?.split('=')[1];
-            return Promise.resolve(value);
+        get: async (key) => {
+            const isIncognito = await detectIncognito();
+            if (isIncognito) {
+                return Promise.resolve(memoryStorage.get(key));
+            }
+            return Promise.resolve(localStorage.getItem(key));
         },
-        remove: (key) => {
-            document.cookie = `${key}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+        remove: async (key) => {
+            const isIncognito = await detectIncognito();
+            if (isIncognito) {
+                memoryStorage.delete(key);
+            } else {
+                localStorage.removeItem(key);
+            }
             return Promise.resolve();
         }
     }
